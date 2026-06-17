@@ -7,6 +7,10 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::get('/forgot-password', function () {
+    return view('forgot-password');
+});
+
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/dashboard-user', function () {
