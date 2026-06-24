@@ -26,11 +26,12 @@
         }
 
         .login-card{
+            position:relative;
             background:#F8F5E9;
-            padding:40px;
-            width:400px;
-            border-radius:15px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+            padding:30px;
+            width:360px;
+            border-radius:20px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.15);
         }
 
         .login-card h2{
@@ -41,6 +42,22 @@
 
         .form-group{
             margin-bottom:20px;
+        }
+
+        .forgot-password{
+            text-align:right;
+            margin-bottom:20px;
+        }
+
+        .forgot-password a{
+            text-decoration:none;
+            color:#556B2F;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        .forgot-password a:hover{
+            text-decoration:underline;
         }
 
         label{
@@ -61,6 +78,17 @@
         input:focus{
             outline:none;
             border-color:#556B2F;
+        }
+
+        .alert-error{
+            background:#FEE2E2;
+            color:#B91C1C;
+            border:1px solid #FCA5A5;
+            padding:10px;
+            border-radius:8px;
+            margin-bottom:15px;
+            text-align:center;
+            font-size:14px;
         }
 
         button{
@@ -84,18 +112,69 @@
 
         .logo{
             text-align:center;
-            font-size:52px;
+            font-size:38px;
             font-weight:800;
             letter-spacing:2px;
             color:#556B2F;
-            margin-bottom:10px;
+            margin-bottom:5px;
+        }
+
+        .logo-container{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:12px;
+            margin-bottom:15px;
+        }
+
+        .logo-icon{
+            position:absolute;
+            top:20px;
+            right:20px;
+
+            width:50px;
+            height:50px;
+
+            border-radius:12px;
+            background: transparent;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+            font-size:10px;
+        }
+
+        .logo-icon img{ 
+            width:75px; 
+            height:75px; 
+            object-fit:contain; 
+        }
+
+        .logo-text{
+            font-size:42px;
+            font-weight:900;
+            letter-spacing:3px;
+            color:#556B2F;
+        }
+
+        .welcome-text{
+            text-align:center;
+            font-size:16px;
+            font-weight:600;
+            color:#3E4A2C;
+            margin-top:10px;
+            margin-bottom:6px;
+            line-height:1.3;
         }
 
         .subtitle{
             text-align:center;
-            color:#7A7A7A;
-            font-size:15px;
-            margin-bottom:30px;
+            color:#6B7280;
+            font-size:13px;
+            line-height:1.5;
+            margin-bottom:25px;
         }
 
         .footer-text{
@@ -110,12 +189,24 @@
 
 <div class="login-card">
 
-    <div class="logo">
-        <i class="fas fa-clipboard-check"></i> DUTIO
+    <div class="logo-container">
+
+    <div class="logo-icon">
+       <img src="{{ asset('assets/img/dutio-logo.png') }}" alt="DUTIO Logo">
+    </div>
+
+    <div class="logo-text">
+        DUTIO
+    </div>
+
+</div>
+
+    <div class="welcome-text">
+        Crew & Captain, Welcome Aboard!
     </div>
 
     <div class="subtitle">
-        Sistem Manajemen Piket Asrama
+        Mari wujudkan sistem piket yang tertib dan terkoordinasi 🚀
     </div>
 
     <form method="POST" action="/login">
@@ -130,6 +221,16 @@
             <label>Password</label>
             <input type="password" name="password" placeholder="🔒 Masukkan password">
         </div>
+
+        <div class="forgot-password">
+            <a href="/forgot-password">Lupa Password?</a>
+        </div>
+
+        @if(session('error'))
+            <div class="alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <button type="submit">
             Login
