@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login DUTIO</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         *{
@@ -14,7 +16,7 @@
         }
 
         body{
-           background: linear-gradient(
+            background: linear-gradient(
                 135deg,
                 #5B624D,
                 #6E755F
@@ -26,44 +28,65 @@
         }
 
         .login-card{
-            position:relative;
             background:#F8F5E9;
-            padding:30px;
-            width:360px;
+            padding:40px;
+            width:420px;
             border-radius:20px;
-            box-shadow:0 15px 35px rgba(0,0,0,0.15);
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
         }
 
-        .login-card h2{
-            text-align:center;
+        .brand{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:15px;
             margin-bottom:30px;
-            color:#4F46E5;
+        }
+
+        .brand img{
+            width:80px;
+            height:80px;
+            object-fit:contain;
+        }
+
+        .brand-text{
+            text-align:left;
+        }
+
+        .brand-text h1{
+            color:#556B2F;
+            font-size:42px;
+            font-weight:800;
+            line-height:1;
+            margin:0;
+        }
+
+        .brand-text p{
+            color:#777;
+            font-size:14px;
+            margin-top:5px;
+        }
+
+        .alert-error{
+            background:#FEE2E2;
+            color:#B91C1C;
+            border:1px solid #FCA5A5;
+            padding:12px;
+            border-radius:10px;
+            margin-bottom:20px;
+            text-align:center;
+            font-size:14px;
         }
 
         .form-group{
-            margin-bottom:20px;
-        }
-
-        .forgot-password{
-            text-align:right;
-            margin-bottom:20px;
-        }
-
-        .forgot-password a{
-            text-decoration:none;
-            color:#556B2F;
-            font-size:13px;
-            font-weight:600;
-        }
-
-        .forgot-password a:hover{
-            text-decoration:underline;
+            margin-bottom:18px;
         }
 
         label{
             display:block;
             margin-bottom:8px;
             font-weight:bold;
+            color:#333;
         }
 
         input{
@@ -80,15 +103,38 @@
             border-color:#556B2F;
         }
 
-        .alert-error{
-            background:#FEE2E2;
-            color:#B91C1C;
-            border:1px solid #FCA5A5;
-            padding:10px;
-            border-radius:8px;
-            margin-bottom:15px;
-            text-align:center;
+        .password-wrapper{
+            position:relative;
+        }
+
+        .password-wrapper input{
+            padding-right:45px;
+        }
+
+        .toggle-password{
+            position:absolute;
+            right:15px;
+            top:50%;
+            transform:translateY(-50%);
+            cursor:pointer;
+            color:#777;
+        }
+
+        .forgot-password{
+            text-align:right;
+            margin-top:-5px;
+            margin-bottom:20px;
+        }
+
+        .forgot-password a{
+            color:#556B2F;
+            text-decoration:none;
             font-size:14px;
+            font-weight:bold;
+        }
+
+        .forgot-password a:hover{
+            text-decoration:underline;
         }
 
         button{
@@ -105,76 +151,9 @@
         }
 
         button:hover{
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+            transform:translateY(-2px);
             background:#465724;
-        }
-
-        .logo{
-            text-align:center;
-            font-size:38px;
-            font-weight:800;
-            letter-spacing:2px;
-            color:#556B2F;
-            margin-bottom:5px;
-        }
-
-        .logo-container{
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:12px;
-            margin-bottom:15px;
-        }
-
-        .logo-icon{
-            position:absolute;
-            top:20px;
-            right:20px;
-
-            width:50px;
-            height:50px;
-
-            border-radius:12px;
-            background: transparent;
-
-            display:flex;
-            justify-content:center;
-            align-items:center;
-
-            color:white;
-            font-size:10px;
-        }
-
-        .logo-icon img{ 
-            width:75px; 
-            height:75px; 
-            object-fit:contain; 
-        }
-
-        .logo-text{
-            font-size:42px;
-            font-weight:900;
-            letter-spacing:3px;
-            color:#556B2F;
-        }
-
-        .welcome-text{
-            text-align:center;
-            font-size:16px;
-            font-weight:600;
-            color:#3E4A2C;
-            margin-top:10px;
-            margin-bottom:6px;
-            line-height:1.3;
-        }
-
-        .subtitle{
-            text-align:center;
-            color:#6B7280;
-            font-size:13px;
-            line-height:1.5;
-            margin-bottom:25px;
+            box-shadow:0 8px 20px rgba(85,107,47,0.3);
         }
 
         .footer-text{
@@ -189,48 +168,55 @@
 
 <div class="login-card">
 
-    <div class="logo-container">
+    <div class="brand">
+        <img src="{{ asset('assets/img/dutio-logo.png') }}" alt="Logo DUTIO">
 
-    <div class="logo-icon">
-       <img src="{{ asset('assets/img/dutio-logo.png') }}" alt="DUTIO Logo">
+        <div class="brand-text">
+            <h1>DUTIO</h1>
+            <p>Sistem Manajemen Piket Asrama</p>
+        </div>
     </div>
 
-    <div class="logo-text">
-        DUTIO
-    </div>
-
-</div>
-
-    <div class="welcome-text">
-        Crew & Captain, Welcome Aboard!
-    </div>
-
-    <div class="subtitle">
-        Mari wujudkan sistem piket yang tertib dan terkoordinasi 🚀
-    </div>
+    @if(session('error'))
+        <div class="alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ session('error') }}
+        </div>
+    @endif
 
     <form method="POST" action="/login">
         @csrf
 
         <div class="form-group">
             <label>Email</label>
-            <input type="email" name="email" placeholder="📧 Masukkan email">
+            <input
+                type="email"
+                name="email"
+                placeholder="Masukkan email"
+                required>
         </div>
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" name="password" placeholder="🔒 Masukkan password">
+
+            <div class="password-wrapper">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Masukkan password"
+                    required>
+
+                <i class="fas fa-eye toggle-password"
+                   onclick="togglePassword()"></i>
+            </div>
         </div>
 
         <div class="forgot-password">
-            <a href="/forgot-password">Lupa Password?</a>
+            <a href="/forgot-password">
+                Lupa Password?
+            </a>
         </div>
-
-        @if(session('error'))
-            <div class="alert-error">
-                {{ session('error') }}
-            </div>
-        @endif
 
         <button type="submit">
             Login
@@ -243,6 +229,23 @@
     </p>
 
 </div>
+
+<script>
+function togglePassword() {
+    const password = document.getElementById('password');
+    const icon = document.querySelector('.toggle-password');
+
+    if (password.type === 'password') {
+        password.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        password.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+</script>
 
 </body>
 </html>
