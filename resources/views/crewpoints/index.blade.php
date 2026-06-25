@@ -2,123 +2,97 @@
 
 @section('content')
 
-<div class="mb-4">
-    <h2>Crew Points</h2>
-    <p class="text-muted">
-        Poin dan evaluasi kinerja penghuni asrama
-    </p>
+<div class="dutio-page-header">
+    <h1>Crew Points</h1>
+    <p class="text-muted">Poin dan evaluasi kinerja penghuni asrama</p>
 </div>
 
-<div class="row">
-
-    {{-- Total Poin --}}
-    <div class="col-md-4">
-
-        <div class="small-box bg-success">
-
-            <div class="inner">
-                <h3>120</h3>
-                <p>Total Poin Saya</p>
-            </div>
-
+<div class="dutio-stat-row" style="grid-template-columns: 1fr;">
+    <div class="dutio-stat dutio-stat--success" style="max-width: 320px;">
+        <div>
+            <div class="dutio-stat-value">120</div>
+            <div class="dutio-stat-label">Total Poin Saya</div>
         </div>
-
+        <div class="dutio-stat-icon">★</div>
     </div>
-
 </div>
 
-<div class="row">
+<div class="row g-3">
 
-    {{-- Riwayat Poin --}}
     <div class="col-md-6">
-
-        <div class="card">
-
-            <div class="card-header">
-                <h3 class="card-title">
-                    Riwayat Poin
-                </h3>
+        <div class="dutio-card mb-0 h-100">
+            <div class="dutio-card-header">
+                <h3>Riwayat Poin</h3>
             </div>
+            <div class="dutio-card-body">
 
-            <div class="card-body">
-
-                <div class="mb-3">
-                    <strong class="text-success">
-                        +10 Poin
-                    </strong>
-                    <br>
-                    Piket selesai tepat waktu
+                <div class="dutio-feed-item">
+                    <div class="dutio-feed-icon dutio-feed-icon--up">+10</div>
+                    <div class="dutio-feed-body">
+                        <strong>Piket selesai tepat waktu</strong>
+                        <span>+10 Poin</span>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <strong class="text-success">
-                        +5 Poin
-                    </strong>
-                    <br>
-                    Laporan diterima
+                <div class="dutio-feed-item">
+                    <div class="dutio-feed-icon dutio-feed-icon--up">+5</div>
+                    <div class="dutio-feed-body">
+                        <strong>Laporan diterima</strong>
+                        <span>+5 Poin</span>
+                    </div>
                 </div>
 
-                <div>
-                    <strong class="text-danger">
-                        -5 Poin
-                    </strong>
-                    <br>
-                    Terlambat mengumpulkan laporan
+                <div class="dutio-feed-item">
+                    <div class="dutio-feed-icon dutio-feed-icon--down">−5</div>
+                    <div class="dutio-feed-body">
+                        <strong>Terlambat mengumpulkan laporan</strong>
+                        <span>−5 Poin</span>
+                    </div>
                 </div>
 
             </div>
-
         </div>
-
     </div>
 
-    {{-- Evaluasi --}}
     <div class="col-md-6">
-
-        <div class="card">
-
-            <div class="card-header">
-                <h3 class="card-title">
-                    Evaluasi Terbaru
-                </h3>
+        <div class="dutio-card mb-0 h-100">
+            <div class="dutio-card-header">
+                <h3>Evaluasi Terbaru</h3>
             </div>
+            <div class="dutio-card-body">
 
-            <div class="card-body">
-
-                <div class="mb-3">
-                    Kebersihan Kamar
-                    <div class="progress">
-                        <div class="progress-bar bg-success"
-                            style="width:90%">
-                            90%
-                        </div>
+                <div class="dutio-progress-row">
+                    <div class="dutio-progress-label">
+                        <span>Kebersihan Kamar</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="dutio-progress-track">
+                        <div class="dutio-progress-fill" style="width:90%; background: var(--dutio-success);"></div>
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    Kedisiplinan Piket
-                    <div class="progress">
-                        <div class="progress-bar bg-info"
-                            style="width:85%">
-                            85%
-                        </div>
+                <div class="dutio-progress-row">
+                    <div class="dutio-progress-label">
+                        <span>Kedisiplinan Piket</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="dutio-progress-track">
+                        <div class="dutio-progress-fill" style="width:85%; background: var(--dutio-primary);"></div>
                     </div>
                 </div>
 
-                <div>
-                    Kelengkapan Laporan
-                    <div class="progress">
-                        <div class="progress-bar bg-warning"
-                            style="width:95%">
-                            95%
-                        </div>
+                <div class="dutio-progress-row">
+                    <div class="dutio-progress-label">
+                        <span>Kelengkapan Laporan</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="dutio-progress-track">
+                        <div class="dutio-progress-fill" style="width:95%; background: var(--dutio-warning);"></div>
                     </div>
                 </div>
 
             </div>
-
         </div>
-
     </div>
 
 </div>

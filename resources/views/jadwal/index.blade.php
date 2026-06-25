@@ -2,63 +2,44 @@
 
 @section('content')
 
-<div class="mb-4">
-    <h2>Jadwal Piket Saya</h2>
-    <p class="text-muted">
-        Jadwal kegiatan piket penghuni asrama
-    </p>
+<div class="dutio-page-header">
+    <h1>Jadwal Piket Saya</h1>
+    <p class="text-muted">Jadwal kegiatan piket penghuni asrama</p>
 </div>
 
-<div class="card mb-3">
+<div class="dutio-timeline">
 
-    <div class="card-body">
-
-        <h5>📅 Senin</h5>
-
-        <p class="mb-1">
-            🧹 Menyapu Koridor
-        </p>
-
-        <small class="text-muted">
-            07.00 - 08.00 WIB
-        </small>
-
+    <div class="dutio-timeline-item">
+        <div class="dutio-timeline-card">
+            <div class="dutio-timeline-day">Senin</div>
+            <div class="dutio-timeline-icon">🧹</div>
+            <div class="dutio-timeline-body">
+                <strong>Menyapu Koridor</strong>
+                <span>07.00 - 08.00 WIB</span>
+            </div>
+        </div>
     </div>
 
-</div>
-
-<div class="card mb-3">
-
-    <div class="card-body">
-
-        <h5>📅 Rabu</h5>
-
-        <p class="mb-1">
-            🗑️ Buang Sampah
-        </p>
-
-        <small class="text-muted">
-            07.00 - 08.00 WIB
-        </small>
-
+    <div class="dutio-timeline-item">
+        <div class="dutio-timeline-card">
+            <div class="dutio-timeline-day">Rabu</div>
+            <div class="dutio-timeline-icon">🗑️</div>
+            <div class="dutio-timeline-body">
+                <strong>Buang Sampah</strong>
+                <span>07.00 - 08.00 WIB</span>
+            </div>
+        </div>
     </div>
 
-</div>
-
-<div class="card mb-3">
-
-    <div class="card-body">
-
-        <h5>📅 Jumat</h5>
-
-        <p class="mb-1">
-            🕌 Membersihkan Mushola
-        </p>
-
-        <small class="text-muted">
-            06.30 - 08.00 WIB
-        </small>
-
+    <div class="dutio-timeline-item">
+        <div class="dutio-timeline-card">
+            <div class="dutio-timeline-day">Jumat</div>
+            <div class="dutio-timeline-icon">🕌</div>
+            <div class="dutio-timeline-body">
+                <strong>Membersihkan Mushola</strong>
+                <span>06.30 - 08.00 WIB</span>
+            </div>
+        </div>
     </div>
 
 </div>

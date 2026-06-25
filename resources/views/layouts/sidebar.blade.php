@@ -1,57 +1,46 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="dutio-sidebar">
 
-    <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">
-            DUTIO
-        </span>
-    </a>
+    <div class="dutio-brand">
+        <div class="dutio-brand-mark">D</div>
+        <span class="dutio-brand-text">DUTIO</span>
+    </div>
 
-    <div class="sidebar">
+    <nav class="dutio-nav">
 
-        <nav class="mt-2">
+        <a href="/dashboard" class="dutio-nav-link {{ request()->is('dashboard') ? 'is-active' : '' }}">
+            <span class="dutio-nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
 
-            <ul class="nav nav-pills nav-sidebar flex-column">
+        <a href="/checklist" class="dutio-nav-link {{ request()->is('checklist*') ? 'is-active' : '' }}">
+            <span class="dutio-nav-icon">☑</span>
+            <span>Checklist</span>
+        </a>
 
-                <li class="nav-item">
-                    <a href="/dashboard" class="nav-link">
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+        <a href="/jadwal" class="dutio-nav-link {{ request()->is('jadwal*') ? 'is-active' : '' }}">
+            <span class="dutio-nav-icon">▤</span>
+            <span>Jadwal</span>
+        </a>
 
-                <li class="nav-item">
-                    <a href="/checklist" class="nav-link">
-                        <p>Checklist</p>
-                    </a>
-                </li>
+        <a href="/laporan" class="dutio-nav-link {{ request()->is('laporan*') ? 'is-active' : '' }}">
+            <span class="dutio-nav-icon">↥</span>
+            <span>Laporan</span>
+        </a>
 
-                <li class="nav-item">
-                    <a href="/jadwal" class="nav-link">
-                        <p>Jadwal</p>
-                    </a>
-                </li>
+        <a href="/crewpoints" class="dutio-nav-link {{ request()->is('crewpoints*') ? 'is-active' : '' }}">
+            <span class="dutio-nav-icon">★</span>
+            <span>Crew Points</span>
+        </a>
 
-                <li class="nav-item">
-                    <a href="/laporan" class="nav-link">
-                        <p>Laporan</p>
-                    </a>
-                </li>
+        <a href="/profile" class="dutio-nav-link {{ request()->is('profile*') ? 'is-active' : '' }}">
+            <span class="dutio-nav-icon">◉</span>
+            <span>Profile</span>
+        </a>
 
-                <li class="nav-item">
-                    <a href="/crewpoints" class="nav-link">
-                        <p>Crew Points</p>
-                    </a>
-                </li>
+    </nav>
 
-                <li class="nav-item">
-                    <a href="/profile" class="nav-link">
-                        <p>Profile</p>
-                    </a>
-                </li>
-
-            </ul>
-
-        </nav>
-
+    <div class="dutio-sidebar-footer">
+        &copy; {{ date('Y') }} DUTIO
     </div>
 
 </aside>
