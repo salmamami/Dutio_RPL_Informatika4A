@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
     public function login(Request $request)
     {
-        $email = $request->email;
-        $password = $request->password;
+        $credentials = $request->only('email', 'password');
 
-        if ($email == 'user@gmail.com' && $password == '123456') {
-            return redirect('/dashboard-user');
-        }
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
 
-        if ($email == 'koordinator@gmail.com' && $password == '123456') {
-            return redirect('/dashboard-koordinator');
+            if ($user->role == 'koordinator') {
+                return redirect('/dashboard-koordinator');
+            } else {
+                return redirect('/dashboard-user');
+            }
         }
 
         return back()->with('error', 'Email atau Password salah');

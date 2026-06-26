@@ -21,21 +21,22 @@ Route::get('/forgot-password', function () {
 
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/dashboard-user', function () {
-    return 'Dashboard User';
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/dashboard-user', [DashboardController::class, 'index']);
+
+    Route::get('/dashboard-koordinator', [DashboardController::class, 'index']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::get('/jadwal', [JadwalController::class, 'index']);
+
+    Route::get('/checklist', [ChecklistController::class, 'index']);
+
+    Route::get('/laporan', [LaporanController::class, 'index']);
+
+    Route::get('/crewpoints', [CrewPointController::class, 'index']);
+
+    Route::get('/profile', [ProfileController::class, 'index']);
+
 });
-
-Route::get('/dashboard-koordinator', function () {
-    return 'Dashboard Koordinator';
-});
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
-Route::get('/jadwal', [JadwalController::class, 'index']);
-
-Route::get('/checklist', [ChecklistController::class, 'index']);
-
-Route::get('/laporan', [LaporanController::class, 'index']);
-
-Route::get('/crewpoints', [CrewPointController::class, 'index']);
-
-Route::get('/profile', [ProfileController::class, 'index']);

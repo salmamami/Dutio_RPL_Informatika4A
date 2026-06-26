@@ -7,6 +7,7 @@
 
     {{-- Bootstrap 5 (layout grid, utilities) --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     {{-- Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +24,11 @@
 <div class="dutio-app">
 
     {{-- Sidebar --}}
-    @include('layouts.sidebar')
+    @if(auth()->check() && auth()->user()->role == 'koordinator')
+        @include('layouts.sidebar-koordinator')
+    @else
+        @include('layouts.sidebar-user')
+    @endif
 
     {{-- Backdrop untuk mobile --}}
     <div class="dutio-sidebar-backdrop" id="dutioSidebarBackdrop"></div>
