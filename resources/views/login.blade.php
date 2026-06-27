@@ -173,7 +173,7 @@
 
         <div class="brand-text">
             <h1>DUTIO</h1>
-            <p>Sistem Manajemen Piket Asrama</p>
+            <p>Crew & Captain, Welcome Aboard!</p>
         </div>
     </div>
 
