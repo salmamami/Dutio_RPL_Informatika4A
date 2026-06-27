@@ -1,0 +1,851 @@
+/* ==========================================================================
+   DUTIO — Custom Theme
+   Bootstrap 5 base, tanpa AdminLTE.
+   ========================================================================== */
+
+:root {
+  /* Warna dasar */
+  --dutio-bg: #F7F6F3;
+  --dutio-surface: #FFFFFF;
+  --dutio-ink: #1C1B1A;
+  --dutio-ink-soft: #6B6864;
+  --dutio-border: #E7E4DD;
+
+  /* Aksen */
+  --dutio-primary: #3D5A6C;
+  --dutio-primary-soft: #E8EEF1;
+  --dutio-success: #5B8A72;
+  --dutio-success-soft: #E7F0EA;
+  --dutio-warning: #C98A3E;
+  --dutio-warning-soft: #FBEEDD;
+  --dutio-danger: #B5544A;
+  --dutio-danger-soft: #F6E6E3;
+
+  /* Sidebar */
+  --dutio-sidebar-bg: #22282E;
+  --dutio-sidebar-ink: #C9CDD2;
+  --dutio-sidebar-ink-muted: #80868D;
+  --dutio-sidebar-active: #3D5A6C;
+
+  /* Radius & bayangan */
+  --dutio-radius: 14px;
+  --dutio-radius-sm: 10px;
+  --dutio-shadow: 0 1px 2px rgba(28, 27, 26, 0.04), 0 4px 16px rgba(28, 27, 26, 0.06);
+  --dutio-shadow-hover: 0 2px 4px rgba(28, 27, 26, 0.05), 0 8px 24px rgba(28, 27, 26, 0.09);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+body {
+  background: var(--dutio-bg);
+  color: var(--dutio-ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.95rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', 'Inter', sans-serif;
+  color: var(--dutio-ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.text-muted {
+  color: var(--dutio-ink-soft) !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+
+.dutio-app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dutio-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dutio-topbar {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 28px;
+  background: var(--dutio-surface);
+  border-bottom: 1px solid var(--dutio-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.dutio-topbar-toggle {
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  color: var(--dutio-ink-soft);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: var(--dutio-radius-sm);
+  transition: background 0.15s ease;
+  line-height: 1;
+}
+
+.dutio-topbar-toggle:hover {
+  background: var(--dutio-bg);
+  color: var(--dutio-ink);
+}
+
+.dutio-content {
+  padding: 32px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.dutio-sidebar {
+  width: 248px;
+  flex-shrink: 0;
+  background: var(--dutio-sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.2s ease;
+}
+
+.dutio-sidebar.is-collapsed {
+  margin-left: -248px;
+}
+
+.dutio-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+.dutio-brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #4D7186, var(--dutio-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.dutio-brand-text {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.dutio-nav {
+  flex: 1;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dutio-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--dutio-radius-sm);
+  color: var(--dutio-sidebar-ink);
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dutio-nav-link .dutio-nav-icon {
+  font-size: 1.05rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.dutio-nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.dutio-nav-link.is-active {
+  background: var(--dutio-sidebar-active);
+  color: #fff;
+}
+
+.dutio-nav-link.is-active::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.dutio-sidebar-footer {
+  padding: 16px 24px;
+  font-size: 0.75rem;
+  color: var(--dutio-sidebar-ink-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ==========================================================================
+   Page header
+   ========================================================================== */
+
+.dutio-page-header {
+  margin-bottom: 28px;
+}
+
+.dutio-page-header h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.dutio-page-header p {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Stat cards
+   ========================================================================== */
+
+.dutio-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .dutio-stat-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dutio-stat {
+  background: var(--dutio-surface);
+  border: 1px solid var(--dutio-border);
+  border-radius: var(--dutio-radius);
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-shadow: var(--dutio-shadow);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.dutio-stat:hover {
+  box-shadow: var(--dutio-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.dutio-stat-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.dutio-stat-label {
+  color: var(--dutio-ink-soft);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.dutio-stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.dutio-stat--primary .dutio-stat-value { color: var(--dutio-primary); }
+.dutio-stat--primary .dutio-stat-icon { background: var(--dutio-primary-soft); color: var(--dutio-primary); }
+
+.dutio-stat--success .dutio-stat-value { color: var(--dutio-success); }
+.dutio-stat--success .dutio-stat-icon { background: var(--dutio-success-soft); color: var(--dutio-success); }
+
+.dutio-stat--warning .dutio-stat-value { color: var(--dutio-warning); }
+.dutio-stat--warning .dutio-stat-icon { background: var(--dutio-warning-soft); color: var(--dutio-warning); }
+
+/* ==========================================================================
+   Card
+   ========================================================================== */
+
+.dutio-card {
+  background: var(--dutio-surface);
+  border: 1px solid var(--dutio-border);
+  border-radius: var(--dutio-radius);
+  box-shadow: var(--dutio-shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.dutio-card-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--dutio-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dutio-card-header h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dutio-card-body {
+  padding: 22px;
+}
+
+/* ==========================================================================
+   Status pill (signature element)
+   ========================================================================== */
+
+.dutio-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.dutio-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dutio-pill--success {
+  background: var(--dutio-success-soft);
+  color: var(--dutio-success);
+}
+.dutio-pill--success::before { background: var(--dutio-success); }
+
+.dutio-pill--warning {
+  background: var(--dutio-warning-soft);
+  color: var(--dutio-warning);
+}
+.dutio-pill--warning::before { background: var(--dutio-warning); }
+
+.dutio-pill--danger {
+  background: var(--dutio-danger-soft);
+  color: var(--dutio-danger);
+}
+.dutio-pill--danger::before { background: var(--dutio-danger); }
+
+.dutio-pill--primary {
+  background: var(--dutio-primary-soft);
+  color: var(--dutio-primary);
+}
+.dutio-pill--primary::before { background: var(--dutio-primary); }
+
+/* ==========================================================================
+   Task list (checklist di dashboard & halaman checklist)
+   ========================================================================== */
+
+.dutio-task {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--dutio-border);
+}
+
+.dutio-task:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dutio-task:first-child {
+  padding-top: 0;
+}
+
+.dutio-task-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 1.5px solid var(--dutio-border);
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  accent-color: var(--dutio-success);
+}
+
+.dutio-task-label {
+  flex: 1;
+  font-size: 0.92rem;
+}
+
+.dutio-task.is-done .dutio-task-label {
+  color: var(--dutio-ink-soft);
+  text-decoration: line-through;
+}
+
+/* ==========================================================================
+   Task card (halaman Checklist)
+   ========================================================================== */
+
+.dutio-task-card {
+  background: var(--dutio-surface);
+  border: 1px solid var(--dutio-border);
+  border-radius: var(--dutio-radius);
+  padding: 20px 22px;
+  box-shadow: var(--dutio-shadow);
+  height: 100%;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.dutio-task-card:hover {
+  box-shadow: var(--dutio-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.dutio-task-card.is-done {
+  border-left-color: var(--dutio-success);
+}
+
+.dutio-task-card.is-pending {
+  border-left-color: var(--dutio-warning);
+}
+
+.dutio-task-card h5 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.dutio-task-card p {
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+/* ==========================================================================
+   Jadwal (timeline)
+   ========================================================================== */
+
+.dutio-timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.dutio-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--dutio-border);
+}
+
+.dutio-timeline-item {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.dutio-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--dutio-surface);
+  border: 2.5px solid var(--dutio-primary);
+  z-index: 1;
+}
+
+.dutio-timeline-card {
+  background: var(--dutio-surface);
+  border: 1px solid var(--dutio-border);
+  border-radius: var(--dutio-radius);
+  padding: 18px 22px;
+  box-shadow: var(--dutio-shadow);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dutio-timeline-day {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  min-width: 64px;
+  color: var(--dutio-primary);
+}
+
+.dutio-timeline-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--dutio-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.dutio-timeline-body {
+  flex: 1;
+}
+
+.dutio-timeline-body strong {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.dutio-timeline-body span {
+  font-size: 0.8rem;
+  color: var(--dutio-ink-soft);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dutio-ink);
+  margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid var(--dutio-border);
+  border-radius: var(--dutio-radius-sm);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  background: var(--dutio-bg);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--dutio-primary);
+  box-shadow: 0 0 0 3px var(--dutio-primary-soft);
+  background: var(--dutio-surface);
+}
+
+/* Dropzone upload */
+.dutio-dropzone {
+  border: 1.5px dashed var(--dutio-border);
+  border-radius: var(--dutio-radius);
+  padding: 28px 20px;
+  text-align: center;
+  background: var(--dutio-bg);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  position: relative;
+}
+
+.dutio-dropzone:hover {
+  border-color: var(--dutio-primary);
+  background: var(--dutio-primary-soft);
+}
+
+.dutio-dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dutio-dropzone-icon {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.dutio-dropzone-text {
+  font-size: 0.85rem;
+  color: var(--dutio-ink-soft);
+}
+
+.dutio-dropzone-text strong {
+  color: var(--dutio-primary);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  border-radius: var(--dutio-radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 9px 18px;
+  transition: all 0.15s ease;
+  border: none;
+}
+
+.btn-dutio-primary {
+  background: var(--dutio-primary);
+  color: #fff;
+}
+
+.btn-dutio-primary:hover {
+  background: #344A59;
+  color: #fff;
+}
+
+.btn-dutio-success {
+  background: var(--dutio-success);
+  color: #fff;
+}
+
+.btn-dutio-success:hover {
+  background: #4A7460;
+  color: #fff;
+}
+
+.btn-dutio-danger {
+  background: var(--dutio-danger);
+  color: #fff;
+}
+
+.btn-dutio-danger:hover {
+  background: #9C4339;
+  color: #fff;
+}
+
+.btn-dutio-outline {
+  background: transparent;
+  border: 1px solid var(--dutio-border);
+  color: var(--dutio-ink);
+}
+
+.btn-dutio-outline:hover {
+  background: var(--dutio-bg);
+}
+
+/* ==========================================================================
+   Riwayat / activity feed (Crew Points)
+   ========================================================================== */
+
+.dutio-feed-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--dutio-border);
+}
+
+.dutio-feed-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dutio-feed-item:first-child {
+  padding-top: 0;
+}
+
+.dutio-feed-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.dutio-feed-icon--up {
+  background: var(--dutio-success-soft);
+  color: var(--dutio-success);
+}
+
+.dutio-feed-icon--down {
+  background: var(--dutio-danger-soft);
+  color: var(--dutio-danger);
+}
+
+.dutio-feed-body strong {
+  display: block;
+  font-size: 0.88rem;
+}
+
+.dutio-feed-body span {
+  font-size: 0.8rem;
+  color: var(--dutio-ink-soft);
+}
+
+/* Progress bar */
+.dutio-progress-row {
+  margin-bottom: 16px;
+}
+
+.dutio-progress-row:last-child {
+  margin-bottom: 0;
+}
+
+.dutio-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.dutio-progress-label span:last-child {
+  color: var(--dutio-ink-soft);
+  font-weight: 600;
+}
+
+.dutio-progress-track {
+  height: 8px;
+  background: var(--dutio-bg);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.dutio-progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.6s ease;
+}
+
+/* ==========================================================================
+   Profile
+   ========================================================================== */
+
+.dutio-profile-hero {
+  background: var(--dutio-surface);
+  border: 1px solid var(--dutio-border);
+  border-radius: var(--dutio-radius);
+  box-shadow: var(--dutio-shadow);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.dutio-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #4D7186, var(--dutio-primary));
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.dutio-profile-hero h4 {
+  margin-bottom: 2px;
+}
+
+.dutio-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 576px) {
+  .dutio-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dutio-info-item label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dutio-ink-soft);
+  margin-bottom: 4px;
+}
+
+.dutio-info-item div {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Mobile sidebar overlay
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .dutio-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+    margin-left: -248px;
+  }
+
+  .dutio-sidebar.is-open {
+    margin-left: 0;
+    box-shadow: 0 0 32px rgba(0,0,0,0.25);
+  }
+
+  .dutio-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 999;
+  }
+
+  .dutio-sidebar-backdrop.is-visible {
+    display: block;
+  }
+
+  .dutio-content {
+    padding: 20px;
+  }
+}
