@@ -27,6 +27,10 @@
   --dutio-sidebar-ink-muted: #80868D;
   --dutio-sidebar-active: #3D5A6C;
 
+  /* Sidebar floating */
+  --dutio-sidebar-width: 220px;
+  --dutio-sidebar-margin: 16px;
+
   /* Radius & bayangan */
   --dutio-radius: 14px;
   --dutio-radius-sm: 10px;
@@ -67,6 +71,7 @@ a {
 .dutio-app {
   display: flex;
   min-height: 100vh;
+  background: var(--dutio-bg);
 }
 
 .dutio-main {
@@ -76,16 +81,28 @@ a {
   flex-direction: column;
 }
 
+.dutio-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--dutio-sidebar-margin) var(--dutio-sidebar-margin) 0 0;
+  gap: var(--dutio-sidebar-margin);
+}
+
 .dutio-topbar {
   display: flex;
   align-items: center;
-  height: 64px;
-  padding: 0 28px;
+  gap: 12px;
+  height: 60px;
+  padding: 0 22px;
   background: var(--dutio-surface);
-  border-bottom: 1px solid var(--dutio-border);
+  border-radius: 18px;
+  box-shadow: var(--dutio-shadow);
   position: sticky;
-  top: 0;
+  top: var(--dutio-sidebar-margin);
   z-index: 10;
+  flex-shrink: 0;
 }
 
 .dutio-topbar-toggle {
@@ -105,11 +122,28 @@ a {
   color: var(--dutio-ink);
 }
 
+.dutio-topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dutio-topbar-brand .dutio-brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.dutio-topbar-brand .dutio-brand-text {
+  font-size: 1rem;
+}
+
 .dutio-content {
-  padding: 32px;
+  padding: 0 28px 28px;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  flex: 1;
 }
 
 /* ==========================================================================
@@ -117,24 +151,72 @@ a {
    ========================================================================== */
 
 .dutio-sidebar {
-  width: 248px;
+  width: var(--dutio-sidebar-width);
   flex-shrink: 0;
-  background: var(--dutio-sidebar-bg);
-  display: flex;
-  flex-direction: column;
+  padding: var(--dutio-sidebar-margin) 0 var(--dutio-sidebar-margin) var(--dutio-sidebar-margin);
   transition: margin-left 0.2s ease;
 }
 
 .dutio-sidebar.is-collapsed {
-  margin-left: -248px;
+  margin-left: calc(-1 * (var(--dutio-sidebar-width) + var(--dutio-sidebar-margin)));
 }
 
-.dutio-brand {
+.dutio-sidebar-pill {
+  background: var(--dutio-sidebar-bg);
+  border-radius: 22px;
+  height: calc(100vh - (var(--dutio-sidebar-margin) * 2));
+  position: sticky;
+  top: var(--dutio-sidebar-margin);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--dutio-shadow-hover);
+  overflow: hidden;
+}
+
+.dutio-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.dutio-nav-link {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 64px;
-  padding: 0 24px;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  color: var(--dutio-sidebar-ink);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dutio-nav-link .dutio-nav-icon {
+  font-size: 1.05rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.dutio-nav-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.dutio-nav-link.is-active {
+  background: var(--dutio-sidebar-active);
+  color: #fff;
+}
+
+.dutio-sidebar-footer {
+  padding: 14px 20px;
+  font-size: 0.72rem;
+  color: var(--dutio-sidebar-ink-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
 
@@ -157,66 +239,8 @@ a {
   font-family: 'Sora', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
-  color: #fff;
+  color: var(--dutio-ink);
   letter-spacing: 0.01em;
-}
-
-.dutio-nav {
-  flex: 1;
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.dutio-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: var(--dutio-radius-sm);
-  color: var(--dutio-sidebar-ink);
-  font-size: 0.9rem;
-  font-weight: 500;
-  position: relative;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.dutio-nav-link .dutio-nav-icon {
-  font-size: 1.05rem;
-  width: 20px;
-  text-align: center;
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.dutio-nav-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-}
-
-.dutio-nav-link.is-active {
-  background: var(--dutio-sidebar-active);
-  color: #fff;
-}
-
-.dutio-nav-link.is-active::before {
-  content: '';
-  position: absolute;
-  left: -14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 18px;
-  background: #fff;
-  border-radius: 2px;
-}
-
-.dutio-sidebar-footer {
-  padding: 16px 24px;
-  font-size: 0.75rem;
-  color: var(--dutio-sidebar-ink-muted);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* ==========================================================================
@@ -825,11 +849,14 @@ a {
     top: 0;
     height: 100vh;
     z-index: 1000;
-    margin-left: -248px;
+    margin-left: calc(-1 * (var(--dutio-sidebar-width) + var(--dutio-sidebar-margin)));
   }
 
   .dutio-sidebar.is-open {
     margin-left: 0;
+  }
+
+  .dutio-sidebar-pill {
     box-shadow: 0 0 32px rgba(0,0,0,0.25);
   }
 
@@ -845,7 +872,12 @@ a {
     display: block;
   }
 
+  .dutio-main {
+    padding: 12px 12px 0;
+    gap: 12px;
+  }
+
   .dutio-content {
-    padding: 20px;
+    padding: 0 0 20px;
   }
 }
