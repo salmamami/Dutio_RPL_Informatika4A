@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="dutio-page-header">
-    <h1>Halo, Ami 👋</h1>
+    <h1>Halo, {{ $user->name }} 👋</h1>
     <p class="text-muted">Selamat datang di DUTIO</p>
 </div>
 

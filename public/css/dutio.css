@@ -881,3 +881,43 @@ a {
     padding: 0 0 20px;
   }
 }
+
+/* ===========================
+   Sidebar User Info
+=========================== */
+
+.dutio-user-info{
+    text-align:center;
+    color:#5B624D;
+    font-size:14px;
+}
+
+.dutio-user-info strong{
+    display:block;
+    font-size:15px;
+    color:#374151;
+}
+
+.dutio-user-info small{
+    color:#7B7B7B;
+}
+
+/* ===========================
+   Logout Button
+=========================== */
+
+.dutio-logout-btn{
+    width:100%;
+    border:none;
+    background:#ECE7D5;
+    color:#5B624D;
+    padding:10px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.dutio-logout-btn:hover{
+    background:#5B624D;
+    color:white;
+}
