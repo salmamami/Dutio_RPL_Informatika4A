@@ -18,10 +18,6 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            if (Auth::user()->role == 'koordinator') {
-                return redirect('/dashboard-koordinator');
-            }
-
             return redirect('/dashboard');
         }
 

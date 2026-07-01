@@ -39,6 +39,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile',[ProfileController::class,'index']);
 
-    Route::post('/logout',[LoginController::class,'logout']);
-
 });
+
+Route::post('/logout',[LoginController::class,'logout']);

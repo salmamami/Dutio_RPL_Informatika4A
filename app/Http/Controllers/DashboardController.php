@@ -8,10 +8,6 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role == 'koordinator') {
-            return view('koordinator.index', compact('user'));
-        }
-
-        return view('user.index', compact('user'));
+        return view('dashboard.index', compact('user'));
     }
 }
