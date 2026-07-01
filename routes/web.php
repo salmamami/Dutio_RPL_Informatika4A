@@ -19,15 +19,15 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::post('/login', [LoginController::class,'login']);
+
 Route::get('/forgot-password', function () {
     return view('forgot-password');
 });
 
-Route::post('/login', [LoginController::class, 'login']);
+Route::middleware(['auth'])->group(function () {
 
-Route::middleware(['auth','role:penghuni'])->group(function(){
-
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.user');
+    Route::get('/dashboard',[DashboardController::class,'index']);
 
     Route::get('/jadwal',[JadwalController::class,'index']);
 
@@ -38,13 +38,7 @@ Route::middleware(['auth','role:penghuni'])->group(function(){
     Route::get('/crewpoints',[CrewPointController::class,'index']);
 
     Route::get('/profile',[ProfileController::class,'index']);
+
+    Route::post('/logout',[LoginController::class,'logout']);
+
 });
-
-Route::middleware(['auth','role:koordinator'])->group(function(){
-
-    Route::get('/dashboard-koordinator', function(){
-        return view('dashboard-koordinator');
-    })->name('dashboard.koordinator');
-});
-
-Route::post('/logout',[LoginController::class,'logout']);

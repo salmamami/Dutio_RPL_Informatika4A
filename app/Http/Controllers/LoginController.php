@@ -22,7 +22,7 @@ class LoginController extends Controller
                 return redirect('/dashboard-koordinator');
             }
 
-            return redirect()->route('dashboard.user');
+            return redirect('/dashboard');
         }
 
         return back()->with('error','Email atau Password salah');
