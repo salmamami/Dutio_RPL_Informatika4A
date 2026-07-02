@@ -24,11 +24,7 @@
 <div class="dutio-app">
 
     {{-- Sidebar --}}
-    @if(auth()->check() && auth()->user()->role == 'koordinator')
-        @include('layouts.sidebar-koordinator')
-    @else
-        @include('layouts.sidebar-user')
-    @endif
+    @include('layouts.sidebar')
 
     {{-- Backdrop untuk mobile --}}
     <div class="dutio-sidebar-backdrop" id="dutioSidebarBackdrop"></div>

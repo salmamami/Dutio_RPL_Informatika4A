@@ -72,14 +72,7 @@ a {
   display: flex;
   min-height: 100vh;
   background: var(--dutio-bg);
-}
-
-.dutio-main {
-  margin-left: 260px;
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 }
 
 .dutio-main {
