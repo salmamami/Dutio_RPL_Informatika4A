@@ -3,43 +3,77 @@
 @section('content')
 
 <div class="dutio-page-header">
-    <h1>Jadwal Piket Saya</h1>
-    <p class="text-muted">Jadwal kegiatan piket penghuni asrama</p>
+    <h1>Pembagian Piket</h1>
+    <p class="text-muted">
+        Jadwal pembagian piket seluruh kamar asrama
+    </p>
 </div>
 
-<div class="dutio-timeline">
+<div class="dutio-card">
 
-    <div class="dutio-timeline-item">
-        <div class="dutio-timeline-card">
-            <div class="dutio-timeline-day">Senin</div>
-            <div class="dutio-timeline-icon">🧹</div>
-            <div class="dutio-timeline-body">
-                <strong>Menyapu Koridor</strong>
-                <span>07.00 - 08.00 WIB</span>
-            </div>
-        </div>
+    <div class="dutio-card-header">
+        <h3>Jadwal Mingguan</h3>
     </div>
 
-    <div class="dutio-timeline-item">
-        <div class="dutio-timeline-card">
-            <div class="dutio-timeline-day">Rabu</div>
-            <div class="dutio-timeline-icon">🗑️</div>
-            <div class="dutio-timeline-body">
-                <strong>Buang Sampah</strong>
-                <span>07.00 - 08.00 WIB</span>
-            </div>
-        </div>
-    </div>
+    <div class="dutio-card-body p-0">
 
-    <div class="dutio-timeline-item">
-        <div class="dutio-timeline-card">
-            <div class="dutio-timeline-day">Jumat</div>
-            <div class="dutio-timeline-icon">🕌</div>
-            <div class="dutio-timeline-body">
-                <strong>Membersihkan Mushola</strong>
-                <span>06.30 - 08.00 WIB</span>
-            </div>
-        </div>
+        <table class="table align-middle mb-0">
+
+            <thead class="table-light">
+
+                <tr>
+                    <th>Kamar</th>
+                    <th>Area Piket</th>
+                    <th>Hari</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach($jadwals as $jadwal)
+
+                <tr>
+
+                    <td>
+                        <strong>{{ $jadwal['kamar'] }}</strong>
+                    </td>
+
+                    <td>
+                        {{ $jadwal['area'] }}
+                    </td>
+
+                    <td>
+                        {{ $jadwal['hari'] }}
+                    </td>
+
+                    <td>
+
+                        @if($jadwal['status'] == 'Hari Ini')
+
+                            <span class="badge bg-success">
+                                Hari Ini
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-secondary">
+                                -
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                </tr>
+
+                @endforeach
+
+            </tbody>
+
+        </table>
+
     </div>
 
 </div>
