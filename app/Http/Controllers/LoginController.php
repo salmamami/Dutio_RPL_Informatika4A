@@ -18,10 +18,14 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
+            if (Auth::user()->role == 'koordinator') {
+                return redirect('/koordinator/dashboard');
+            }
+
             return redirect('/dashboard');
         }
 
-        return back()->with('error','Email atau Password salah');
+        return back()->with('error', 'Email atau Password salah');
     }
 
     public function logout(Request $request)

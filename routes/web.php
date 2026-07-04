@@ -13,7 +13,7 @@ use App\Http\Controllers\Koordinator\DashboardController as KoordinatorDashboard
 use App\Http\Controllers\Koordinator\JadwalController as KoordinatorJadwalController;
 use App\Http\Controllers\Koordinator\ChecklistController as KoordinatorChecklistController;
 use App\Http\Controllers\Koordinator\LaporanController as KoordinatorLaporanController;
-
+use App\Http\Controllers\Koordinator\UserController as KoordinatorUserController;
 
 
 Route::get('/', function () {
