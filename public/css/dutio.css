@@ -27,6 +27,10 @@
   --dutio-sidebar-ink-muted: #80868D;
   --dutio-sidebar-active: #3D5A6C;
 
+  /* Sidebar floating */
+  --dutio-sidebar-width: 220px;
+  --dutio-sidebar-margin: 16px;
+
   /* Radius & bayangan */
   --dutio-radius: 14px;
   --dutio-radius-sm: 10px;
@@ -67,26 +71,32 @@ a {
 .dutio-app {
   display: flex;
   min-height: 100vh;
+  background: var(--dutio-bg);
+  overflow: hidden;
 }
 
 .dutio-main {
-  margin-left: 260px;
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  padding: var(--dutio-sidebar-margin) var(--dutio-sidebar-margin) 0 0;
+  gap: var(--dutio-sidebar-margin);
 }
 
 .dutio-topbar {
   display: flex;
   align-items: center;
-  height: 64px;
-  padding: 0 28px;
+  gap: 12px;
+  height: 60px;
+  padding: 0 22px;
   background: var(--dutio-surface);
-  border-bottom: 1px solid var(--dutio-border);
+  border-radius: 18px;
+  box-shadow: var(--dutio-shadow);
   position: sticky;
-  top: 0;
+  top: var(--dutio-sidebar-margin);
   z-index: 10;
+  flex-shrink: 0;
 }
 
 .dutio-topbar-toggle {
@@ -106,11 +116,28 @@ a {
   color: var(--dutio-ink);
 }
 
+.dutio-topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dutio-topbar-brand .dutio-brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.dutio-topbar-brand .dutio-brand-text {
+  font-size: 1rem;
+}
+
 .dutio-content {
-  padding: 32px;
+  padding: 0 28px 28px;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  flex: 1;
 }
 
 /* ==========================================================================
@@ -118,24 +145,72 @@ a {
    ========================================================================== */
 
 .dutio-sidebar {
-  width: 248px;
+  width: var(--dutio-sidebar-width);
   flex-shrink: 0;
-  background: var(--dutio-sidebar-bg);
-  display: flex;
-  flex-direction: column;
+  padding: var(--dutio-sidebar-margin) 0 var(--dutio-sidebar-margin) var(--dutio-sidebar-margin);
   transition: margin-left 0.2s ease;
 }
 
 .dutio-sidebar.is-collapsed {
-  margin-left: -248px;
+  margin-left: calc(-1 * (var(--dutio-sidebar-width) + var(--dutio-sidebar-margin)));
 }
 
-.dutio-brand {
+.dutio-sidebar-pill {
+  background: var(--dutio-sidebar-bg);
+  border-radius: 22px;
+  height: calc(100vh - (var(--dutio-sidebar-margin) * 2));
+  position: sticky;
+  top: var(--dutio-sidebar-margin);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--dutio-shadow-hover);
+  overflow: hidden;
+}
+
+.dutio-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.dutio-nav-link {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 64px;
-  padding: 0 24px;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  color: var(--dutio-sidebar-ink);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dutio-nav-link .dutio-nav-icon {
+  font-size: 1.05rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.dutio-nav-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.dutio-nav-link.is-active {
+  background: var(--dutio-sidebar-active);
+  color: #fff;
+}
+
+.dutio-sidebar-footer {
+  padding: 14px 20px;
+  font-size: 0.72rem;
+  color: var(--dutio-sidebar-ink-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
 
@@ -158,66 +233,8 @@ a {
   font-family: 'Sora', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
-  color: #fff;
+  color: var(--dutio-ink);
   letter-spacing: 0.01em;
-}
-
-.dutio-nav {
-  flex: 1;
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.dutio-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: var(--dutio-radius-sm);
-  color: var(--dutio-sidebar-ink);
-  font-size: 0.9rem;
-  font-weight: 500;
-  position: relative;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.dutio-nav-link .dutio-nav-icon {
-  font-size: 1.05rem;
-  width: 20px;
-  text-align: center;
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.dutio-nav-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-}
-
-.dutio-nav-link.is-active {
-  background: var(--dutio-sidebar-active);
-  color: #fff;
-}
-
-.dutio-nav-link.is-active::before {
-  content: '';
-  position: absolute;
-  left: -14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 18px;
-  background: #fff;
-  border-radius: 2px;
-}
-
-.dutio-sidebar-footer {
-  padding: 16px 24px;
-  font-size: 0.75rem;
-  color: var(--dutio-sidebar-ink-muted);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* ==========================================================================
@@ -826,11 +843,14 @@ a {
     top: 0;
     height: 100vh;
     z-index: 1000;
-    margin-left: -248px;
+    margin-left: calc(-1 * (var(--dutio-sidebar-width) + var(--dutio-sidebar-margin)));
   }
 
   .dutio-sidebar.is-open {
     margin-left: 0;
+  }
+
+  .dutio-sidebar-pill {
     box-shadow: 0 0 32px rgba(0,0,0,0.25);
   }
 
@@ -846,302 +866,53 @@ a {
     display: block;
   }
 
+  .dutio-main {
+    padding: 12px 12px 0;
+    gap: 12px;
+  }
+
   .dutio-content {
-    padding: 20px;
+    padding: 0 0 20px;
   }
 }
-<<<<<<< HEAD
 
-/* ==========================================================
-   DASHBOARD KOORDINATOR
-========================================================== */
+/* ===========================
+   Sidebar User Info
+=========================== */
 
-.dutio-admin-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    margin-bottom:30px;
-}
-
-@media(max-width:1200px){
-    .dutio-admin-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:768px){
-    .dutio-admin-grid{
-        grid-template-columns:1fr;
-    }
-}
-
-.dutio-admin-card{
-
-    background:#fff;
-    border-radius:18px;
-    padding:22px;
-    box-shadow:var(--dutio-shadow);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    transition:.25s;
-
-}
-
-.dutio-admin-card:hover{
-
-    transform:translateY(-5px);
-    box-shadow:var(--dutio-shadow-hover);
-
-}
-
-.dutio-admin-title{
-
-    color:var(--dutio-ink-soft);
-    font-size:.85rem;
-
-}
-
-.dutio-admin-value{
-
-    font-size:2rem;
-    font-family:'Sora';
-    font-weight:700;
-    color:var(--dutio-success);
-
-}
-
-.dutio-admin-icon{
-
-    width:55px;
-    height:55px;
-    border-radius:16px;
-    background:var(--dutio-success-soft);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:26px;
-
-}
-
-/* ========================= */
-
-.dutio-activity{
-
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-    padding:15px 0;
-    border-bottom:1px solid var(--dutio-border);
-
-}
-
-.dutio-activity:last-child{
-
-    border-bottom:none;
-
-}
-
-.dutio-activity-icon{
-
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    background:var(--dutio-success-soft);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:18px;
-
-}
-
-.dutio-activity strong{
-
-    display:block;
-    margin-bottom:4px;
-
-}
-
-.dutio-activity span{
-
-    color:var(--dutio-ink-soft);
-    font-size:.82rem;
-
-}
-
-/* ========================= */
-
-.dutio-quick-grid{
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-
-}
-
-.dutio-quick-btn{
-
-    background:white;
-    border:1px solid var(--dutio-border);
-    border-radius:18px;
-    padding:25px 15px;
+.dutio-user-info{
     text-align:center;
-    transition:.25s;
-
+    color:#5B624D;
+    font-size:14px;
 }
 
-.dutio-quick-btn:hover{
-
-    background:var(--dutio-success);
-    color:white;
-    transform:translateY(-4px);
-
-}
-
-.dutio-quick-btn i{
-
-    font-size:30px;
-    margin-bottom:10px;
+.dutio-user-info strong{
     display:block;
-
+    font-size:15px;
+    color:#374151;
 }
 
-/* ========================= */
-
-.dutio-progress-circle{
-
-    width:160px;
-    height:160px;
-    border-radius:50%;
-    background:conic-gradient(
-        var(--dutio-success) 0 78%,
-        #E5E5E5 78% 100%
-    );
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:auto;
-
+.dutio-user-info small{
+    color:#7B7B7B;
 }
 
-.dutio-progress-circle::before{
+/* ===========================
+   Logout Button
+=========================== */
 
-    content:"78%";
-    width:120px;
-    height:120px;
-    background:white;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:28px;
-    font-family:'Sora';
-    font-weight:bold;
-    color:var(--dutio-success);
-
+.dutio-logout-btn{
+    width:100%;
+    border:none;
+    background:#ECE7D5;
+    color:#5B624D;
+    padding:10px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
 }
 
-/* ======================================
-   SIDEBAR KHUSUS KOORDINATOR
-====================================== */
-
-.koordinator-sidebar{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 260px;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: linear-gradient(
-        180deg,
-        #1E252C 0%,
-        #192028 100%
-      
-    );
+.dutio-logout-btn:hover{
+    background:#5B624D;
+    color:white;
 }
 
-/* Logo */
-.koordinator-sidebar .logo{
-    padding: 20px 20px;
-}
-
-.koordinator-sidebar .dutio-brand{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.koordinator-sidebar .dutio-logo-img{
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.koordinator-sidebar .dutio-brand-text h4{
-    margin: 0;
-    color: #5D7332;
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
-}
-
-.koordinator-sidebar .dutio-brand{
-    padding: 5px;
-    min-height: 30px;
-}
-
-/* Menu */
-.koordinator-sidebar .dutio-nav{
-    padding: 24px 18px;
-    gap: 8px;
-}
-
-.koordinator-sidebar .dutio-nav-link{
-    min-height: 56px;
-    padding: 14px 18px;
-    font-size: 1rem;
-    border-radius: 18px;
-}
-
-.koordinator-sidebar .dutio-nav-icon{
-    width: 24px;
-    font-size: 1.2rem;
-}
-
-/* Hover */
-.koordinator-sidebar .dutio-nav-link:hover{
-    transform: translateX(4px);
-}
-
-/* Menu aktif */
-.koordinator-sidebar .dutio-nav-link.is-active{
-    background: #48657A;
-}
-
-/* Footer */
-.koordinator-sidebar-footer{
-    margin-top: auto;
-    margin-bottom: 100px;
-    padding: 20px 24px;
-    border-top: 1px solid rgba(255,255,255,.08);
-}
-
-.koordinator-sidebar-footer .fw-semibold{
-    color:#fff;
-}
-
-.koordinator-sidebar-footer small{
-    color:#9CA3AF;
-}
-
-
-
-=======
->>>>>>> origin/main

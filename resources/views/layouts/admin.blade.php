@@ -24,7 +24,7 @@
 <div class="dutio-app">
 
     {{-- Sidebar --}}
-    @include('layouts.sidebar')
+    @include('layouts.sidebar-admin')
 
     {{-- Backdrop untuk mobile --}}
     <div class="dutio-sidebar-backdrop" id="dutioSidebarBackdrop"></div>
