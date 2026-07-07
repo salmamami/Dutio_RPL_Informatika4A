@@ -5,27 +5,27 @@
 
 :root {
   /* Warna dasar */
-  --dutio-bg: #F7F6F3;
+  --dutio-bg: #FFF9EF;
   --dutio-surface: #FFFFFF;
-  --dutio-ink: #1C1B1A;
-  --dutio-ink-soft: #6B6864;
-  --dutio-border: #E7E4DD;
+  --dutio-ink: #49503B;
+  --dutio-ink-soft: #8C907D;
+  --dutio-border: #EEE4CF;
 
   /* Aksen */
-  --dutio-primary: #3D5A6C;
-  --dutio-primary-soft: #E8EEF1;
-  --dutio-success: #5B8A72;
-  --dutio-success-soft: #E7F0EA;
-  --dutio-warning: #C98A3E;
-  --dutio-warning-soft: #FBEEDD;
-  --dutio-danger: #B5544A;
-  --dutio-danger-soft: #F6E6E3;
+  --dutio-primary: #8A9B63;
+  --dutio-primary-soft: #EDF3E5;
+  --dutio-success: #6F8A63;
+  --dutio-success-soft: #EEF6EA;
+  --dutio-warning: #F0B94D;
+  --dutio-warning-soft: #FFF4D9;
+  --dutio-danger: #F27F7F;
+  --dutio-danger-soft: #FDECEC;
 
   /* Sidebar */
-  --dutio-sidebar-bg: #22282E;
-  --dutio-sidebar-ink: #C9CDD2;
-  --dutio-sidebar-ink-muted: #80868D;
-  --dutio-sidebar-active: #3D5A6C;
+  --dutio-sidebar-bg: #66704F;
+  --dutio-sidebar-ink: #FFFDF8;
+  --dutio-sidebar-ink-muted: #D7D8CC;
+  --dutio-sidebar-active: #889B60;
 
   /* Sidebar floating */
   --dutio-sidebar-width: 220px;
@@ -34,8 +34,8 @@
   /* Radius & bayangan */
   --dutio-radius: 14px;
   --dutio-radius-sm: 10px;
-  --dutio-shadow: 0 1px 2px rgba(28, 27, 26, 0.04), 0 4px 16px rgba(28, 27, 26, 0.06);
-  --dutio-shadow-hover: 0 2px 4px rgba(28, 27, 26, 0.05), 0 8px 24px rgba(28, 27, 26, 0.09);
+  --dutio-shadow: 0 6px 20px rgba(143,135,104,.08);
+  --dutio-shadow-hover: 0 10px 30px rgba(143,135,104,.15);
 }
 
 /* ==========================================================================
@@ -43,17 +43,17 @@
    ========================================================================== */
 
 body {
-  background: var(--dutio-bg);
+  background: #FFFCF5;
   color: var(--dutio-ink);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.95rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Sora', 'Inter', sans-serif;
+  font-family: 'Sora', sans-serif;
   color: var(--dutio-ink);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .text-muted {
@@ -71,7 +71,7 @@ a {
 .dutio-app {
   display: flex;
   min-height: 100vh;
-  background: var(--dutio-bg);
+  background: #FFF9EF;
   overflow: hidden;
 }
 
@@ -80,64 +80,66 @@ a {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: var(--dutio-sidebar-margin) var(--dutio-sidebar-margin) 0 0;
-  gap: var(--dutio-sidebar-margin);
+  padding: 18px 18px 0 0;
+  gap: 18px;
 }
 
 .dutio-topbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 60px;
-  padding: 0 22px;
-  background: var(--dutio-surface);
-  border-radius: 18px;
-  box-shadow: var(--dutio-shadow);
-  position: sticky;
-  top: var(--dutio-sidebar-margin);
-  z-index: 10;
-  flex-shrink: 0;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  height:64px;
+  padding:0 24px;
+  background:#FFFCF8;
+  border:1px solid #F1E7D4;
+  border-radius:22px;
+  box-shadow:0 6px 18px rgba(90,90,70,.08);
+  position:sticky;
+  top:18px;
+  z-index:10;
+  flex-shrink:0;
 }
 
 .dutio-topbar-toggle {
-  border: none;
-  background: transparent;
-  font-size: 1.25rem;
-  color: var(--dutio-ink-soft);
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: var(--dutio-radius-sm);
-  transition: background 0.15s ease;
+  border:none;
+  background:transparent;
+  font-size:1.3rem;
+  color:#7C816D;
+  padding:8px;
+  border-radius:12px;
+  transition:.25s;
   line-height: 1;
 }
 
 .dutio-topbar-toggle:hover {
-  background: var(--dutio-bg);
-  color: var(--dutio-ink);
+  background:#F3EFDF;
+  color:#5C654B;
 }
 
 .dutio-topbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .dutio-topbar-brand .dutio-brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width:25px;
+  height:25px;
+  border-radius:10px;
 }
 
 .dutio-topbar-brand .dutio-brand-text {
-  font-size: 1rem;
+  font-size:1.55rem;
+  font-weight:700;
+  color:#4C533C;
 }
 
 .dutio-content {
-  padding: 0 28px 28px;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  flex: 1;
+  flex:1;
+  width:100%;
+  max-width:1280px;
+  margin:0 auto;
+  padding:0 30px 30px;
 }
 
 /* ==========================================================================
@@ -218,7 +220,7 @@ a {
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  background: linear-gradient(135deg, #4D7186, var(--dutio-primary));
+  background: linear-gradient(135deg,#7B8F5A,#5B624D);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -272,7 +274,7 @@ a {
 }
 
 .dutio-stat {
-  background: var(--dutio-surface);
+  background: #FFFDF8;
   border: 1px solid var(--dutio-border);
   border-radius: var(--dutio-radius);
   padding: 20px 22px;
@@ -314,20 +316,20 @@ a {
 }
 
 .dutio-stat--primary .dutio-stat-value { color: var(--dutio-primary); }
-.dutio-stat--primary .dutio-stat-icon { background: var(--dutio-primary-soft); color: var(--dutio-primary); }
+.dutio-stat--primary .dutio-stat-icon { background: #FDE7E7;color: #E77A7A; }
 
 .dutio-stat--success .dutio-stat-value { color: var(--dutio-success); }
-.dutio-stat--success .dutio-stat-icon { background: var(--dutio-success-soft); color: var(--dutio-success); }
+.dutio-stat--success .dutio-stat-icon { background: #EEF4E9; color: #6D7F5D; }
 
 .dutio-stat--warning .dutio-stat-value { color: var(--dutio-warning); }
-.dutio-stat--warning .dutio-stat-icon { background: var(--dutio-warning-soft); color: var(--dutio-warning); }
+.dutio-stat--warning .dutio-stat-icon { background: #FFF2D8; color: #F2A93B; }
 
 /* ==========================================================================
    Card
    ========================================================================== */
 
 .dutio-card {
-  background: var(--dutio-surface);
+  background: #FFFDF8;
   border: 1px solid var(--dutio-border);
   border-radius: var(--dutio-radius);
   box-shadow: var(--dutio-shadow);
@@ -761,13 +763,14 @@ a {
 
 .dutio-progress-track {
   height: 8px;
-  background: var(--dutio-bg);
+  background: #EEE9DA;
   border-radius: 100px;
   overflow: hidden;
 }
 
 .dutio-progress-fill {
   height: 100%;
+  background:#7F8F73;
   border-radius: 100px;
   transition: width 0.6s ease;
 }
@@ -882,18 +885,18 @@ a {
 
 .dutio-user-info{
     text-align:center;
-    color:#5B624D;
+    color:#F5F2E8;
     font-size:14px;
 }
 
 .dutio-user-info strong{
     display:block;
     font-size:15px;
-    color:#374151;
+    color:#FFFFFF;
 }
 
 .dutio-user-info small{
-    color:#7B7B7B;
+    color:#E4E7D8;
 }
 
 /* ===========================
