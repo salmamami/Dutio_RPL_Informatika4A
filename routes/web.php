@@ -22,9 +22,9 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
-Route::post('/login', [LoginController::class,'login']);
+Route::post('/login', [LoginController::class,'login'])->name('login.submit');
 
 Route::get('/forgot-password', function () {
     return view('forgot-password');
@@ -45,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile',[ProfileController::class,'index']);
 
 });
+
+Route::post('/checklist/{id}/toggle', [ChecklistController::class, 'toggle'])->name('checklist.toggle');
 
 Route::post('/logout',[LoginController::class,'logout']);
 
