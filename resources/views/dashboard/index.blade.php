@@ -2,15 +2,15 @@
 
 @section('content')
 
-<div class="dutio-page-header">
-    <h1>Halo, {{ $user->name }} 👋</h1>
+<div class="dutio-page-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div>
+        <h1>Halo, {{ $user->name }} 👋</h1>
+        <p class="text-muted mb-0">
+            Hari ini kamu bertugas di <strong>{{ $area['nama'] }}</strong>
+        </p>
+    </div>
 
-    <p class="text-muted">
-        Hari ini kamu bertugas di
-        <strong>{{ $area['nama'] }}</strong>
-    </p>
-
-    <span class="badge bg-warning text-dark px-3 py-2">
+    <span class="dutio-pill dutio-pill--warning">
         {{ $area['status'] }}
     </span>
 </div>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="dutio-stat-icon">
-            ☑
+            <i class="fa-solid fa-list-check"></i>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
         </div>
 
         <div class="dutio-stat-icon">
-            ↥
+            <i class="fa-solid fa-file-arrow-up"></i>
         </div>
     </div>
 
@@ -60,7 +60,7 @@
         </div>
 
         <div class="dutio-stat-icon">
-            ★
+            <i class="fa-solid fa-star"></i>
         </div>
     </div>
 
@@ -78,26 +78,21 @@
 
             <div class="dutio-card-body">
 
-                <div class="progress mb-3" style="height:18px;">
-
-                    <div class="progress-bar bg-success"
-                        style="width: {{ ($selesaiChecklist / $totalChecklist) * 100 }}%">
+                <div class="dutio-progress-row">
+                    <div class="dutio-progress-label">
+                        <span>Checklist selesai</span>
+                        <span>{{ $selesaiChecklist }} / {{ $totalChecklist }}</span>
                     </div>
 
+                    <div class="dutio-progress-track">
+                        <div class="dutio-progress-fill"
+                            style="width: {{ $totalChecklist > 0 ? ($selesaiChecklist / $totalChecklist) * 100 : 0 }}%">
+                        </div>
+                    </div>
                 </div>
 
-                <p class="mb-0">
-
-                    <strong>
-
-                        {{ $selesaiChecklist }}
-                        dari
-                        {{ $totalChecklist }}
-
-                    </strong>
-
-                    checklist telah diselesaikan.
-
+                <p class="mb-0 mt-3 text-muted">
+                    Selesaikan semua checklist buat unlock upload laporan 🚀
                 </p>
 
             </div>
@@ -116,9 +111,7 @@
 
             <div class="dutio-card-body">
 
-                <h4>
-                    {{ $area['nama'] }}
-                </h4>
+                <h4>{{ $area['nama'] }}</h4>
 
                 <p class="text-muted mb-0">
                     Selesaikan seluruh checklist sebelum mengirim laporan.
@@ -140,79 +133,49 @@
 
     <div class="dutio-card-body">
 
-        <table class="table table-borderless mb-0">
+        <div class="dutio-info-grid">
 
-            <tr>
-                <td width="180">
-                    <strong>Area</strong>
-                </td>
+            <div class="dutio-info-item">
+                <label>Area</label>
+                <div>{{ $area['nama'] }}</div>
+            </div>
 
-                <td>
-                    {{ $area['nama'] }}
-                </td>
-            </tr>
+            <div class="dutio-info-item">
+                <label>Checklist</label>
+                <div>{{ $selesaiChecklist }} / {{ $totalChecklist }} selesai</div>
+            </div>
 
-            <tr>
-                <td>
-                    <strong>Checklist</strong>
-                </td>
-
-                <td>
-                    {{ $selesaiChecklist }} / {{ $totalChecklist }} selesai
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <strong>Laporan</strong>
-                </td>
-
-                <td>
-
+            <div class="dutio-info-item">
+                <label>Laporan</label>
+                <div>
                     @if($laporan)
-
-                        <span class="badge bg-success">
-                            Sudah Dikirim
+                        <span class="dutio-pill dutio-pill--success">
+                            <i class="fa-solid fa-check"></i> Sudah Dikirim
                         </span>
-
                     @else
-
-                        <span class="badge bg-secondary">
+                        <span class="dutio-pill dutio-pill--danger">
                             Belum Dikirim
                         </span>
-
                     @endif
+                </div>
+            </div>
 
-                </td>
-            </tr>
-
-            <tr>
-
-                <td>
-                    <strong>Status</strong>
-                </td>
-
-                <td>
-
+            <div class="dutio-info-item">
+                <label>Status</label>
+                <div>
                     @if($selesaiChecklist == $totalChecklist)
-
-                        <span class="badge bg-success">
-                            Selesai
+                        <span class="dutio-pill dutio-pill--success">
+                            <i class="fa-solid fa-check"></i> Selesai
                         </span>
-
                     @else
-
-                        <span class="badge bg-warning text-dark">
+                        <span class="dutio-pill dutio-pill--warning">
                             Sedang Dikerjakan
                         </span>
-
                     @endif
+                </div>
+            </div>
 
-                </td>
-
-            </tr>
-
-        </table>
+        </div>
 
     </div>
 
@@ -226,39 +189,26 @@
 
     <div class="dutio-card-body d-flex gap-2 flex-wrap">
 
-        <a href="/checklist"
-            class="btn btn-dutio-primary">
-
-            Kerjakan Checklist
-
+        <a href="/checklist" class="btn btn-dutio-primary">
+            <i class="fa-solid fa-list-check me-1"></i> Kerjakan Checklist
         </a>
 
         @if($selesaiChecklist == $totalChecklist)
 
-            <a href="/laporan"
-                class="btn btn-dutio-success">
-
-                Upload Laporan
-
+            <a href="/laporan" class="btn btn-dutio-success">
+                <i class="fa-solid fa-file-arrow-up me-1"></i> Upload Laporan
             </a>
 
         @else
 
-            <button
-                class="btn btn-secondary"
-                disabled>
-
-                Selesaikan Checklist Dulu
-
+            <button class="btn btn-secondary" disabled>
+                <i class="fa-solid fa-lock me-1"></i> Selesaikan Checklist Dulu
             </button>
 
         @endif
 
-        <a href="/jadwal"
-            class="btn btn-outline-secondary">
-
-            Lihat Pembagian Piket
-
+        <a href="/jadwal" class="btn btn-dutio-outline">
+            <i class="fa-solid fa-calendar-days me-1"></i> Lihat Pembagian Piket
         </a>
 
     </div>

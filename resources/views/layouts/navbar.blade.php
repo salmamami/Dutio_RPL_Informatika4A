@@ -4,7 +4,8 @@
     </button>
 
     <div class="dutio-topbar-brand">
-        <div class="dutio-brand-mark">D</div>
+        <img src="{{ asset('assets/img/dutio-logo.png') }}" class="dutio-logo" alt="Logo DUTIO">
         <span class="dutio-brand-text">DUTIO</span>
     </div>
+
 </div>
