@@ -71,3 +71,15 @@ Route::get('/koordinator/checklist/{id}/edit', [KoordinatorChecklistController::
 Route::get('/koordinator/laporan', [KoordinatorLaporanController::class, 'index']);
 
 Route::get('/koordinator/laporan/{id}', [KoordinatorLaporanController::class, 'show']);
+
+Route::get('/koordinator/user', [KoordinatorUserController::class, 'index']);
+
+Route::get('/koordinator/user/create', [KoordinatorUserController::class, 'create']);
+
+Route::get('/koordinator/user/{id}/edit', [KoordinatorUserController::class, 'edit']);
+
+Route::post('/koordinator/user', [KoordinatorUserController::class, 'store']);
+
+Route::put('/koordinator/user/{id}', [KoordinatorUserController::class, 'update']);
+
+Route::delete('/koordinator/user/{id}', [KoordinatorUserController::class, 'destroy']);
