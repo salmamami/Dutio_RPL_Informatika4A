@@ -2,46 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Jadwal;
+use App\Models\ChecklistJadwal;
+use App\Models\Laporan;
+
 class DashboardController extends Controller
 {
     public function index()
-{
-    $user = (object)[
-        'name' => 'Perwakilan Kamar A',
-        'kamar' => 'Kamar A',
-    ];
+    {
+        $user = Auth::user();
 
-    $area = [
-        'nama' => 'Kamar Mandi Asrama',
-        'status' => 'Belum Selesai'
-    ];
+        // Jadwal user hari ini
+        $jadwal = Jadwal::with('areaPiket')
+            ->where('user_id', $user->id)
+            ->whereDate('tanggal', today())
+            ->first();
 
-    $checklists = [
+        if (!$jadwal) {
 
-        ['nama'=>'Menyikat kloset','selesai'=>true],
-        ['nama'=>'Menguras bak mandi','selesai'=>true],
-        ['nama'=>'Membersihkan wastafel','selesai'=>false],
-        ['nama'=>'Mengepel lantai','selesai'=>false],
-        ['nama'=>'Mengisi sabun','selesai'=>false],
-        ['nama'=>'Membuang sampah','selesai'=>false],
+            return view('dashboard.index', [
+                'user' => $user,
+                'area' => [
+                    'nama' => '-',
+                    'status' => 'Tidak Ada Jadwal'
+                ],
+                'totalChecklist' => 0,
+                'selesaiChecklist' => 0,
+                'laporan' => false,
+                'crewPoint' => 0,
+            ]);
+        }
 
-    ];
+        // Semua checklist pada jadwal tersebut
+        $checklists = ChecklistJadwal::where('jadwal_id', $jadwal->id)->get();
 
-    $totalChecklist = count($checklists);
-    $selesaiChecklist = collect($checklists)->where('selesai', true)->count();
+        $totalChecklist = $checklists->count();
+        $selesaiChecklist = $checklists->where('selesai', true)->count();
 
-    $laporan = false;
+        // Cek laporan
+        $laporan = Laporan::where('jadwal_id', $jadwal->id)->exists();
 
-    $crewPoint = 85;
+        // Crew Point
+        $crewPoint = 85;
 
-    return view('dashboard.index', compact(
-        'user',
-        'area',
-        'checklists',
-        'totalChecklist',
-        'selesaiChecklist',
-        'laporan',
-        'crewPoint'
-    ));
-}
+        $status = ($selesaiChecklist == $totalChecklist && $totalChecklist > 0)
+            ? 'Selesai'
+            : 'Belum Selesai';
+
+        $area = [
+            'nama' => $jadwal->areaPiket->nama_area,
+            'status' => $status,
+        ];
+
+        return view('dashboard.index', compact(
+            'user',
+            'area',
+            'totalChecklist',
+            'selesaiChecklist',
+            'laporan',
+            'crewPoint'
+        ));
+    }
 }
