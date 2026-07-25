@@ -30,4 +30,10 @@ class Jadwal extends Model
     {
         return $this->hasOne(Laporan::class);
     }
+
+    public function checklistProgress()
+    {
+       return $this->hasMany(ChecklistJadwal::class);
+    }
+
 }

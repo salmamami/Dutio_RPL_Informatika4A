@@ -3,80 +3,124 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Checklist;
+use App\Models\ChecklistJadwal;
+use App\Models\Jadwal;
 
 class ChecklistController extends Controller
 {
-    // Data dummy checklist (nanti ini yang diganti ke database)
-    private function getChecklistData()
-    {
-        return [
-            ['id' => 1, 'nama' => 'Menyikat kloset', 'selesai' => true],
-            ['id' => 2, 'nama' => 'Menguras bak mandi', 'selesai' => true],
-            ['id' => 3, 'nama' => 'Membersihkan wastafel', 'selesai' => false],
-            ['id' => 4, 'nama' => 'Mengepel lantai', 'selesai' => false],
-            ['id' => 5, 'nama' => 'Mengisi sabun', 'selesai' => false],
-            ['id' => 6, 'nama' => 'Membuang sampah', 'selesai' => false],
-        ];
-    }
-
     public function index()
     {
-        $user = (object)[
-            'name' => 'Perwakilan Kamar A',
-            'kamar' => 'Kamar A',
-        ];
+        $user = Auth::user();
 
-        $area = [
-            'nama' => 'Kamar Mandi Asrama',
-            'status' => 'Belum Selesai'
-        ];
+        $jadwal = Jadwal::where('user_id', $user->id)
+            ->whereDate('tanggal', today())
+            ->with('areaPiket')
+            ->first();
 
-        $checklists = $this->getChecklistData();
-
-        // Kalau session belum ada progress, isi dengan data default di atas
-        if (!Session::has('checklist_progress')) {
-            $progress = collect($checklists)->pluck('selesai', 'id')->toArray();
-            Session::put('checklist_progress', $progress);
+        if (!$jadwal) {
+            return view('checklist.index', [
+                'user' => $user,
+                'area' => [
+                    'nama' => '-',
+                    'status' => 'Belum Ada Jadwal'
+                ],
+                'checklists' => []
+            ]);
         }
 
-        // Timpa status 'selesai' pakai data dari session
-        $progress = Session::get('checklist_progress');
+        $checklists = Checklist::where('area_piket_id', $jadwal->area_piket_id)->get();
 
-        foreach ($checklists as &$item) {
-            $item['selesai'] = $progress[$item['id']] ?? false;
+        foreach ($checklists as $checklist) {
+
+            ChecklistJadwal::firstOrCreate(
+                [
+                    'jadwal_id' => $jadwal->id,
+                    'checklist_id' => $checklist->id
+                ],
+                [
+                    'selesai' => false
+                ]
+            );
+
+            $progress = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+                ->where('checklist_id', $checklist->id)
+                ->first();
+
+            $checklist->selesai = $progress->selesai;
+            $checklist->nama = $checklist->aktivitas;
         }
 
-        return view('checklist.index', compact(
-            'user',
-            'area',
-            'checklists'
-        ));
+        $selesai = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->where('selesai', true)
+            ->count();
+
+        $total = $checklists->count();
+
+        if ($total > 0 && $selesai == $total) {
+            $jadwal->status = 'Selesai';
+            $jadwal->save();
+        }
+
+        return view('checklist.index', [
+            'user' => $user,
+            'area' => [
+                'nama' => $jadwal->areaPiket->nama_area,
+                'status' => $jadwal->status
+            ],
+            'checklists' => $checklists
+        ]);
     }
 
-    public function toggle($id, Request $request)
+    public function toggle(Request $request, $id)
     {
-        $progress = Session::get('checklist_progress', []);
-        $progress[$id] = $request->boolean('selesai');
-        Session::put('checklist_progress', $progress);
+        $user = Auth::user();
 
-        $checklists = $this->getChecklistData();
-        $total = count($checklists);
-        $selesai = 0;
+        $jadwal = Jadwal::where('user_id', $user->id)
+            ->whereDate('tanggal', today())
+            ->first();
 
-        foreach ($checklists as $item) {
-            if ($progress[$item['id']] ?? false) {
-                $selesai++;
-            }
+        if (!$jadwal) {
+            return response()->json([
+                'message' => 'Jadwal tidak ditemukan.'
+            ], 404);
         }
 
-        $persen = $total > 0 ? ($selesai / $total) * 100 : 0;
+        $progress = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->where('checklist_id', $id)
+            ->first();
+
+        if (!$progress) {
+            return response()->json([
+                'message' => 'Checklist tidak ditemukan.'
+            ], 404);
+        }
+
+        $progress->selesai = $request->boolean('selesai');
+        $progress->save();
+
+        $total = ChecklistJadwal::where('jadwal_id', $jadwal->id)->count();
+
+        $selesai = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->where('selesai', true)
+            ->count();
+
+        $persen = $total == 0 ? 0 : round(($selesai / $total) * 100);
+
+        if ($selesai == $total && $total > 0) {
+            $jadwal->status = 'Selesai';
+        } else {
+            $jadwal->status = 'Belum Dikerjakan';
+        }
+
+        $jadwal->save();
 
         return response()->json([
             'selesai' => $selesai,
             'total' => $total,
             'persen' => $persen,
-            'allDone' => $selesai == $total,
+            'allDone' => $selesai == $total
         ]);
     }
 }

@@ -55,26 +55,26 @@
 
             @foreach($checklists as $item)
 
-                <label class="dutio-check-tile {{ $item['selesai'] ? 'is-done' : '' }}">
+<label class="dutio-check-tile {{ $item->selesai ? 'is-done' : '' }}">
 
-                    <input
-                        type="checkbox"
-                        class="dutio-check-tile-input"
-                        data-id="{{ $item['id'] }}"
-                        {{ $item['selesai'] ? 'checked' : '' }}
-                    >
+    <input
+        type="checkbox"
+        class="dutio-check-tile-input"
+        data-id="{{ $item->id }}"
+        {{ $item->selesai ? 'checked' : '' }}
+    >
 
-                    <span class="dutio-check-tile-circle">
-                        <i class="fa-solid fa-check"></i>
-                    </span>
+    <span class="dutio-check-tile-circle">
+        <i class="fa-solid fa-check"></i>
+    </span>
 
-                    <span class="dutio-check-tile-label">
-                        {{ $item['nama'] }}
-                    </span>
+    <span class="dutio-check-tile-label">
+        {{ $item->nama }}
+    </span>
 
-                </label>
+</label>
 
-            @endforeach
+@endforeach
 
         </div>
 
@@ -203,6 +203,9 @@
 
 @push('scripts')
 <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
 document.querySelectorAll('.dutio-check-tile-input').forEach(function(checkbox){
 
     checkbox.addEventListener('change', function(){
@@ -269,6 +272,7 @@ document.querySelectorAll('.dutio-check-tile-input').forEach(function(checkbox){
         });
 
     });
+});
 
 });
 </script>

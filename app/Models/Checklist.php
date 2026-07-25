@@ -11,11 +11,21 @@ class Checklist extends Model
 
     protected $fillable = [
         'area_piket_id',
-        'aktivitas'
+        'aktivitas',
+        'selesai'
+    ];
+
+    protected $casts = [
+        'selesai' => 'boolean'
     ];
 
     public function areaPiket()
     {
         return $this->belongsTo(AreaPiket::class);
+    }
+    
+    public function progresses()
+    {
+        return $this->hasMany(ChecklistJadwal::class);
     }
 }
