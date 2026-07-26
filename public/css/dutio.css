@@ -161,11 +161,11 @@ a {
    Sidebar
    ========================================================================== */
 
-.dutio-sidebar {
-  width: var(--dutio-sidebar-width);
-  flex-shrink: 0;
-  padding: var(--dutio-sidebar-margin) 0 var(--dutio-sidebar-margin) var(--dutio-sidebar-margin);
-  transition: margin-left 0.2s ease;
+.dutio-sidebar{
+    width:220px;
+    padding:18px 0 18px 18px;
+    background:transparent;
+    flex-shrink:0;
 }
 
 .dutio-sidebar.is-collapsed {
@@ -173,36 +173,55 @@ a {
 }
 
 .dutio-sidebar-pill{
-  background:var(--dutio-sidebar-bg);
-  border-radius:24px;
-  height:calc(100vh - (var(--dutio-sidebar-margin) * 2));
-  position:relative;
-  top:var(--dutio-sidebar-margin);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  box-shadow:0 10px 28px rgba(40,55,35,.18);
+    height:calc(100vh - 36px);
+
+    background:#46553F;
+
+    border-radius:28px;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.12),
+        0 4px 12px rgba(0,0,0,.08);
+
+    border:1px solid rgba(255,255,255,.08);
 }
 
-.dutio-nav {
-  flex: 1;
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  overflow-y: auto;
+.dutio-nav{
+    padding:18px 14px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    flex:1;
 }
 
-.dutio-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 15px;
-  border-radius: 14px;
-  color: var(--dutio-sidebar-ink);
-  font-size: .92rem;
-  font-weight: 500;
-  transition: all .25s ease;
+.dutio-nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:14px 18px;
+
+    border-radius:18px;
+
+    color:#ECEEEA;
+
+    font-size:16px;
+
+    font-weight:500;
+
+    transition:.25s;
 }
 
 .dutio-nav-link .dutio-nav-icon{
@@ -213,24 +232,30 @@ a {
   opacity:.95;
 }
 
-.dutio-nav-link:hover {
-  background: rgba(255, 255, 255, 0.07);
-  color: #fff;
-  transform:translateX(4px);
+.dutio-nav-link:hover{
+
+    background:rgba(255,255,255,.10);
+
+    transform:translateX(5px);
+
 }
 
-.dutio-nav-link.is-active {
-  background: var(--dutio-sidebar-active);
-  color: #fff;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+.dutio-nav-link.is-active{
+
+    background:#313B2D;
+
+    color:white;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.05);
+
 }
 
-.dutio-sidebar-footer {
-  padding: 14px 20px;
-  font-size: 0.72rem;
-  color: var(--dutio-sidebar-ink-muted);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  flex-shrink: 0;
+.dutio-sidebar-footer{
+    padding:18px 25px 24px;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#D8DDD7;
+    font-size:13px;
 }
 
 .dutio-brand-mark {
@@ -936,3 +961,44 @@ a {
     color:white;
 }
 
+/* ========================================
+   Scrollbar DUTIO
+======================================== */
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* Chrome, Edge, Opera */
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#F6F4EE;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        180deg,
+        #73866A,
+        #55634F
+    );
+    border-radius:20px;
+    border:2px solid #F6F4EE;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:linear-gradient(
+        180deg,
+        #65785D,
+        #46553F
+    );
+}
+
+/* Firefox */
+*{
+    scrollbar-width:thin;
+    scrollbar-color:#73866A #F6F4EE;
+}

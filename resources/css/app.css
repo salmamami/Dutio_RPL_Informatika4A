@@ -116,13 +116,22 @@ a {
    Sidebar
    ========================================================================== */
 
-.dutio-sidebar {
-  width: 248px;
-  flex-shrink: 0;
-  background: var(--dutio-sidebar-bg);
-  display: flex;
-  flex-direction: column;
-  transition: margin-left 0.2s ease;
+.dutio-sidebar{
+    width:250px;
+    height:100vh;
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    background:#3F4B38;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px 16px;
+
+    box-shadow:8px 0 25px rgba(0,0,0,.08);
 }
 
 .dutio-sidebar.is-collapsed {
