@@ -13,8 +13,7 @@ class DashboardController extends Controller
     public function index()
     {
         $statistik = [
-            'kamar'     => Jadwal::count(),
-            'penghuni'  => User::where('role', 'penghuni')->count(),
+            'kamar'     => User::where('role', 'penghuni')->count(),
             'laporan'   => Laporan::count(),
             'crewpoint' => Crewpoint::sum('poin'),
         ];

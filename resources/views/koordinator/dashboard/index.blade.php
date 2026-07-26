@@ -19,14 +19,6 @@
         <div class="dutio-stat-icon">🏠</div>
     </div>
 
-    <div class="dutio-stat dutio-stat--success">
-        <div>
-            <div class="dutio-stat-value">{{ $statistik['penghuni'] }}</div>
-            <div class="dutio-stat-label">Penghuni</div>
-        </div>
-        <div class="dutio-stat-icon">👥</div>
-    </div>
-
     <div class="dutio-stat dutio-stat--warning">
         <div>
             <div class="dutio-stat-value">{{ $statistik['laporan'] }}</div>
