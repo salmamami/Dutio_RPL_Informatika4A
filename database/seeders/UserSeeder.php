@@ -10,36 +10,48 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        User::create([
-            'name' => 'Koordinator Asrama',
-            'kamar' => '-',
-            'email' => 'admin@dutio.com',
-            'password' => Hash::make('password'),
-            'role' => 'koordinator',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@dutio.com'],
+            [
+                'name' => 'Koordinator Asrama',
+                'kamar' => '-',
+                'password' => Hash::make('admin123'),
+                'role' => 'koordinator',
+                'status' => 'aktif',
+            ]
+        );
 
-        User::create([
-            'name' => 'Perwakilan Kamar A',
-            'kamar' => 'Kamar A',
-            'email' => 'kamara@dutio.com',
-            'password' => Hash::make('password'),
-            'role' => 'penghuni',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'kamara@dutio.com'],
+            [
+                'name' => 'Perwakilan Kamar A',
+                'kamar' => 'Kamar A',
+                'password' => Hash::make('kamara123'),
+                'role' => 'penghuni',
+                'status' => 'aktif',
+            ]
+        );
 
-        User::create([
-            'name' => 'Perwakilan Kamar B',
-            'kamar' => 'Kamar B',
-            'email' => 'kamarb@dutio.com',
-            'password' => Hash::make('password'),
-            'role' => 'penghuni',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'kamarb@dutio.com'],
+            [
+                'name' => 'Perwakilan Kamar B',
+                'kamar' => 'Kamar B',
+                'password' => Hash::make('kamarb123'),
+                'role' => 'penghuni',
+                'status' => 'aktif',
+            ]
+        );
 
-        User::create([
-            'name' => 'Perwakilan Kamar C',
-            'kamar' => 'Kamar C',
-            'email' => 'kamarc@dutio.com',
-            'password' => Hash::make('password'),
-            'role' => 'penghuni',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'kamarc@dutio.com'],
+            [
+                'name' => 'Perwakilan Kamar C',
+                'kamar' => 'Kamar C',
+                'password' => Hash::make('kamarc123'),
+                'role' => 'penghuni',
+                'status' => 'aktif',
+            ]
+        );
     }
 }
