@@ -17,7 +17,7 @@
             <div class="dutio-profile-hero-body">
 
                 <div class="dutio-avatar-v2">
-                    <<span>
+                    <span>
                        {{ strtoupper(substr($user->name,0,2)) }}
                     </span>
                 </div>

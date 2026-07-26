@@ -14,6 +14,8 @@ use App\Http\Controllers\Koordinator\JadwalController as KoordinatorJadwalContro
 use App\Http\Controllers\Koordinator\ChecklistController as KoordinatorChecklistController;
 use App\Http\Controllers\Koordinator\LaporanController as KoordinatorLaporanController;
 use App\Http\Controllers\Koordinator\UserController as KoordinatorUserController;
+use App\Http\Controllers\Koordinator\ProfileController as KoordinatorProfileController;
+
 
 Route::get('/', function () {
     return redirect('/login');
@@ -71,6 +73,12 @@ Route::get('/koordinator/checklist/create', [KoordinatorChecklistController::cla
 
 Route::get('/koordinator/checklist/{id}/edit', [KoordinatorChecklistController::class, 'edit']);
 
+Route::post('/koordinator/checklist', [KoordinatorChecklistController::class, 'store']);
+
+Route::put('/koordinator/checklist/{id}', [KoordinatorChecklistController::class, 'update']);
+
+Route::delete('/koordinator/checklist/{id}', [KoordinatorChecklistController::class, 'destroy']);
+
 Route::get('/koordinator/laporan', [KoordinatorLaporanController::class, 'index']);
 
 Route::get(
@@ -95,3 +103,4 @@ Route::put('/koordinator/user/{id}', [KoordinatorUserController::class, 'update'
 
 Route::delete('/koordinator/user/{id}', [KoordinatorUserController::class, 'destroy']);
 
+Route::get('/koordinator/profile', [KoordinatorProfileController::class, 'index']);

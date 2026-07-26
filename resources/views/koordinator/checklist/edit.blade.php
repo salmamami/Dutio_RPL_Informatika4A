@@ -10,33 +10,51 @@
 
     <div class="dutio-card-body">
 
-        <form>
+        <form
+            method="POST"
+            action="/koordinator/checklist/{{ $checklist->id }}">
+
+            @csrf
+            @method('PUT')
 
             <div class="mb-3">
 
                 <label class="form-label">
-
                     Area
-
                 </label>
 
-                <input
-                    class="form-control"
-                    value="{{ $checklist['area'] }}">
+                <select
+                    name="area_piket_id"
+                    class="form-select">
+
+                    @foreach($areas as $area)
+
+                        <option
+                            value="{{ $area->id }}"
+                            {{ $checklist->area_piket_id == $area->id ? 'selected' : '' }}>
+
+                            {{ $area->nama_area }}
+
+                        </option>
+
+                    @endforeach
+
+                </select>
 
             </div>
 
             <div class="mb-4">
 
                 <label class="form-label">
-
                     Tugas
-
                 </label>
 
                 <input
+                    type="text"
+                    name="aktivitas"
                     class="form-control"
-                    value="{{ $checklist['tugas'] }}">
+                    value="{{ old('aktivitas', $checklist->aktivitas) }}"
+                    required>
 
             </div>
 
@@ -50,6 +68,7 @@
                 </a>
 
                 <button
+                    type="submit"
                     class="btn btn-warning text-white">
 
                     Update
