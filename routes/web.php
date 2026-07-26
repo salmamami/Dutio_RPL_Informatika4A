@@ -14,6 +14,7 @@ use App\Http\Controllers\Koordinator\JadwalController as KoordinatorJadwalContro
 use App\Http\Controllers\Koordinator\ChecklistController as KoordinatorChecklistController;
 use App\Http\Controllers\Koordinator\LaporanController as KoordinatorLaporanController;
 use App\Http\Controllers\Koordinator\UserController as KoordinatorUserController;
+use App\Http\Controllers\Auth\RegisterController;
 
 
 Route::get('/', function () {
@@ -23,6 +24,11 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])
+    ->name('register');
+
+Route::post('/register', [RegisterController::class, 'register']);
 
 Route::post('/login', [LoginController::class,'login'])->name('login.submit');
 
@@ -39,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checklist',[ChecklistController::class,'index']);
 
     Route::get('/laporan',[LaporanController::class,'index']);
+    
+    Route::post('/laporan',[LaporanController::class,'store'])->name('laporan.store');
 
     Route::get('/crewpoints',[CrewPointController::class,'index']);
 
@@ -85,3 +93,4 @@ Route::post('/koordinator/user', [KoordinatorUserController::class, 'store']);
 Route::put('/koordinator/user/{id}', [KoordinatorUserController::class, 'update']);
 
 Route::delete('/koordinator/user/{id}', [KoordinatorUserController::class, 'destroy']);
+

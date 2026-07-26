@@ -578,3 +578,12 @@ button:active{
     padding-left:48px;
 
 }
+
+body {
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.login-card {
+    margin: 40px auto;
+}

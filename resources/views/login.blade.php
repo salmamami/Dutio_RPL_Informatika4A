@@ -80,7 +80,7 @@
 
         {{-- FOOTER --}}
         <div class="footer-text">
-            Belum punya akun? <a href="/register">Daftar di sini</a>
+            Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
         </div>
 
     </div>
