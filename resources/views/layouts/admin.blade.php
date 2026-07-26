@@ -16,7 +16,7 @@
     {{-- Tema custom DUTIO --}}
     <link rel="stylesheet" href="{{ asset('css/dutio.css') }}">
 
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body>

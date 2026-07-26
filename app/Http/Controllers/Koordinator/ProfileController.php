@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Koordinator;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Laporan;
@@ -30,5 +31,32 @@ class ProfileController extends Controller
             'user',
             'statistik'
         ));
+    }
+
+    // Halaman Edit Profil
+    public function edit()
+    {
+        $user = Auth::user();
+
+        return view('koordinator.profile.edit', compact('user'));
+    }
+
+    // Simpan perubahan profil
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name'  => 'required|max:255',
+            'email' => 'required|email',
+        ]);
+
+        $user = Auth::user();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        $user->save();
+
+        return redirect('/koordinator/profile')
+            ->with('success', 'Profil berhasil diperbarui.');
     }
 }

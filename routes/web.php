@@ -109,3 +109,9 @@ Route::get(
 );
 
 Route::get('/koordinator/profile', [KoordinatorProfileController::class, 'index']);
+
+Route::get('/koordinator/profile/edit', [KoordinatorProfileController::class, 'edit'])
+    ->name('koordinator.profile.edit');
+
+Route::put('/koordinator/profile/update', [KoordinatorProfileController::class, 'update'])
+    ->name('koordinator.profile.update');

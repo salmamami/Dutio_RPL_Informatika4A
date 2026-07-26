@@ -3,44 +3,26 @@
 namespace App\Http\Controllers\Koordinator;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Jadwal;
+use App\Models\Laporan;
+use App\Models\Crewpoint;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $statistik = [
-
-            'kamar' => 10,
-
-            'penghuni' => 80,
-
-            'laporan' => 12,
-
-            'crewpoint' => 78
-
+            'kamar'     => Jadwal::count(),
+            'penghuni'  => User::where('role', 'penghuni')->count(),
+            'laporan'   => Laporan::count(),
+            'crewpoint' => Crewpoint::sum('poin'),
         ];
 
-        $laporanTerbaru = [
-
-            [
-                'kamar' => 'Kamar A',
-                'area' => 'Kamar Mandi',
-                'jam' => '08.10'
-            ],
-
-            [
-                'kamar' => 'Kamar D',
-                'area' => 'Koridor',
-                'jam' => '09.00'
-            ],
-
-            [
-                'kamar' => 'Kamar C',
-                'area' => 'Taman',
-                'jam' => '10.30'
-            ]
-
-        ];
+        $laporanTerbaru = Laporan::with(['jadwal.areaPiket'])
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view(
             'koordinator.dashboard.index',

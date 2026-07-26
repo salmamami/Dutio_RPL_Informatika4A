@@ -76,15 +76,15 @@
                         <tr>
 
                             <td>
-                                <strong>{{ $laporan['kamar'] }}</strong>
+                                <strong>{{ $laporan->jadwal->id }}</strong>
                             </td>
 
                             <td>
-                                {{ $laporan['area'] }}
+                                {{ $laporan->jadwal->areaPiket->nama_area ?? '-' }}
                             </td>
 
                             <td>
-                                {{ $laporan['jam'] }}
+                                {{ $laporan->created_at->format('H:i') }}
                             </td>
 
                         </tr>
@@ -111,19 +111,19 @@
 
             <div class="dutio-card-body d-grid gap-2">
 
-                <a href="#" class="btn btn-dutio-primary">
+                <a href="/koordinator/jadwal" class="btn btn-dutio-primary">
                     📅 Kelola Pembagian Piket
                 </a>
 
-                <a href="#" class="btn btn-dutio-success">
+                <a href="/koordinator/checklist" class="btn btn-dutio-success">
                     ✅ Kelola Checklist
                 </a>
 
-                <a href="#" class="btn btn-warning text-white">
+                <a href="/koordinator/laporan" class="btn btn-warning text-white">
                     📷 Verifikasi Laporan
                 </a>
 
-                <a href="#" class="btn btn-info text-white">
+                <a href="/koordinator/user" class="btn btn-info text-white">
                     👥 Kelola Pengguna
                 </a>
 

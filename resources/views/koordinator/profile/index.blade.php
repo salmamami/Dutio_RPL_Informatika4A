@@ -180,10 +180,11 @@
         {{-- Action --}}
         <div class="dutio-profile-actions">
 
-            <button class="dutio-profile-btn dutio-profile-btn--primary">
+            <a href="{{ route('koordinator.profile.edit') }}"
+                class="dutio-profile-btn dutio-profile-btn--primary">
                 <i class="fa-solid fa-pen"></i>
                 Edit Profil
-            </button>
+            </a>
 
             <form action="/logout" method="POST" style="flex:1;">
                 @csrf
