@@ -2,49 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jadwal;
+use Carbon\Carbon;
+
 class JadwalController extends Controller
 {
     public function index()
-{
-    $jadwals = [
+    {
+        $today = Carbon::today()->toDateString();
 
-        [
-            'kamar' => 'Kamar A',
-            'area' => 'Kamar Mandi',
-            'hari' => 'Jumat',
-            'status' => 'Hari Ini'
-        ],
+        $jadwals = Jadwal::with(['user', 'areaPiket'])
+            ->orderBy('tanggal')
+            ->get()
+            ->map(function ($jadwal) use ($today) {
 
-        [
-            'kamar' => 'Kamar B',
-            'area' => 'Koridor',
-            'hari' => 'Jumat',
-            'status' => '-'
-        ],
+                return [
+                    'kamar' => $jadwal->user->kamar,
+                    'area'  => $jadwal->areaPiket->nama_area,
+                    'hari'  => Carbon::parse($jadwal->tanggal)
+                                    ->translatedFormat('l'),
 
-        [
-            'kamar' => 'Kamar C',
-            'area' => 'Taman',
-            'hari' => 'Jumat',
-            'status' => '-'
-        ],
+                    'status' => $jadwal->tanggal == $today
+                                ? 'Hari Ini'
+                                : $jadwal->status,
+                ];
+            });
 
-        [
-            'kamar' => 'Kamar D',
-            'area' => 'Mushola',
-            'hari' => 'Jumat',
-            'status' => '-'
-        ],
-
-        [
-            'kamar' => 'Kamar E',
-            'area' => 'Dapur',
-            'hari' => 'Jumat',
-            'status' => '-'
-        ],
-
-    ];
-
-    return view('jadwal.index', compact('jadwals'));
-}
+        return view('jadwal.index', compact('jadwals'));
+    }
 }
