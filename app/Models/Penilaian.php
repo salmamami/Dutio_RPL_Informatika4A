@@ -17,4 +17,9 @@ class Penilaian extends Model
     {
         return $this->belongsTo(Laporan::class);
     }
+
+    public function crewPoint()
+{
+    return $this->hasOne(CrewPoint::class);
+}
 }

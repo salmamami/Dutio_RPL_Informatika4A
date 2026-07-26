@@ -78,9 +78,8 @@
 
         </form>
 
-        {{-- FOOTER --}}
-        <div class="footer-text">
-            Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
+        <div class="text-center mt-3">
+            Hubungi koordinator untuk mendapatkan akun DUTIO.
         </div>
 
     </div>

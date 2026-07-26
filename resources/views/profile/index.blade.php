@@ -17,11 +17,16 @@
             <div class="dutio-profile-hero-body">
 
                 <div class="dutio-avatar-v2">
-                    <span>AM</span>
+                    <<span>
+                       {{ strtoupper(substr($user->name,0,2)) }}
+                    </span>
                 </div>
 
-                <h4>Salma Amirah Balqis</h4>
-                <p class="text-muted mb-3">Penghuni Asrama — Kamar A-12</p>
+                <h4>{{ $user->name }}</h4>
+                    <p>
+                    {{ ucfirst($user->role) }} 
+                    — Kamar {{ $user->kamar }}
+                    </p>
 
                 <div class="dutio-profile-points-badge">
                     <i class="fa-solid fa-star"></i>
@@ -44,22 +49,22 @@
 
                     <div class="dutio-info-item">
                         <label><i class="fa-solid fa-user me-1"></i> Nama</label>
-                        <div>Salma Amirah Balqis</div>
+                        <div>{{ $user->name }}</div>
                     </div>
 
                     <div class="dutio-info-item">
                         <label><i class="fa-solid fa-envelope me-1"></i> Email</label>
-                        <div>ami@email.com</div>
+                        <div>{{ $user->email }}</div>
                     </div>
 
                     <div class="dutio-info-item">
                         <label><i class="fa-solid fa-door-open me-1"></i> Nomor Kamar</label>
-                        <div>A-12</div>
+                        <div>{{ $user->kamar }}</div>
                     </div>
 
                     <div class="dutio-info-item">
                         <label><i class="fa-solid fa-star me-1"></i> Crew Points</label>
-                        <div>120 Poin</div>
+                        <div>{120 Poin}</div>
                     </div>
 
                 </div>

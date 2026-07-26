@@ -1,80 +1,64 @@
 @extends('layouts.admin')
 
 @section('content')
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h4>Tambah Akun</h4>
+        </div>
 
-<div class="dutio-page-header">
-    <h1>Tambah Pengguna</h1>
-    <p class="text-muted">
-        Tambahkan penghuni atau koordinator baru.
-    </p>
-</div>
+        <div class="card-body">
+            <form method="POST" action="/koordinator/user">
+                @csrf
 
-<div class="dutio-card">
+                <div class="mb-3">
+                    <label class="form-label">Nama</label>
+                    <input
+                        name="name"
+                        class="form-control">
+                </div>
 
-    <div class="dutio-card-body">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input
+                        name="email"
+                        type="email"
+                        class="form-control">
+                </div>
 
-        <form>
+                <div class="mb-3">
+                    <label class="form-label">Kamar</label>
+                    <input
+                        name="kamar"
+                        class="form-control">
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Nama</label>
-                <input type="text" class="form-control" placeholder="Masukkan nama">
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input
+                        name="password"
+                        type="password"
+                        class="form-control">
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Masukkan email">
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select name="role" class="form-control">
+                        <option value="penghuni">
+                            Penghuni
+                        </option>
 
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Masukkan password">
-            </div>
+                        <option value="koordinator">
+                            Koordinator
+                        </option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Kamar</label>
-
-                <select class="form-select">
-                    <option>Pilih Kamar</option>
-                    <option>Kamar A</option>
-                    <option>Kamar B</option>
-                    <option>Kamar C</option>
-                    <option>Kamar D</option>
-                </select>
-
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label">Role</label>
-
-                <select class="form-select">
-                    <option>Penghuni</option>
-                    <option>Koordinator</option>
-                </select>
-
-            </div>
-
-            <div class="d-flex justify-content-end gap-2">
-
-                <a href="/koordinator/user"
-                    class="btn btn-outline-secondary">
-
-                    Batal
-
-                </a>
-
-                <button
-                    class="btn btn-dutio-primary">
-
+                <button type="submit" class="btn btn-success">
                     Simpan
-
                 </button>
-
-            </div>
-
-        </form>
-
+            </form>
+        </div>
     </div>
-
 </div>
-
 @endsection

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'status',
     ];
 
     /**
@@ -55,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Laporan::class);
     }
+
+    public function crewpoints()
+{
+    return $this->hasMany(CrewPoint::class);
+}
 }

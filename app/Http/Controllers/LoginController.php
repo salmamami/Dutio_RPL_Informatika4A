@@ -16,17 +16,36 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
 
+            $user = Auth::user();
+
+            // Cek status akun
+            if ($user->status == 'nonaktif') {
+
+                Auth::logout();
+
+                return back()
+                    ->with('error', 'Akun sudah tidak aktif.');
+            }
+
             $request->session()->regenerate();
 
-            if (Auth::user()->role == 'koordinator') {
+
+            // Redirect berdasarkan role
+            if ($user->role == 'koordinator') {
+
                 return redirect('/koordinator/dashboard');
+
             }
+
 
             return redirect('/dashboard');
         }
 
-        return back()->with('error', 'Email atau Password salah');
+
+        return back()
+            ->with('error', 'Email atau Password salah');
     }
+
 
     public function logout(Request $request)
     {
@@ -35,6 +54,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
 
         return redirect('/login');
     }

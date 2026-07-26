@@ -14,8 +14,6 @@ use App\Http\Controllers\Koordinator\JadwalController as KoordinatorJadwalContro
 use App\Http\Controllers\Koordinator\ChecklistController as KoordinatorChecklistController;
 use App\Http\Controllers\Koordinator\LaporanController as KoordinatorLaporanController;
 use App\Http\Controllers\Koordinator\UserController as KoordinatorUserController;
-use App\Http\Controllers\Auth\RegisterController;
-
 
 Route::get('/', function () {
     return redirect('/login');
@@ -24,11 +22,6 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 })->name('login');
-
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])
-    ->name('register');
-
-Route::post('/register', [RegisterController::class, 'register']);
 
 Route::post('/login', [LoginController::class,'login'])->name('login.submit');
 

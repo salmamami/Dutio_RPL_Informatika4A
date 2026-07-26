@@ -9,255 +9,171 @@
 
 <div class="dutio-points-hero mb-4">
 
-    <div class="dutio-points-hero-icon">
-        <i class="fa-solid fa-trophy"></i>
+```
+<div class="dutio-points-hero-icon">
+    <i class="fa-solid fa-trophy"></i>
+</div>
+
+<div class="dutio-points-hero-body">
+    <span class="dutio-points-hero-label">Total Poin Saya</span>
+
+    <div class="dutio-points-hero-value">
+        <span id="pointCounter">{{ $totalPoint }}</span>
     </div>
 
-    <div class="dutio-points-hero-body">
-        <span class="dutio-points-hero-label">Total Poin Saya</span>
-        <div class="dutio-points-hero-value">
-            <span id="pointCounter">0</span>
-        </div>
+    @if($totalPoint >= 250)
+
+        <span class="dutio-pill dutio-pill--success">
+            <i class="fa-solid fa-crown"></i> Excellent
+        </span>
+
+    @elseif($totalPoint >= 150)
+
         <span class="dutio-pill dutio-pill--success">
             <i class="fa-solid fa-arrow-trend-up"></i> Performa Baik
         </span>
-    </div>
+
+    @else
+
+        <span class="dutio-pill dutio-pill--warning">
+            <i class="fa-solid fa-seedling"></i> Terus Tingkatkan
+        </span>
+
+    @endif
+
+</div>
+```
 
 </div>
 
 <div class="row g-3">
 
-    <div class="col-md-6">
-        <div class="dutio-card mb-0 h-100">
-            <div class="dutio-card-header">
-                <h3>Riwayat Poin</h3>
-            </div>
-            <div class="dutio-card-body">
+```
+{{-- RIWAYAT POIN --}}
+<div class="col-lg-7">
 
-                <div class="dutio-feed-item">
-                    <div class="dutio-feed-icon dutio-feed-icon--up">+10</div>
-                    <div class="dutio-feed-body">
-                        <strong>Piket selesai tepat waktu</strong>
-                        <span><i class="fa-regular fa-clock"></i> Hari ini</span>
-                    </div>
-                    <span class="dutio-feed-value dutio-feed-value--up">+10</span>
-                </div>
+    <div class="dutio-card h-100">
 
-                <div class="dutio-feed-item">
-                    <div class="dutio-feed-icon dutio-feed-icon--up">+5</div>
-                    <div class="dutio-feed-body">
-                        <strong>Laporan diterima</strong>
-                        <span><i class="fa-regular fa-clock"></i> Kemarin</span>
-                    </div>
-                    <span class="dutio-feed-value dutio-feed-value--up">+5</span>
-                </div>
-
-                <div class="dutio-feed-item">
-                    <div class="dutio-feed-icon dutio-feed-icon--down">−5</div>
-                    <div class="dutio-feed-body">
-                        <strong>Terlambat mengumpulkan laporan</strong>
-                        <span><i class="fa-regular fa-clock"></i> 2 hari lalu</span>
-                    </div>
-                    <span class="dutio-feed-value dutio-feed-value--down">−5</span>
-                </div>
-
-            </div>
+        <div class="dutio-card-header">
+            <h3>Riwayat Poin</h3>
         </div>
-    </div>
 
-    <div class="col-md-6">
-        <div class="dutio-card mb-0 h-100">
-            <div class="dutio-card-header">
-                <h3>Evaluasi Terbaru</h3>
-            </div>
-            <div class="dutio-card-body">
+        <div class="dutio-card-body">
 
-                <div class="dutio-progress-row">
-                    <div class="dutio-progress-label">
-                        <span><i class="fa-solid fa-broom me-1"></i> Kebersihan Kamar</span>
-                        <span>90%</span>
+            @forelse($riwayat as $item)
+
+                @php
+                    $laporan = $item->penilaian->laporan ?? null;
+                    $area = $laporan?->jadwal?->areaPiket?->nama_area ?? 'Area';
+                @endphp
+
+                <div class="dutio-feed-item">
+
+                    <div class="dutio-feed-icon dutio-feed-icon--up">
+                        +{{ $item->poin }}
                     </div>
-                    <div class="dutio-progress-track">
-                        <div class="dutio-progress-fill dutio-progress-fill--animated"
-                             data-width="90"
-                             style="width:0%; background: var(--dutio-success);"></div>
+
+                    <div class="dutio-feed-body">
+
+                        <strong>{{ $area }}</strong>
+
+                        <span>
+                            <i class="fa-regular fa-calendar"></i>
+                            {{ $item->created_at->format('d M Y') }}
+                        </span>
+
                     </div>
+
+                    <span class="dutio-feed-value dutio-feed-value--up">
+                        +{{ $item->poin }}
+                    </span>
+
                 </div>
 
-                <div class="dutio-progress-row">
-                    <div class="dutio-progress-label">
-                        <span><i class="fa-solid fa-calendar-check me-1"></i> Kedisiplinan Piket</span>
-                        <span>85%</span>
-                    </div>
-                    <div class="dutio-progress-track">
-                        <div class="dutio-progress-fill dutio-progress-fill--animated"
-                             data-width="85"
-                             style="width:0%; background: var(--dutio-primary);"></div>
-                    </div>
+            @empty
+
+                <div class="text-center py-4 text-muted">
+
+                    <i class="fa-regular fa-star fs-1 mb-3 d-block"></i>
+                    Belum ada poin yang diterima.
+
                 </div>
 
-                <div class="dutio-progress-row">
-                    <div class="dutio-progress-label">
-                        <span><i class="fa-solid fa-file-lines me-1"></i> Kelengkapan Laporan</span>
-                        <span>95%</span>
-                    </div>
-                    <div class="dutio-progress-track">
-                        <div class="dutio-progress-fill dutio-progress-fill--animated"
-                             data-width="95"
-                             style="width:0%; background: var(--dutio-warning);"></div>
-                    </div>
-                </div>
+            @endforelse
 
-            </div>
         </div>
+
     </div>
 
 </div>
 
-@push('styles')
-<style>
+{{-- EVALUASI TERBARU --}}
+<div class="col-lg-5">
 
-/* ===== POINTS HERO ===== */
-.dutio-points-hero{
-    background: linear-gradient(135deg, var(--dutio-sidebar-bg), var(--dutio-primary));
-    border-radius: 22px;
-    padding: 28px 32px;
-    display:flex;
-    align-items:center;
-    gap:22px;
-    box-shadow: var(--dutio-shadow-hover);
-    position:relative;
-    overflow:hidden;
-}
+    <div class="dutio-card h-100">
 
-.dutio-points-hero::after{
-    content:'';
-    position:absolute;
-    width:220px;
-    height:220px;
-    background: rgba(255,255,255,.08);
-    border-radius:50%;
-    top:-90px;
-    right:-60px;
-}
+        <div class="dutio-card-header">
+            <h3>Evaluasi Terbaru</h3>
+        </div>
 
-.dutio-points-hero-icon{
-    width:70px;
-    height:70px;
-    border-radius:20px;
-    background: rgba(255,255,255,.18);
-    backdrop-filter: blur(6px);
-    display:grid;
-    place-items:center;
-    font-size:1.7rem;
-    color:#FFD98A;
-    flex-shrink:0;
-    position:relative;
-    z-index:1;
-}
+        <div class="dutio-card-body">
 
-.dutio-points-hero-body{
-    position:relative;
-    z-index:1;
-}
+            @if($riwayat->count() > 0)
 
-.dutio-points-hero-label{
-    display:block;
-    color: rgba(255,255,255,.8);
-    font-size:.82rem;
-    font-weight:600;
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    margin-bottom:2px;
-}
+                @php
+                    $terbaru = $riwayat->first();
+                    $penilaian = $terbaru->penilaian;
+                @endphp
 
-.dutio-points-hero-value{
-    font-family:'Sora', sans-serif;
-    font-size:2.6rem;
-    font-weight:800;
-    color:#fff;
-    line-height:1.1;
-    margin-bottom:10px;
-}
+                <div class="mb-3">
 
-.dutio-points-hero-body .dutio-pill{
-    background: rgba(255,255,255,.18);
-    color:#fff;
-}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="fw-semibold">Nilai Kinerja</span>
+                        <span>{{ $terbaru->poin }}%</span>
+                    </div>
 
-.dutio-points-hero-body .dutio-pill::before{
-    display:none;
-}
+                    <div class="dutio-progress-track">
 
-@media (max-width:480px){
-    .dutio-points-hero{
-        flex-direction:column;
-        text-align:center;
-        padding:24px;
-    }
-}
+                        <div class="dutio-progress-fill"
+                             style="width: {{ $terbaru->poin }}%; background: var(--dutio-success);">
 
-/* ===== FEED ITEM POLISH ===== */
-.dutio-feed-item{
-    align-items:center;
-}
+                        </div>
 
-.dutio-feed-body span{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
+                    </div>
 
-.dutio-feed-value{
-    margin-left:auto;
-    font-family:'Sora', sans-serif;
-    font-weight:700;
-    font-size:.95rem;
-    flex-shrink:0;
-}
+                </div>
 
-.dutio-feed-value--up{ color: var(--dutio-success); }
-.dutio-feed-value--down{ color: var(--dutio-danger); }
+                <div class="p-3 rounded-3 bg-light border">
 
-/* ===== PROGRESS ANIMATED ===== */
-.dutio-progress-fill--animated{
-    transition: width 1.1s cubic-bezier(.25,.8,.25,1);
-}
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-message text-success"></i>
+                        <strong>Catatan Koordinator</strong>
+                    </div>
 
-</style>
-@endpush
+                    <p class="mb-0 text-muted">
+                        {{ $penilaian->evaluasi }}
+                    </p>
 
-@push('scripts')
-<script>
-// Animasi hitung angka poin
-(function(){
-    const el = document.getElementById('pointCounter');
-    const target = 120; // nanti diganti data asli dari controller
-    let current = 0;
-    const duration = 900;
-    const stepTime = 16;
-    const steps = duration / stepTime;
-    const increment = target / steps;
+                </div>
 
-    const timer = setInterval(function(){
-        current += increment;
-        if (current >= target){
-            current = target;
-            clearInterval(timer);
-        }
-        el.textContent = Math.round(current);
-    }, stepTime);
-})();
+            @else
 
-// Animasi progress bar jalan begitu halaman dimuat
-document.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('.dutio-progress-fill--animated').forEach(function(bar){
-        setTimeout(function(){
-            bar.style.width = bar.dataset.width + '%';
-        }, 150);
-    });
-});
-</script>
-@endpush
+                <div class="text-center py-4 text-muted">
+
+                    <i class="fa-regular fa-file-lines fs-1 mb-3 d-block"></i>
+                    Belum ada evaluasi dari koordinator.
+
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
 
 @endsection

@@ -14,62 +14,61 @@ class ChecklistController extends Controller
     {
         $user = Auth::user();
 
+        // Ambil jadwal aktif
         $jadwal = Jadwal::where('user_id', $user->id)
-            ->whereDate('tanggal', today())
+            ->where('status', 'Belum Dikerjakan')
+            ->orderBy('tanggal')
             ->with('areaPiket')
             ->first();
 
         if (!$jadwal) {
+
             return view('checklist.index', [
                 'user' => $user,
                 'area' => [
                     'nama' => '-',
-                    'status' => 'Belum Ada Jadwal'
+                    'status' => 'Tidak Ada Jadwal'
                 ],
                 'checklists' => []
             ]);
+
         }
 
-        $checklists = Checklist::where('area_piket_id', $jadwal->area_piket_id)->get();
+        $checklists = Checklist::where(
+            'area_piket_id',
+            $jadwal->area_piket_id
+        )->get();
 
         foreach ($checklists as $checklist) {
 
-            ChecklistJadwal::firstOrCreate(
+            $progress = ChecklistJadwal::firstOrCreate(
+
                 [
                     'jadwal_id' => $jadwal->id,
                     'checklist_id' => $checklist->id
                 ],
+
                 [
                     'selesai' => false
                 ]
-            );
 
-            $progress = ChecklistJadwal::where('jadwal_id', $jadwal->id)
-                ->where('checklist_id', $checklist->id)
-                ->first();
+            );
 
             $checklist->selesai = $progress->selesai;
             $checklist->nama = $checklist->aktivitas;
         }
 
-        $selesai = ChecklistJadwal::where('jadwal_id', $jadwal->id)
-            ->where('selesai', true)
-            ->count();
-
-        $total = $checklists->count();
-
-        if ($total > 0 && $selesai == $total) {
-            $jadwal->status = 'Selesai';
-            $jadwal->save();
-        }
-
         return view('checklist.index', [
+
             'user' => $user,
+
             'area' => [
                 'nama' => $jadwal->areaPiket->nama_area,
                 'status' => $jadwal->status
             ],
+
             'checklists' => $checklists
+
         ]);
     }
 
@@ -77,14 +76,18 @@ class ChecklistController extends Controller
     {
         $user = Auth::user();
 
+        // Ambil jadwal aktif
         $jadwal = Jadwal::where('user_id', $user->id)
-            ->whereDate('tanggal', today())
+            ->where('status', 'Belum Dikerjakan')
+            ->orderBy('tanggal')
             ->first();
 
         if (!$jadwal) {
+
             return response()->json([
                 'message' => 'Jadwal tidak ditemukan.'
             ], 404);
+
         }
 
         $progress = ChecklistJadwal::where('jadwal_id', $jadwal->id)
@@ -92,29 +95,26 @@ class ChecklistController extends Controller
             ->first();
 
         if (!$progress) {
+
             return response()->json([
                 'message' => 'Checklist tidak ditemukan.'
             ], 404);
+
         }
 
         $progress->selesai = $request->boolean('selesai');
         $progress->save();
 
-        $total = ChecklistJadwal::where('jadwal_id', $jadwal->id)->count();
+        $total = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->count();
 
         $selesai = ChecklistJadwal::where('jadwal_id', $jadwal->id)
             ->where('selesai', true)
             ->count();
 
-        $persen = $total == 0 ? 0 : round(($selesai / $total) * 100);
-
-        if ($selesai == $total && $total > 0) {
-            $jadwal->status = 'Selesai';
-        } else {
-            $jadwal->status = 'Belum Dikerjakan';
-        }
-
-        $jadwal->save();
+        $persen = $total == 0
+            ? 0
+            : round(($selesai / $total) * 100);
 
         return response()->json([
             'selesai' => $selesai,

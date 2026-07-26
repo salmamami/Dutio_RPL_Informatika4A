@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Jadwal;
 use App\Models\ChecklistJadwal;
 use App\Models\Laporan;
+use App\Models\CrewPoint;
 
 class DashboardController extends Controller
 {
@@ -13,12 +14,18 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Jadwal user hari ini
+        // Ambil jadwal aktif (belum dikerjakan)
         $jadwal = Jadwal::with('areaPiket')
             ->where('user_id', $user->id)
-            ->whereDate('tanggal', today())
+            ->where('status', 'Belum Dikerjakan')
+            ->orderBy('tanggal')
             ->first();
 
+        // Total crew point
+        $crewPoint = CrewPoint::where('user_id', $user->id)
+            ->sum('poin');
+
+        // Kalau belum ada jadwal aktif
         if (!$jadwal) {
 
             return view('dashboard.index', [
@@ -30,25 +37,27 @@ class DashboardController extends Controller
                 'totalChecklist' => 0,
                 'selesaiChecklist' => 0,
                 'laporan' => false,
-                'crewPoint' => 0,
+                'crewPoint' => $crewPoint,
             ]);
+
         }
 
-        // Semua checklist pada jadwal tersebut
-        $checklists = ChecklistJadwal::where('jadwal_id', $jadwal->id)->get();
+        // Progress checklist
+        $checklists = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->get();
 
         $totalChecklist = $checklists->count();
-        $selesaiChecklist = $checklists->where('selesai', true)->count();
+        $selesaiChecklist = $checklists
+            ->where('selesai', true)
+            ->count();
 
-        // Cek laporan
-        $laporan = Laporan::where('jadwal_id', $jadwal->id)->exists();
-
-        // Crew Point
-        $crewPoint = 85;
+        // Sudah upload laporan?
+        $laporan = Laporan::where('jadwal_id', $jadwal->id)
+            ->exists();
 
         $status = ($selesaiChecklist == $totalChecklist && $totalChecklist > 0)
-            ? 'Selesai'
-            : 'Belum Selesai';
+            ? 'Siap Upload Laporan'
+            : 'Sedang Dikerjakan';
 
         $area = [
             'nama' => $jadwal->areaPiket->nama_area,

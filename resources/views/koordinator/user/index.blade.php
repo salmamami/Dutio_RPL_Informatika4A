@@ -1,100 +1,80 @@
 @extends('layouts.admin')
 
 @section('content')
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>Kelola Akun</h4>
 
-<div class="dutio-page-header d-flex justify-content-between align-items-center">
+            <a href="/koordinator/user/create" class="btn btn-success">
+                Tambah Akun
+            </a>
+        </div>
 
-    <div>
-        <h1>Kelola Pengguna</h1>
-        <p class="text-muted">
-            Data penghuni dan koordinator.
-        </p>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Kamar</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach($users as $user)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->kamar }}</td>
+
+                        <td>
+                            {{ ucfirst($user->role) }}
+                        </td>
+
+                        <td>
+                            @if($user->status == 'aktif')
+                                <span class="badge bg-success">
+                                    Aktif
+                                </span>
+                            @else
+                                <span class="badge bg-danger">
+                                    Nonaktif
+                                </span>
+                            @endif
+                        </td>
+
+                        <td>
+                            <a href="/koordinator/user/{{ $user->id }}/edit" 
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <form
+                                action="/koordinator/user/{{ $user->id }}"
+                                method="POST"
+                                style="display:inline">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    onclick="return confirm('Hapus akun ini?')"
+                                    class="btn btn-danger btn-sm">
+                                    Hapus
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <a href="/koordinator/user/create"
-        class="btn btn-dutio-primary">
-
-        + Tambah Pengguna
-
-    </a>
-
 </div>
-
-<div class="dutio-card">
-
-    <div class="dutio-card-header">
-        <h3>Daftar Pengguna</h3>
-    </div>
-
-    <div class="dutio-card-body">
-
-        <table class="table align-middle">
-
-            <thead>
-
-            <tr>
-
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Kamar</th>
-                <th>Role</th>
-                <th width="180">Aksi</th>
-
-            </tr>
-
-            </thead>
-
-            <tbody>
-
-            @foreach($users as $user)
-
-                <tr>
-
-                    <td>{{ $user['nama'] }}</td>
-
-                    <td>{{ $user['email'] }}</td>
-
-                    <td>{{ $user['kamar'] }}</td>
-
-                    <td>
-
-                        <span class="badge bg-primary">
-
-                            {{ $user['role'] }}
-
-                        </span>
-
-                    </td>
-
-                    <td>
-
-                        <a
-                            href="/koordinator/user/{{ $user['id'] }}/edit"
-                            class="btn btn-warning btn-sm text-white">
-
-                            Edit
-
-                        </a>
-
-                        <button
-                            class="btn btn-danger btn-sm">
-
-                            Hapus
-
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            @endforeach
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
 @endsection

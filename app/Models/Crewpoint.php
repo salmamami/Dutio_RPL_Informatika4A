@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CrewPoint extends Model
 {
-    protected $fillable=[
+    protected $table = 'crewpoints';
+    
+    protected $fillable = [
         'user_id',
         'penilaian_id',
         'poin'
