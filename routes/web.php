@@ -80,7 +80,15 @@ Route::get('/koordinator/checklist/{id}/edit', [KoordinatorChecklistController::
 
 Route::get('/koordinator/laporan', [KoordinatorLaporanController::class, 'index']);
 
-Route::get('/koordinator/laporan/{id}', [KoordinatorLaporanController::class, 'show']);
+Route::get(
+    '/koordinator/laporan/{id}',
+    [KoordinatorLaporanController::class,'show']
+);
+
+Route::put(
+    '/koordinator/laporan/{id}',
+    [KoordinatorLaporanController::class,'update']
+);
 
 Route::get('/koordinator/user', [KoordinatorUserController::class, 'index']);
 

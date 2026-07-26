@@ -2,108 +2,132 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="dutio-page-header">
+    <h1>Dashboard Koordinator 👨‍💼</h1>
+    <p class="text-muted">
+        Selamat datang, kelola seluruh aktivitas piket penghuni asrama.
+    </p>
+</div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="dutio-stat-row">
+
+    <div class="dutio-stat dutio-stat--primary">
         <div>
-            <h3 class="mb-1">Laporan Piket</h3>
-            <small class="text-muted">
-                Daftar laporan yang dikirim penghuni
-            </small>
+            <div class="dutio-stat-value">{{ $statistik['kamar'] }}</div>
+            <div class="dutio-stat-label">Total Kamar</div>
         </div>
+        <div class="dutio-stat-icon">🏠</div>
     </div>
 
-    <div class="card shadow-sm border-0">
+    <div class="dutio-stat dutio-stat--success">
+        <div>
+            <div class="dutio-stat-value">{{ $statistik['penghuni'] }}</div>
+            <div class="dutio-stat-label">Penghuni</div>
+        </div>
+        <div class="dutio-stat-icon">👥</div>
+    </div>
 
-        <div class="card-body p-0">
+    <div class="dutio-stat dutio-stat--warning">
+        <div>
+            <div class="dutio-stat-value">{{ $statistik['laporan'] }}</div>
+            <div class="dutio-stat-label">Laporan Masuk</div>
+        </div>
+        <div class="dutio-stat-icon">📷</div>
+    </div>
 
-            <table class="table table-hover mb-0 align-middle">
+    <div class="dutio-stat dutio-stat--danger">
+        <div>
+            <div class="dutio-stat-value">{{ $statistik['crewpoint'] }}</div>
+            <div class="dutio-stat-label">Crew Point</div>
+        </div>
+        <div class="dutio-stat-icon">⭐</div>
+    </div>
 
-                <thead class="table-light">
-                    <tr>
-                        <th width="60">#</th>
-                        <th>Kamar</th>
-                        <th>Area</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
-                        <th width="120">Aksi</th>
-                    </tr>
-                </thead>
+</div>
 
-                <tbody>
+<div class="row g-3">
 
-                @forelse($laporans as $laporan)
+    <div class="col-lg-7">
 
-                    <tr>
+        <div class="dutio-card">
 
-                        <td>{{ $loop->iteration }}</td>
+            <div class="dutio-card-header">
+                <h3>Laporan Terbaru</h3>
+            </div>
 
-                        <td>
-                            {{ $laporan->user->kamar }}
-                        </td>
+            <div class="dutio-card-body">
 
-                        <td>
-                            {{ $laporan->jadwal->areaPiket->nama_area }}
-                        </td>
+                <table class="table align-middle">
 
-                        <td>
-                            {{ $laporan->created_at->format('d M Y') }}
-                        </td>
+                    <thead>
 
-                        <td>
+                        <tr>
+                            <th>Kamar</th>
+                            <th>Area</th>
+                            <th>Jam</th>
+                        </tr>
 
-                            @if($laporan->status=='Menunggu')
+                    </thead>
 
-                                <span class="badge bg-warning text-dark">
-                                    Menunggu
-                                </span>
+                    <tbody>
 
-                            @elseif($laporan->status=='Disetujui')
+                        @foreach($laporanTerbaru as $laporan)
 
-                                <span class="badge bg-success">
-                                    Disetujui
-                                </span>
+                        <tr>
 
-                            @else
+                            <td>
+                                <strong>{{ $laporan['kamar'] }}</strong>
+                            </td>
 
-                                <span class="badge bg-danger">
-                                    Ditolak
-                                </span>
+                            <td>
+                                {{ $laporan['area'] }}
+                            </td>
 
-                            @endif
+                            <td>
+                                {{ $laporan['jam'] }}
+                            </td>
 
-                        </td>
+                        </tr>
 
-                        <td>
+                        @endforeach
 
-                            <a href="/koordinator/laporan/{{ $laporan->id }}"
-                               class="btn btn-sm btn-primary">
+                    </tbody>
 
-                                Detail
+                </table>
 
-                            </a>
+            </div>
 
-                        </td>
+        </div>
 
-                    </tr>
+    </div>
 
-                @empty
+    <div class="col-lg-5">
 
-                    <tr>
+        <div class="dutio-card">
 
-                        <td colspan="6" class="text-center py-5 text-muted">
+            <div class="dutio-card-header">
+                <h3>Aksi Cepat</h3>
+            </div>
 
-                            Belum ada laporan.
+            <div class="dutio-card-body d-grid gap-2">
 
-                        </td>
+                <a href="#" class="btn btn-dutio-primary">
+                    📅 Kelola Pembagian Piket
+                </a>
 
-                    </tr>
+                <a href="#" class="btn btn-dutio-success">
+                    ✅ Kelola Checklist
+                </a>
 
-                @endforelse
+                <a href="#" class="btn btn-warning text-white">
+                    📷 Verifikasi Laporan
+                </a>
 
-                </tbody>
+                <a href="#" class="btn btn-info text-white">
+                    👥 Kelola Pengguna
+                </a>
 
-            </table>
+            </div>
 
         </div>
 

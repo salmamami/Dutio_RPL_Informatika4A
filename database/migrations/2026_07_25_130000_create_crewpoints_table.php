@@ -12,12 +12,24 @@ class CreateCrewpointsTable extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('crewpoints', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('crewpoints', function (Blueprint $table) {
+
+        $table->id();
+
+        $table->foreignId('user_id')
+              ->constrained()
+              ->cascadeOnDelete();
+
+        $table->foreignId('penilaian_id')
+              ->constrained()
+              ->cascadeOnDelete();
+
+        $table->integer('poin');
+
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

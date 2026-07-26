@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Koordinator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
+use Illuminate\Http\Request;
+use App\Models\Penilaian;
 
 class LaporanController extends Controller
 {
@@ -26,8 +28,7 @@ class LaporanController extends Controller
     {
         $laporan = Laporan::with([
             'user',
-            'jadwal.areaPiket',
-            'penilaian'
+            'jadwal.areaPiket'
         ])->findOrFail($id);
 
         return view(
@@ -35,4 +36,34 @@ class LaporanController extends Controller
             compact('laporan')
         );
     }
+
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'status'=>'required',
+        'poin'=>'required|integer|min:0|max:100',
+        'evaluasi'=>'required'
+    ]);
+
+    $laporan = Laporan::findOrFail($id);
+
+    $laporan->status = $request->status;
+    $laporan->save();
+
+    Penilaian::updateOrCreate(
+
+        [
+            'laporan_id'=>$laporan->id
+        ],
+
+        [
+            'poin'=>$request->poin,
+            'evaluasi'=>$request->evaluasi
+        ]
+
+    );
+
+    return redirect('/koordinator/laporan')
+        ->with('success','Laporan berhasil dinilai.');
+}
 }
