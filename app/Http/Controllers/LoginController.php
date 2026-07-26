@@ -14,23 +14,15 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
+
         if (Auth::attempt($credentials)) {
-
-            $user = Auth::user();
-
-            // Cek status akun
-            if ($user->status == 'nonaktif') {
-
-                Auth::logout();
-
-                return back()
-                    ->with('error', 'Akun sudah tidak aktif.');
-            }
 
             $request->session()->regenerate();
 
 
-            // Redirect berdasarkan role
+            $user = Auth::user();
+
+
             if ($user->role == 'koordinator') {
 
                 return redirect('/koordinator/dashboard');
@@ -43,7 +35,7 @@ class LoginController extends Controller
 
 
         return back()
-            ->with('error', 'Email atau Password salah');
+            ->with('error','Email atau Password salah');
     }
 
 
@@ -54,7 +46,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
 
         return redirect('/login');
     }
