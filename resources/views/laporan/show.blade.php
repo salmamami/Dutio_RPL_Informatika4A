@@ -31,9 +31,11 @@
             <div class="dutio-card-body text-center">
 
                 <a href="{{ $laporan['foto'] }}" target="_blank" class="dutio-photo-frame">
-                    <img
-                        src="{{ $laporan['foto'] }}"
-                        alt="Foto Laporan">
+                    <img 
+                        src="{{ asset('storage/'.$laporan->foto) }}"
+                        alt="Foto Laporan"
+                        style="max-width:300px;"
+                    >
 
                     <span class="dutio-photo-zoom">
                         <i class="fa-solid fa-magnifying-glass-plus"></i> Lihat ukuran penuh

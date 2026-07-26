@@ -41,7 +41,7 @@
         @endif
 
         {{-- FORM LOGIN --}}
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login.submit') }}">
             @csrf
 
             {{-- EMAIL --}}

@@ -15,7 +15,7 @@ use App\Http\Controllers\Koordinator\ChecklistController as KoordinatorChecklist
 use App\Http\Controllers\Koordinator\LaporanController as KoordinatorLaporanController;
 use App\Http\Controllers\Koordinator\UserController as KoordinatorUserController;
 use App\Http\Controllers\Koordinator\ProfileController as KoordinatorProfileController;
-
+use App\Http\Controllers\Koordinator\CrewPointController as KoordinatorCrewPointController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -102,5 +102,10 @@ Route::post('/koordinator/user', [KoordinatorUserController::class, 'store']);
 Route::put('/koordinator/user/{id}', [KoordinatorUserController::class, 'update']);
 
 Route::delete('/koordinator/user/{id}', [KoordinatorUserController::class, 'destroy']);
+
+Route::get(
+    '/koordinator/crewpoints',
+    [KoordinatorCrewPointController::class,'index']
+);
 
 Route::get('/koordinator/profile', [KoordinatorProfileController::class, 'index']);

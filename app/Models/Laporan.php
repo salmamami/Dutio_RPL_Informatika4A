@@ -31,4 +31,16 @@ class Laporan extends Model
     {
         return $this->hasOne(Penilaian::class);
     }
+
+    public function areaPiket()
+    {
+        return $this->hasOneThrough(
+            AreaPiket::class,
+            Jadwal::class,
+            'id',
+            'id',
+            'jadwal_id',
+            'area_piket_id'
+        );
+    }
 }

@@ -34,8 +34,8 @@
                 <span>Pengguna</span>
             </a>
 
-            <a href="/koordinator/crewpoint"
-                class="dutio-nav-link {{ request()->is('koordinator/crewpoint*') ? 'is-active' : '' }}">
+            <a href="/koordinator/crewpoints"
+                class="dutio-nav-link {{ request()->is('koordinator/crewpoints*') ? 'is-active' : '' }}">
                 <span class="dutio-nav-icon">⭐</span>
                 <span>Crew Point</span>
             </a>
