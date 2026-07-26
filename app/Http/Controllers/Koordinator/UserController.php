@@ -83,7 +83,7 @@ class UserController extends Controller
 
             'name'=>'required',
             'email'=>'required|email|unique:users,email,'.$id,
-            'kamar'=>'required',
+            'kamar' => 'required_if:role,penghuni',
             'role'=>'required',
             'status'=>'required'
 
@@ -95,7 +95,9 @@ class UserController extends Controller
 
             'name'=>$request->name,
             'email'=>$request->email,
-            'kamar'=>$request->kamar,
+            'kamar' => $request->role == 'koordinator'
+                        ? null
+                        : $request->kamar,
             'role'=>$request->role,
             'status'=>$request->status
 
