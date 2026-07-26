@@ -11,7 +11,10 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+body{
+    font-family:'Inter',sans-serif;
 }
 
 :root{
@@ -214,28 +217,19 @@ body::after{
 }
 
 .brand-text h1{
-
-    background:linear-gradient(135deg,var(--primary),var(--primary-light));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-
-    font-size:41px;
-
-    font-weight:800;
-
-    letter-spacing:-1.8px;
-
+    font-family:'Sora',sans-serif;
+    font-size:44px;
+    font-weight:700;
+    letter-spacing:-2px;
+    line-height:1;
 }
 
 .brand-text p{
-
-    color:var(--sub);
-
-    margin-top:8px;
-
-    font-size:15px;
-
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:400;
+    line-height:1.6;
+    color:#7C867B;
 }
 
 .alert-error{
@@ -273,16 +267,11 @@ body::after{
 }
 
 label{
-    display:block;
-    margin-bottom:10px;
-
-    color:var(--text);
-
-    font-size:14px;
-
-    font-weight:600;
-
-    transition:color .25s var(--ease);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:.2px;
+    color:#5F675E;
 }
 
 /* =====================================================
@@ -586,4 +575,23 @@ body {
 
 .login-card {
     margin: 40px auto;
+}
+
+.login-info{
+    margin-top:22px;
+
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:400;
+
+    color:#879187;
+
+    line-height:1.8;
+
+    text-align:center;
+}
+
+.login-info span{
+    color:#2E6F4F;
+    font-weight:600;
 }

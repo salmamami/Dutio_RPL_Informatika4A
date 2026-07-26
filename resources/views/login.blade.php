@@ -7,9 +7,12 @@
 
     {{-- Icon font (untuk .input-icon / .input-group i) --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {{-- CSS Login --}}
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -78,8 +81,9 @@
 
         </form>
 
-        <div class="text-center mt-3">
-            Hubungi koordinator untuk mendapatkan akun DUTIO.
+        <div class="login-info">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Hubungi Koordinator</span> untuk mendapatkan akun DUTIO
         </div>
 
     </div>
