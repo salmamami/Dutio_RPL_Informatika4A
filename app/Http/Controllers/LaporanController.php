@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
 use App\Models\Laporan;
+use App\Models\ChecklistJadwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,11 @@ class LaporanController extends Controller
         $user = Auth::user();
 
         $jadwal = Jadwal::where('user_id', $user->id)
-            ->whereDate('tanggal', today())
+            ->whereIn('status', [
+                'Belum Dikerjakan',
+                'Menunggu Verifikasi'
+            ])
+            ->orderBy('tanggal')
             ->with('areaPiket')
             ->first();
 
@@ -39,18 +44,37 @@ class LaporanController extends Controller
         $user = Auth::user();
 
         $jadwal = Jadwal::where('user_id', $user->id)
-            ->whereDate('tanggal', today())
+            ->where('status', 'Belum Dikerjakan')
+            ->orderBy('tanggal')
             ->firstOrFail();
 
-        if ($jadwal->status != 'Selesai') {
-            return back()->with('error', 'Checklist belum selesai.');
+        $totalChecklist = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->count();
+
+        $selesaiChecklist = ChecklistJadwal::where('jadwal_id', $jadwal->id)
+            ->where('selesai', true)
+            ->count();
+
+        if ($totalChecklist == 0 || $totalChecklist != $selesaiChecklist) {
+
+            return back()->with(
+                'error',
+                'Checklist harus diselesaikan terlebih dahulu.'
+            );
+
         }
 
         if (Laporan::where('jadwal_id', $jadwal->id)->exists()) {
-            return back()->with('error', 'Laporan sudah pernah dikirim.');
+
+            return back()->with(
+                'error',
+                'Laporan untuk jadwal ini sudah dikirim.'
+            );
+
         }
 
-        $namaFile = $request->file('foto')->store('laporan', 'public');
+        $namaFile = $request->file('foto')
+            ->store('laporan', 'public');
 
         Laporan::create([
             'jadwal_id' => $jadwal->id,
@@ -58,6 +82,10 @@ class LaporanController extends Controller
             'foto' => $namaFile,
             'keterangan' => $request->keterangan,
             'status' => 'Menunggu'
+        ]);
+
+        $jadwal->update([
+            'status' => 'Menunggu Verifikasi'
         ]);
 
         return redirect('/laporan')

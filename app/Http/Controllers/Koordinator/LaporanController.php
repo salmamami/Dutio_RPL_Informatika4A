@@ -59,6 +59,12 @@ class LaporanController extends Controller
         // Update status laporan
         $laporan->status = $request->status;
         $laporan->save();
+        if ($request->status == 'Ditolak') {
+            $laporan->jadwal->update([
+                'status' => 'Belum Dikerjakan'
+            ]);
+
+        }
 
         // Simpan penilaian
         $penilaian = Penilaian::updateOrCreate(

@@ -16,7 +16,10 @@ class ChecklistController extends Controller
 
         // Ambil jadwal aktif
         $jadwal = Jadwal::where('user_id', $user->id)
-            ->where('status', 'Belum Dikerjakan')
+            ->whereIn('status',[
+                'Belum Dikerjakan',
+                'Menunggu Verifikasi'
+            ])
             ->orderBy('tanggal')
             ->with('areaPiket')
             ->first();

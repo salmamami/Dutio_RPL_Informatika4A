@@ -23,8 +23,9 @@ class CreateJadwalsTable extends Migration
                    ->cascadeOnDelete();
             $table->date('tanggal');
             $table->enum('status', [
-               'Belum Dikerjakan',
-               'Selesai'
+                'Belum Dikerjakan',
+                'Menunggu Verifikasi',
+                'Selesai'
             ])->default('Belum Dikerjakan');
             $table->timestamps();
         });
