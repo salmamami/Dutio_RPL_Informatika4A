@@ -12,6 +12,10 @@ class CrewPointController extends Controller
         $user = Auth::user();
 
         $riwayat = CrewPoint::with([
+            'user',
+            'penilaian',
+            'penilaian.laporan',
+            'penilaian.laporan.jadwal',
             'penilaian.laporan.jadwal.areaPiket'
         ])
         ->where('user_id', $user->id)
@@ -20,9 +24,14 @@ class CrewPointController extends Controller
 
         $totalPoint = $riwayat->sum('poin');
 
+        $rataRata = $riwayat->count()
+            ? round($riwayat->avg('poin'), 1)
+            : 0;
+
         return view('crewpoints.index', compact(
             'riwayat',
-            'totalPoint'
+            'totalPoint',
+            'rataRata'
         ));
     }
 }

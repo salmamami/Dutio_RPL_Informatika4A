@@ -22,10 +22,7 @@ class LaporanController extends Controller
         ->latest()
         ->get();
 
-        return view(
-            'koordinator.laporan.index',
-            compact('laporans')
-        );
+        return view('koordinator.laporan.index', compact('laporans'));
     }
 
     public function show($id)
@@ -35,99 +32,109 @@ class LaporanController extends Controller
             'jadwal.areaPiket'
         ])->findOrFail($id);
 
-        return view(
-            'koordinator.laporan.show',
-            compact('laporan')
-        );
+        return view('koordinator.laporan.show', compact('laporan'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Disetujui,Ditolak',
-            'poin' => 'required|integer|min:0|max:100',
-            'evaluasi' => 'required'
+            'status'    => 'required|in:Disetujui,Ditolak',
+            'poin'      => 'required|integer|min:0|max:100',
+            'evaluasi'  => 'required|string'
         ]);
 
         $laporan = Laporan::with('jadwal')->findOrFail($id);
 
-        // Cegah laporan dinilai dua kali
         if ($laporan->status != 'Menunggu') {
             return back()->with('error', 'Laporan sudah pernah dinilai.');
         }
 
-        // Update status laporan
-        $laporan->status = $request->status;
-        $laporan->save();
-        if ($request->status == 'Ditolak') {
-            $laporan->jadwal->update([
-                'status' => 'Belum Dikerjakan'
-            ]);
+        // ==========================
+        // Update Status Laporan
+        // ==========================
 
-        }
+        $laporan->update([
+            'status' => $request->status
+        ]);
 
-        // Simpan penilaian
+        // ==========================
+        // Simpan Penilaian
+        // ==========================
+
         $penilaian = Penilaian::updateOrCreate(
             [
                 'laporan_id' => $laporan->id
             ],
             [
-                'poin' => $request->poin,
-                'evaluasi' => $request->evaluasi
+                'poin'      => $request->poin,
+                'evaluasi'  => $request->evaluasi
             ]
         );
 
-        // Simpan crew point
+        // ==========================
+        // Simpan Crew Point
+        // ==========================
+
         CrewPoint::updateOrCreate(
             [
                 'penilaian_id' => $penilaian->id
             ],
             [
                 'user_id' => $laporan->user_id,
-                'poin' => $request->poin
+                'poin'    => $request->poin
             ]
         );
 
-        /*
-        |--------------------------------------------------------------------------
-        | Generate jadwal berikutnya
-        |--------------------------------------------------------------------------
-        | HANYA jika laporan disetujui
-        */
-        if ($laporan->status == 'Disetujui') {
+        // ==========================
+        // Jika Ditolak
+        // ==========================
 
-            $nextArea = AreaPiket::where('id', '>', $laporan->jadwal->area_piket_id)
-                ->orderBy('id')
-                ->first();
+        if ($request->status == 'Ditolak') {
 
-            if (!$nextArea) {
-                $nextArea = AreaPiket::orderBy('id')->first();
-            }
+            $laporan->jadwal->update([
+                'status' => 'Belum Dikerjakan'
+            ]);
 
-            $tanggalBerikutnya = Carbon::parse($laporan->jadwal->tanggal)
-                ->addDay();
+            return redirect('/koordinator/laporan')
+                ->with('success', 'Laporan berhasil ditolak.');
+        }
 
-            $jadwalSudahAda = Jadwal::where('user_id', $laporan->user_id)
-                ->whereDate('tanggal', $tanggalBerikutnya)
-                ->exists();
+        // ==========================
+        // Jika Disetujui
+        // ==========================
 
-            if (!$jadwalSudahAda) {
+        $laporan->jadwal->update([
+            'status' => 'Selesai'
+        ]);
 
-                Jadwal::create([
-                    'user_id' => $laporan->user_id,
-                    'area_piket_id' => $nextArea->id,
-                    'tanggal' => $tanggalBerikutnya,
-                    'status' => 'Belum Dikerjakan'
-                ]);
+        $nextArea = AreaPiket::where(
+            'id',
+            '>',
+            $laporan->jadwal->area_piket_id
+        )->orderBy('id')->first();
 
-            }
+        if (!$nextArea) {
+            $nextArea = AreaPiket::orderBy('id')->first();
+        }
 
-            // Tandai jadwal lama selesai
-            $laporan->jadwal->status = 'Selesai';
-            $laporan->jadwal->save();
+        $tanggalBaru = Carbon::parse($laporan->jadwal->tanggal)
+            ->addDay();
+
+        $jadwalAda = Jadwal::where('user_id', $laporan->user_id)
+            ->whereDate('tanggal', $tanggalBaru)
+            ->exists();
+
+        if (!$jadwalAda) {
+
+            Jadwal::create([
+                'user_id'       => $laporan->user_id,
+                'area_piket_id' => $nextArea->id,
+                'tanggal'       => $tanggalBaru,
+                'status'        => 'Belum Dikerjakan'
+            ]);
         }
 
         return redirect('/koordinator/laporan')
-            ->with('success', 'Laporan berhasil dinilai.');
+            ->with('success', 'Laporan berhasil disetujui.');
     }
 }

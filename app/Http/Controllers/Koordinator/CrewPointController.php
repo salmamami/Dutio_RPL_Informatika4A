@@ -10,8 +10,8 @@ class CrewPointController extends Controller
     public function index()
     {
         $crewpoints = CrewPoint::with([
-            'user',
-            'penilaian.laporan.jadwal.areaPiket'
+        'user',
+        'penilaian.laporan.jadwal.areaPiket'
         ])
         ->latest()
         ->get();

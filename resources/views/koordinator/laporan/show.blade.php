@@ -49,42 +49,67 @@
             <hr>
 
             <form method="POST" action="/koordinator/laporan/{{ $laporan->id }}">
-                @csrf
-                @method('PUT')
+    @csrf
+    @method('PUT')
 
-                <div class="mb-3">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-control">
-                        <option value="Disetujui">Disetujui</option>
-                        <option value="Ditolak">Ditolak</option>
-                    </select>
-                </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-                <div class="mb-3">
-                    <label class="form-label">Poin</label>
-                    <input
-                        type="number"
-                        name="poin"
-                        class="form-control"
-                        value="100">
-                </div>
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-                <div class="mb-3">
-                    <label class="form-label">Evaluasi</label>
-                    <textarea
-                        name="evaluasi"
-                        rows="4"
-                        class="form-control"></textarea>
-                </div>
+    <div class="mb-3">
+        <label class="form-label">Status</label>
 
-                <button type="submit" class="btn btn-success">
-                    Simpan Penilaian
-                </button>
+        <select name="status" class="form-control">
+            <option value="Disetujui">Disetujui</option>
+            <option value="Ditolak">Ditolak</option>
+        </select>
+    </div>
 
-                <a href="/koordinator/laporan" class="btn btn-secondary">
-                    Kembali
-                </a>
-            </form>
+    <div class="mb-3">
+        <label class="form-label">Poin</label>
+
+        <input
+            type="number"
+            name="poin"
+            class="form-control"
+            min="0"
+            max="100"
+            value="{{ old('poin',100) }}"
+            required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Evaluasi</label>
+
+        <textarea
+            name="evaluasi"
+            rows="4"
+            class="form-control"
+            required>{{ old('evaluasi') }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Simpan Penilaian
+    </button>
+
+    <a href="/koordinator/laporan"
+       class="btn btn-secondary">
+        Kembali
+    </a>
+
+</form>
         </div>
     </div>
 </div>

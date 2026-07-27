@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalController;
@@ -25,7 +24,7 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::post('/login', [LoginController::class,'login'])->name('login.submit');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 Route::get('/forgot-password', function () {
     return view('forgot-password');
@@ -33,85 +32,64 @@ Route::get('/forgot-password', function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/dashboard',[DashboardController::class,'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
-    Route::get('/jadwal',[JadwalController::class,'index']);
+    Route::get('/jadwal', [JadwalController::class, 'index']);
 
-    Route::get('/checklist',[ChecklistController::class,'index']);
+    Route::get('/checklist', [ChecklistController::class, 'index']);
 
-    Route::get('/laporan',[LaporanController::class,'index']);
-    
-    Route::post('/laporan',[LaporanController::class,'store'])->name('laporan.store');
+    Route::get('/laporan', [LaporanController::class, 'index']);
 
-    Route::get('/crewpoints',[CrewPointController::class,'index']);
+    // INI YANG BENAR
+    Route::post('/laporan', [LaporanController::class, 'store'])
+        ->name('laporan.store');
 
-    Route::get('/profile',[ProfileController::class,'index']);
+    Route::get('/crewpoints', [CrewPointController::class, 'index']);
+
+    Route::get('/profile', [ProfileController::class, 'index']);
 
 });
 
-Route::post('/checklist/{id}/toggle', [ChecklistController::class, 'toggle'])->name('checklist.toggle');
+Route::post('/checklist/{id}/toggle', [ChecklistController::class, 'toggle'])
+    ->name('checklist.toggle');
 
-Route::post('/logout',[LoginController::class,'logout']);
+Route::post('/logout', [LoginController::class, 'logout']);
+
+/* ===========================
+   KOORDINATOR
+=========================== */
 
 Route::get('/koordinator/dashboard', [KoordinatorDashboardController::class, 'index']);
 
 Route::get('/koordinator/jadwal', [KoordinatorJadwalController::class, 'index']);
-
 Route::get('/koordinator/jadwal/create', [KoordinatorJadwalController::class, 'create']);
-
 Route::get('/koordinator/jadwal/{id}/edit', [KoordinatorJadwalController::class, 'edit']);
-
-Route::post('/koordinator/jadwal', [KoordinatorJadwalController::class,'store']);
-
-Route::put('/koordinator/jadwal/{id}', [KoordinatorJadwalController::class,'update']);
-
-Route::delete('/koordinator/jadwal/{id}', [KoordinatorJadwalController::class,'destroy']);
+Route::post('/koordinator/jadwal', [KoordinatorJadwalController::class, 'store']);
+Route::put('/koordinator/jadwal/{id}', [KoordinatorJadwalController::class, 'update']);
+Route::delete('/koordinator/jadwal/{id}', [KoordinatorJadwalController::class, 'destroy']);
 
 Route::get('/koordinator/checklist', [KoordinatorChecklistController::class, 'index']);
-
 Route::get('/koordinator/checklist/create', [KoordinatorChecklistController::class, 'create']);
-
 Route::get('/koordinator/checklist/{id}/edit', [KoordinatorChecklistController::class, 'edit']);
-
 Route::post('/koordinator/checklist', [KoordinatorChecklistController::class, 'store']);
-
 Route::put('/koordinator/checklist/{id}', [KoordinatorChecklistController::class, 'update']);
-
 Route::delete('/koordinator/checklist/{id}', [KoordinatorChecklistController::class, 'destroy']);
 
 Route::get('/koordinator/laporan', [KoordinatorLaporanController::class, 'index']);
-
-Route::get(
-    '/koordinator/laporan/{id}',
-    [KoordinatorLaporanController::class,'show']
-);
-
-Route::put(
-    '/koordinator/laporan/{id}',
-    [KoordinatorLaporanController::class,'update']
-);
+Route::get('/koordinator/laporan/{id}', [KoordinatorLaporanController::class, 'show']);
+Route::put('/koordinator/laporan/{id}', [KoordinatorLaporanController::class, 'update']);
 
 Route::get('/koordinator/user', [KoordinatorUserController::class, 'index']);
-
 Route::get('/koordinator/user/create', [KoordinatorUserController::class, 'create']);
-
 Route::get('/koordinator/user/{id}/edit', [KoordinatorUserController::class, 'edit']);
-
 Route::post('/koordinator/user', [KoordinatorUserController::class, 'store']);
-
 Route::put('/koordinator/user/{id}', [KoordinatorUserController::class, 'update']);
-
 Route::delete('/koordinator/user/{id}', [KoordinatorUserController::class, 'destroy']);
 
-Route::get(
-    '/koordinator/crewpoints',
-    [KoordinatorCrewPointController::class,'index']
-);
+Route::get('/koordinator/crewpoints', [KoordinatorCrewPointController::class, 'index']);
 
 Route::get('/koordinator/profile', [KoordinatorProfileController::class, 'index']);
-
 Route::get('/koordinator/profile/edit', [KoordinatorProfileController::class, 'edit'])
     ->name('koordinator.profile.edit');
-
 Route::put('/koordinator/profile/update', [KoordinatorProfileController::class, 'update'])
     ->name('koordinator.profile.update');

@@ -20,6 +20,18 @@
     </div>
 @endif
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>VALIDATION ERROR</strong>
+
+        <pre>
+@foreach ($errors->all() as $error)
+{{ $error }}
+@endforeach
+        </pre>
+    </div>
+@endif
+
 <div class="row g-3">
 
     {{-- =========================
