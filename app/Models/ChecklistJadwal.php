@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TugasPiket;
 
 class ChecklistJadwal extends Model
 {
@@ -21,9 +22,9 @@ class ChecklistJadwal extends Model
         'selesai' => 'boolean'
     ];
 
-    public function checklist()
+    public function tugasPiket()
     {
-        return $this->belongsTo(Checklist::class);
+        return $this->belongsTo(TugasPiket::class, 'checklist_id');
     }
 
     public function jadwal()

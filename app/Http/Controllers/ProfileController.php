@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\CrewPoint;
 
 class ProfileController extends Controller
 {
@@ -10,6 +11,13 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('profile.index', compact('user'));
+        // Ambil crew point sesuai kamar user
+        $crewPoint = CrewPoint::where('kamar', $user->kamar)
+            ->sum('crew_point');
+
+        return view('profile.index', compact(
+            'user',
+            'crewPoint'
+        ));
     }
 }

@@ -5,7 +5,7 @@
 <div class="dutio-page-header mb-4">
     <h1>Crew Points</h1>
     <p class="text-muted mb-0">
-        Pantau perkembangan poin dan evaluasi dari koordinator
+        Pantau perkembangan Crew Point setiap kamar.
     </p>
 </div>
 
@@ -31,7 +31,6 @@
     }
 @endphp
 
-{{-- HERO --}}
 <div class="dutio-point-banner mb-4">
 
     <div class="dutio-point-icon">
@@ -48,82 +47,119 @@
         </h2>
 
         <div class="progress mt-3">
-
             <div class="progress-bar"
-                 style="width:{{ $progress }}%; background:{{ $color }};">
+                style="width: {{ $progress }}%; background: {{ $color }};">
             </div>
-
         </div>
 
         <div class="d-flex justify-content-between mt-2">
-
             <small>{{ $badge }} {{ $level }}</small>
-
-            <small>
-                {{ number_format($progress,0) }}% menuju Excellent
-            </small>
-
+            <small>{{ number_format($progress,0) }}% menuju Excellent</small>
         </div>
 
     </div>
 
 </div>
 
-<div class="row g-4">
+<div class="row">
 
-    {{-- RIWAYAT --}}
-    <div class="col-lg-7">
+    <div class="col-lg-8">
 
-        <div class="dutio-card h-100">
+        <div class="dutio-card">
 
             <div class="dutio-card-header">
-                <h3>Riwayat Crew Point</h3>
+                <h3>Data Crew Point</h3>
             </div>
 
             <div class="dutio-card-body">
 
-                @forelse($riwayat as $item)
+                <div class="table-responsive">
 
-                    @php
-                        $laporan = $item->penilaian->laporan ?? null;
-                        $area = $laporan?->jadwal?->areaPiket?->nama_area ?? '-';
-                    @endphp
+                    <table class="table table-hover align-middle">
 
-                    <div class="point-item">
+                        <thead class="table-light">
 
-                        <div class="point-circle">
-                            +{{ $item->poin }}
-                        </div>
+                            <tr>
+                                <th>Kamar</th>
+                                <th>Periode</th>
+                                <th>Penghuni</th>
+                                <th>Selesai</th>
+                                <th>Ditolak</th>
+                                <th>Belum</th>
+                                <th>Crew Point</th>
+                            </tr>
 
-                        <div class="flex-grow-1">
+                        </thead>
 
-                            <strong>{{ $area }}</strong>
+                        <tbody>
 
-                            <div class="text-muted small">
-                                {{ $item->created_at->format('d F Y') }}
-                            </div>
+                        @forelse($riwayat as $item)
 
-                        </div>
+                            <tr>
 
-                        <span class="badge bg-success fs-6">
-                            +{{ $item->poin }}
-                        </span>
+                                <td>
+                                    <strong>{{ $item->kamar }}</strong>
+                                </td>
 
-                    </div>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($item->periode)->translatedFormat('F Y') }}
+                                </td>
 
-                @empty
+                                <td>
+                                    {{ $item->jumlah_penghuni }}
+                                </td>
 
-                    <div class="text-center py-5 text-muted">
+                                <td>
+                                    <span class="badge bg-success">
+                                        {{ $item->jumlah_selesai }}
+                                    </span>
+                                </td>
 
-                        <i class="fa-regular fa-star fs-1 mb-3"></i>
+                                <td>
+                                    <span class="badge bg-danger">
+                                        {{ $item->jumlah_ditolak }}
+                                    </span>
+                                </td>
 
-                        <p>
-                            Belum ada crew point.
-                        </p>
+                                <td>
+                                    <span class="badge bg-warning text-dark">
+                                        {{ $item->jumlah_belum }}
+                                    </span>
+                                </td>
 
-                    </div>
+                                <td>
 
-                @endforelse
+                                    <span class="badge bg-primary fs-6">
+                                        {{ $item->crew_point }}
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="7" class="text-center py-5">
+
+                                    <i class="fa-regular fa-folder-open fs-2 mb-3"></i>
+
+                                    <p class="mb-0">
+                                        Belum ada data Crew Point.
+                                    </p>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 
@@ -131,68 +167,58 @@
 
     </div>
 
-    {{-- EVALUASI --}}
-    <div class="col-lg-5">
+    <div class="col-lg-4">
 
-        <div class="dutio-card h-100">
+        <div class="dutio-card mb-4">
 
             <div class="dutio-card-header">
-                <h3>Evaluasi Terbaru</h3>
+                <h3>Ringkasan</h3>
             </div>
 
             <div class="dutio-card-body">
 
-                @if($riwayat->count())
+                <div class="text-center">
 
-                    @php
-                        $terbaru = $riwayat->first();
-                    @endphp
-
-                    <div class="text-center mb-4">
-
-                        <div class="score-circle">
-
-                            {{ $terbaru->poin }}
-
-                            <span>%</span>
-
-                        </div>
-
+                    <div class="score-circle">
+                        {{ $totalPoint }}
                     </div>
 
-                    <div class="alert alert-light border">
+                    <h5 class="mt-3">
+                        {{ $level }}
+                    </h5>
 
-                        <h6 class="mb-3">
+                    <p class="text-muted">
+                        Total Crew Point seluruh data.
+                    </p>
 
-                            <i class="fa-solid fa-message me-2 text-success"></i>
+                </div>
 
-                            Catatan Koordinator
+                <hr>
 
-                        </h6>
+                <table class="table table-borderless mb-0">
 
-                        <p class="mb-0 text-muted">
+                    <tr>
+                        <td>Total Data</td>
+                        <td class="text-end">
+                            {{ $riwayat->count() }}
+                        </td>
+                    </tr>
 
-                            {{ $terbaru->penilaian->evaluasi }}
+                    <tr>
+                        <td>Total Point</td>
+                        <td class="text-end">
+                            {{ $totalPoint }}
+                        </td>
+                    </tr>
 
-                        </p>
+                    <tr>
+                        <td>Rata-rata</td>
+                        <td class="text-end">
+                            {{ $rataRata }}
+                        </td>
+                    </tr>
 
-                    </div>
-
-                @else
-
-                    <div class="text-center py-5 text-muted">
-
-                        <i class="fa-regular fa-file-lines fs-1 mb-3"></i>
-
-                        <p>
-
-                            Belum ada evaluasi.
-
-                        </p>
-
-                    </div>
-
-                @endif
+                </table>
 
             </div>
 
@@ -204,168 +230,132 @@
 
 @endsection
 
-
 @push('styles')
 
 <style>
 
 .dutio-point-banner{
-
-    background:linear-gradient(135deg,#4B6B45,#698D63);
-
+    background: linear-gradient(135deg,#4B6B45,#698D63);
     border-radius:24px;
-
     padding:35px;
-
     color:#fff;
-
     display:flex;
-
     align-items:center;
-
     gap:30px;
-
     box-shadow:0 20px 35px rgba(0,0,0,.12);
-
 }
 
 .dutio-point-icon{
-
     width:95px;
-
     height:95px;
-
     border-radius:50%;
-
     background:rgba(255,255,255,.15);
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     font-size:42px;
-
 }
 
 .dutio-point-content{
-
     flex:1;
-
 }
 
 .dutio-point-content small{
-
     letter-spacing:2px;
-
     opacity:.8;
-
 }
 
 .dutio-point-content h2{
-
     font-size:56px;
-
     margin:8px 0;
-
     font-weight:700;
-
 }
 
 .dutio-point-content h2 span{
-
     font-size:22px;
-
     font-weight:400;
-
 }
 
 .progress{
-
     height:12px;
-
     border-radius:100px;
-
     background:rgba(255,255,255,.2);
-
+    overflow:hidden;
 }
 
-.point-item{
+.progress-bar{
+    height:100%;
+    border-radius:100px;
+}
 
-    display:flex;
+.dutio-card{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    overflow:hidden;
+}
 
-    align-items:center;
-
-    gap:16px;
-
-    padding:15px 0;
-
+.dutio-card-header{
+    padding:20px 24px;
     border-bottom:1px solid #ececec;
-
 }
 
-.point-item:last-child{
-
-    border-bottom:none;
-
+.dutio-card-header h3{
+    margin:0;
+    font-size:20px;
+    font-weight:600;
 }
 
-.point-circle{
+.dutio-card-body{
+    padding:24px;
+}
 
-    width:55px;
+.table th{
+    font-weight:600;
+    white-space:nowrap;
+}
 
-    height:55px;
-
-    border-radius:50%;
-
-    background:#4B6B45;
-
-    color:#fff;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-weight:700;
-
+.table td{
+    vertical-align:middle;
 }
 
 .score-circle{
-
     width:150px;
-
     height:150px;
-
     margin:auto;
-
     border-radius:50%;
-
     background:linear-gradient(135deg,#4B6B45,#7DA46E);
-
-    color:white;
-
+    color:#fff;
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     font-size:42px;
-
     font-weight:bold;
-
     box-shadow:0 15px 25px rgba(0,0,0,.15);
-
 }
 
-.score-circle span{
+.badge{
+    padding:.55rem .8rem;
+    border-radius:10px;
+}
 
-    font-size:18px;
+@media (max-width:768px){
 
-    margin-left:3px;
+    .dutio-point-banner{
+        flex-direction:column;
+        text-align:center;
+        padding:25px;
+    }
+
+    .dutio-point-content h2{
+        font-size:42px;
+    }
+
+    .score-circle{
+        width:120px;
+        height:120px;
+        font-size:32px;
+    }
 
 }
 

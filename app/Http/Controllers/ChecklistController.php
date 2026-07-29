@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Checklist;
 use App\Models\ChecklistJadwal;
 use App\Models\Jadwal;
+use App\Models\TugasPiket;
 
 class ChecklistController extends Controller
 {
@@ -37,7 +38,7 @@ class ChecklistController extends Controller
 
         }
 
-        $checklists = Checklist::where(
+        $checklists = TugasPiket::where(
             'area_piket_id',
             $jadwal->area_piket_id
         )->get();
@@ -45,20 +46,17 @@ class ChecklistController extends Controller
         foreach ($checklists as $checklist) {
 
             $progress = ChecklistJadwal::firstOrCreate(
-
                 [
                     'jadwal_id' => $jadwal->id,
                     'checklist_id' => $checklist->id
                 ],
-
                 [
                     'selesai' => false
                 ]
-
             );
 
             $checklist->selesai = $progress->selesai;
-            $checklist->nama = $checklist->aktivitas;
+            $checklist->nama = $checklist->nama_tugas;
         }
 
         return view('checklist.index', [

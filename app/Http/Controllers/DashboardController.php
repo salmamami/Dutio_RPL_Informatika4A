@@ -22,8 +22,7 @@ class DashboardController extends Controller
             ->first();
 
         // Total crew point
-        $crewPoint = CrewPoint::where('user_id', $user->id)
-            ->sum('poin');
+        $crewPoint = CrewPoint::sum('crew_point');
 
         // Kalau belum ada jadwal aktif
         if (!$jadwal) {

@@ -31,7 +31,7 @@
                 <div class="dutio-profile-points-badge">
                     <i class="fa-solid fa-star"></i>
                     <div>
-                        <strong>120</strong>
+                        <strong>{{ $crewPoint }}</strong>
                         <span>Crew Points</span>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
 
                     <div class="dutio-info-item">
                         <label><i class="fa-solid fa-star me-1"></i> Crew Points</label>
-                        <div>{120 Poin}</div>
+                        <div>{{ $crewPoint }} Poin</div>
                     </div>
 
                 </div>
