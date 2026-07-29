@@ -12,32 +12,37 @@ class PenghuniController extends Controller
     public function index()
     {
         $penghunis = Penghuni::with('user')
-            ->orderBy('user_id')
+            ->orderBy('kamar')
             ->orderBy('nama_penghuni')
             ->get();
 
-        return view('koordinator.penghuni.index', compact('penghunis'));
+        return view(
+            'koordinator.penghuni.index',
+            compact('penghunis')
+        );
     }
 
     public function create()
     {
         $users = User::where('role', 'penghuni')
             ->orderBy('kamar')
+            ->orderBy('name')
             ->get();
 
-        return view('koordinator.penghuni.create', compact('users'));
+        return view(
+            'koordinator.penghuni.create',
+            compact('users')
+        );
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'nama_penghuni' => 'required',
+            'nama_penghuni' => 'required|string|max:255',
         ]);
 
-
         $user = User::findOrFail($request->user_id);
-
 
         Penghuni::create([
             'user_id' => $user->id,
@@ -45,15 +50,12 @@ class PenghuniController extends Controller
             'kamar' => $user->kamar,
         ]);
 
-
         return redirect()
             ->route('koordinator.penghuni.index')
-            ->with('success', 'Data penghuni berhasil ditambahkan');
-    }
-
-    public function show($id)
-    {
-        //
+            ->with(
+                'success',
+                'Data penghuni berhasil ditambahkan.'
+            );
     }
 
     public function edit($id)
@@ -62,9 +64,16 @@ class PenghuniController extends Controller
 
         $users = User::where('role', 'penghuni')
             ->orderBy('kamar')
+            ->orderBy('name')
             ->get();
 
-        return view('koordinator.penghuni.edit', compact('penghuni', 'users'));
+        return view(
+            'koordinator.penghuni.edit',
+            compact(
+                'penghuni',
+                'users'
+            )
+        );
     }
 
     public function update(Request $request, $id)
@@ -72,23 +81,24 @@ class PenghuniController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'nama_penghuni' => 'required|string|max:255',
-            'kamar' => 'required',
         ]);
-
 
         $penghuni = Penghuni::findOrFail($id);
 
+        $user = User::findOrFail($request->user_id);
 
         $penghuni->update([
-            'user_id' => $request->user_id,
+            'user_id' => $user->id,
             'nama_penghuni' => $request->nama_penghuni,
-            'kamar' => $request->kamar,
+            'kamar' => $user->kamar,
         ]);
-
 
         return redirect()
             ->route('koordinator.penghuni.index')
-            ->with('success','Data penghuni berhasil diperbarui.');
+            ->with(
+                'success',
+                'Data penghuni berhasil diperbarui.'
+            );
     }
 
     public function destroy($id)
@@ -97,7 +107,11 @@ class PenghuniController extends Controller
 
         $penghuni->delete();
 
-        return redirect('/koordinator/penghuni')
-            ->with('success', 'Data penghuni berhasil dihapus.');
+        return redirect()
+            ->route('koordinator.penghuni.index')
+            ->with(
+                'success',
+                'Data penghuni berhasil dihapus.'
+            );
     }
 }

@@ -2,146 +2,135 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="dutio-page-header d-flex justify-content-between align-items-center">
 
-    <h3 class="mb-4">
-        Data Penilaian Penghuni
-    </h3>
+    <div>
+        <h1>Data Penilaian</h1>
+        <p class="text-muted mb-0">
+            Daftar seluruh penilaian laporan piket penghuni.
+        </p>
+    </div>
 
-    {{-- Alert sukses --}}
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+</div>
 
-    {{-- Error --}}
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+@if(session('success'))
 
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
 
-    <div class="accordion" id="accordionKamar">
+@endif
 
-        @forelse($penghunis as $kamar => $listPenghuni)
+<div class="card shadow-sm border-0">
 
-        <div class="accordion-item mb-3 shadow-sm">
+    <div class="card-body p-0">
 
-            <h2 class="accordion-header" id="heading{{ \Illuminate\Support\Str::slug($kamar) }}">
+        <div class="table-responsive">
 
-                <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapse{{ \Illuminate\Support\Str::slug($kamar) }}"
-                    aria-expanded="false">
+            <table class="table table-hover align-middle mb-0">
 
-                    <strong>{{ $kamar }}</strong>
+                <thead class="table-light">
 
-                    <span class="ms-2 text-muted">
-                        ({{ $listPenghuni->count() }} Penghuni)
-                    </span>
+                    <tr>
 
-                </button>
+                        <th width="60">No</th>
+                        <th>Penghuni</th>
+                        <th>Kamar</th>
+                        <th>Area</th>
+                        <th>Tugas</th>
+                        <th>Poin</th>
+                        <th>Kategori</th>
+                        <th width="180">Aksi</th>
 
-            </h2>
+                    </tr>
 
-            <div
-                id="collapse{{ \Illuminate\Support\Str::slug($kamar) }}"
-                class="accordion-collapse collapse"
-                data-bs-parent="#accordionKamar">
+                </thead>
 
-                <div class="accordion-body">
+                <tbody>
 
-                    <div class="row">
+                @forelse($penilaians as $penilaian)
 
-                        @foreach($listPenghuni as $penghuni)
+                    <tr>
 
-                        <div class="col-md-4 mb-4">
+                        <td>{{ $loop->iteration }}</td>
 
-                            <div class="card shadow-sm h-100">
+                        <td>
+                            {{ $penilaian->laporan->user->name ?? '-' }}
+                        </td>
 
-                                <div class="card-body">
+                        <td>
+                            {{ $penilaian->laporan->user->kamar ?? '-' }}
+                        </td>
 
-                                    <h5 class="card-title">
-                                        {{ $penghuni->nama_penghuni }}
-                                    </h5>
+                        <td>
+                            {{ $penilaian->laporan->jadwal->areaPiket->nama_area ?? '-' }}
+                        </td>
 
-                                    <p class="mb-2">
-                                        <strong>Kamar :</strong>
-                                        {{ $penghuni->kamar }}
-                                    </p>
+                        <td>
+                            {{ $penilaian->laporan->jadwal->tugasPiket->nama_tugas ?? '-' }}
+                        </td>
 
-                                    <p class="mb-3">
+                        <td>
 
-                                        <strong>Status :</strong>
+                            <span class="badge bg-success">
 
-                                        @if($penghuni->penilaianPenghunis->count() > 0)
-                                            <span class="badge bg-success">
-                                                Sudah Dinilai
-                                            </span>
+                                {{ $penilaian->poin }}
 
-                                        @else
+                            </span>
 
-                                            <span class="badge bg-danger">
-                                                Belum Dinilai
-                                            </span>
+                        </td>
 
-                                        @endif
+                        <td>
 
-                                    </p>
+                            <span class="badge bg-primary">
 
-                                    @if($penghuni->penilaianPenghunis->count() > 0)
+                                {{ $penilaian->kategori }}
 
-                                        <a href="{{ route('koordinator.penilaian.show', $penghuni->id) }}"
-                                        class="btn btn-success w-100">
+                            </span>
 
-                                            <i class="bi bi-eye"></i>
-                                            Lihat Detail
+                        </td>
 
-                                        </a>
+                        <td>
 
-                                    @else
+                            <a
+                                href="{{ route('koordinator.penilaian.show',$penilaian->id) }}"
+                                class="btn btn-info btn-sm">
 
-                                        <a href="{{ route('koordinator.penilaian.create', $penghuni->id) }}"
-                                        class="btn btn-primary w-100">
+                                Detail
 
-                                            <i class="bi bi-pencil-square"></i>
-                                            Beri Penilaian
+                            </a>
 
-                                        </a>
+                            <a
+                                href="{{ route('koordinator.penilaian.edit',$penilaian->id) }}"
+                                class="btn btn-warning btn-sm text-white">
 
-                                    @endif
+                                Edit
 
-                                </div>
+                            </a>
 
-                            </div>
+                        </td>
 
-                        </div>
+                    </tr>
 
-                        @endforeach
+                @empty
 
-                    </div>
+                    <tr>
 
-                </div>
+                        <td colspan="8" class="text-center py-5 text-muted">
 
-            </div>
+                            Belum ada data penilaian.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
 
         </div>
-
-        @empty
-
-        <div class="alert alert-info">
-            Belum ada data penghuni.
-        </div>
-
-        @endforelse
 
     </div>
 

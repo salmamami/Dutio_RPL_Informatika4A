@@ -3,10 +3,13 @@
 @section('content')
 
 <div class="dutio-page-header">
+
     <h1>Edit Profil</h1>
-    <p class="text-muted">
-        Ubah informasi akun koordinator.
+
+    <p class="text-muted mb-0">
+        Perbarui informasi akun koordinator.
     </p>
+
 </div>
 
 <div class="row justify-content-center">
@@ -16,56 +19,103 @@
         <div class="dutio-card">
 
             <div class="dutio-card-header">
-                <h3>Edit Informasi</h3>
+
+                <h3>Edit Informasi Profil</h3>
+
             </div>
 
             <div class="dutio-card-body">
 
-                <form action="{{ route('koordinator.profile.update') }}" method="POST">
+                @if(session('success'))
+
+                    <div class="alert alert-success">
+
+                        {{ session('success') }}
+
+                    </div>
+
+                @endif
+
+                @if($errors->any())
+
+                    <div class="alert alert-danger">
+
+                        <ul class="mb-0">
+
+                            @foreach($errors->all() as $error)
+
+                                <li>{{ $error }}</li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                @endif
+
+                <form action="{{ route('koordinator.profile.update') }}"
+                      method="POST">
+
                     @csrf
                     @method('PUT')
 
                     <div class="mb-3">
+
                         <label class="form-label">
+
                             Nama
+
                         </label>
 
                         <input
                             type="text"
                             name="name"
                             class="form-control"
-                            value="{{ old('name',$user->name) }}"
+                            value="{{ old('name', $user->name) }}"
                             required>
+
                     </div>
 
                     <div class="mb-3">
+
                         <label class="form-label">
+
                             Email
+
                         </label>
 
                         <input
                             type="email"
                             name="email"
                             class="form-control"
-                            value="{{ old('email',$user->email) }}"
+                            value="{{ old('email', $user->email) }}"
                             required>
+
                     </div>
 
                     <div class="mb-3">
+
                         <label class="form-label">
+
                             Kamar
+
                         </label>
 
                         <input
                             type="text"
                             class="form-control"
-                            value="{{ $user->kamar }}"
+                            value="{{ $user->kamar ?? '-' }}"
                             readonly>
+
                     </div>
 
                     <div class="mb-4">
+
                         <label class="form-label">
+
                             Role
+
                         </label>
 
                         <input
@@ -73,26 +123,25 @@
                             class="form-control"
                             value="{{ ucfirst($user->role) }}"
                             readonly>
+
                     </div>
 
-                    <div class="d-flex gap-2">
+                    <div class="d-flex justify-content-end gap-2">
 
-                        <button
-                            type="submit"
-                            class="btn btn-dutio-success">
+                        <a href="{{ route('koordinator.profile.index') }}"
+                           class="btn btn-outline-secondary">
 
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            Simpan
-
-                        </button>
-
-                        <a href="/koordinator/profile"
-                           class="btn btn-dutio-outline">
-
-                            <i class="fa-solid fa-arrow-left"></i>
                             Kembali
 
                         </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-dutio-primary">
+
+                            Simpan Perubahan
+
+                        </button>
 
                     </div>
 

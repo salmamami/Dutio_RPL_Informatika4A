@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $statistik = [
             'kamar'     => User::where('role', 'penghuni')->count(),
             'laporan'   => Laporan::count(),
-            'crewpoint' => Crewpoint::sum('poin'),
+            'crewpoint' => Crewpoint::sum('crew_point'),
         ];
 
         $laporanTerbaru = Laporan::with(['jadwal.areaPiket'])

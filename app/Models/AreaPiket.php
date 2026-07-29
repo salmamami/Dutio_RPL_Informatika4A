@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Checklist;
-use App\Models\Jadwal;
 
 class AreaPiket extends Model
 {
@@ -21,5 +19,10 @@ class AreaPiket extends Model
     public function jadwals()
     {
         return $this->hasMany(Jadwal::class);
+    }
+
+    public function tugasPikets()
+    {
+        return $this->hasMany(TugasPiket::class);
     }
 }

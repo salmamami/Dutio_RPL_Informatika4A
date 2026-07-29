@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Koordinator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Models\Penghuni;
 use App\Models\Laporan;
 use App\Models\CrewPoint;
 
@@ -15,48 +15,73 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         $statistik = [
-            'kamar' => User::where('role', 'penghuni')
-                ->distinct()
+
+            // Total kamar berdasarkan tabel penghuni
+            'kamar' => Penghuni::distinct('kamar')
                 ->count('kamar'),
 
-            'penghuni' => User::where('role', 'penghuni')->count(),
+            // Total seluruh penghuni
+            'penghuni' => Penghuni::count(),
 
+            // Total laporan
             'laporan' => Laporan::count(),
 
-            'crewpoint' => CrewPoint::sum('poin'),
+            // Total crew point
+            'crewpoint' => CrewPoint::sum('crew_point'),
+
         ];
 
-        return view('koordinator.profile.index', compact(
-            'user',
-            'statistik'
-        ));
+        return view(
+            'koordinator.profile.index',
+            compact(
+                'user',
+                'statistik'
+            )
+        );
     }
 
-    // Halaman Edit Profil
     public function edit()
     {
         $user = Auth::user();
 
-        return view('koordinator.profile.edit', compact('user'));
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        return view(
+            'koordinator.profile.edit',
+            compact('user')
+        );
     }
 
-    // Simpan perubahan profil
     public function update(Request $request)
     {
         $request->validate([
-            'name'  => 'required|max:255',
-            'email' => 'required|email',
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|max:255',
         ]);
 
         $user = Auth::user();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
+        if (!$user) {
+            return redirect()->route('login');
+        }
 
-        $user->save();
+        $user->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+        ]);
 
-        return redirect('/koordinator/profile')
-            ->with('success', 'Profil berhasil diperbarui.');
+        return redirect()
+            ->route('koordinator.profile.index')
+            ->with(
+                'success',
+                'Profil berhasil diperbarui.'
+            );
     }
 }

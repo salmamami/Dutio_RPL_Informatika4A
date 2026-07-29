@@ -9,25 +9,20 @@ class CrewPointController extends Controller
 {
     public function index()
     {
-        $crewpoints = CrewPoint::with([
-        'user',
-        'penilaian.laporan.jadwal.areaPiket'
-        ])
-        ->latest()
-        ->get();
+        $crewpoints = CrewPoint::latest('periode')->get();
 
-        $totalPoin = $crewpoints->sum('poin');
+        $totalCrewPoint = $crewpoints->sum('crew_point');
 
-        $rataRata = $crewpoints->count()
-            ? round($crewpoints->avg('poin'))
+        $rataRataCrewPoint = $crewpoints->count()
+            ? round($crewpoints->avg('crew_point'))
             : 0;
 
         return view(
             'koordinator.crewpoints.index',
             compact(
                 'crewpoints',
-                'totalPoin',
-                'rataRata'
+                'totalCrewPoint',
+                'rataRataCrewPoint'
             )
         );
     }

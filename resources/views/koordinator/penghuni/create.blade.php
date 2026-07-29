@@ -2,159 +2,156 @@
 
 @section('content')
 
-<div class="container">
+<div class="dutio-page-header">
 
-    <h3 class="mb-4">
-        Tambah Penghuni
-    </h3>
+    <h1>Tambah Penghuni</h1>
 
+    <p class="text-muted">
 
-    @if ($errors->any())
+        Tambahkan penghuni baru ke dalam sistem.
 
-        <div class="alert alert-danger">
+    </p>
 
-            <ul class="mb-0">
-
-                @foreach ($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-    @endif
+</div>
 
 
+@if($errors->any())
 
-    <form action="{{ route('koordinator.penghuni.store') }}"
-          method="POST">
+<div class="alert alert-danger">
 
-        @csrf
+    <ul class="mb-0">
+
+        @foreach($errors->all() as $error)
+
+        <li>{{ $error }}</li>
+
+        @endforeach
+
+    </ul>
+
+</div>
+
+@endif
 
 
+<div class="dutio-card">
 
-        <div class="mb-3">
+    <div class="dutio-card-header">
 
-            <label class="form-label">
-                Pilih Penghuni
-            </label>
+        <h3>Form Penghuni</h3>
 
+    </div>
 
-            <select name="user_id"
+    <div class="dutio-card-body">
+
+        <form action="{{ route('koordinator.penghuni.store') }}"
+            method="POST">
+
+            @csrf
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Pilih Pengguna
+
+                </label>
+
+                <select
+                    name="user_id"
                     id="user_id"
-                    class="form-control"
+                    class="form-select"
                     required>
 
+                    <option value="">
 
-                <option value="">
-                    -- Pilih Penghuni --
-                </option>
+                        Pilih Pengguna
 
+                    </option>
 
-                @foreach($users as $user)
+                    @foreach($users as $user)
 
-                    <option value="{{ $user->id }}"
-                            data-kamar="{{ $user->kamar }}">
+                    <option
+                        value="{{ $user->id }}"
+                        data-kamar="{{ $user->kamar }}">
 
                         {{ $user->kamar }} - {{ $user->name }}
 
                     </option>
 
-                @endforeach
+                    @endforeach
 
+                </select>
 
-            </select>
+            </div>
 
-        </div>
+            <div class="mb-3">
 
+                <label class="form-label">
 
+                    Nama Penghuni
 
+                </label>
 
-        <div class="mb-3">
+                <input
+                    type="text"
+                    name="nama_penghuni"
+                    class="form-control"
+                    value="{{ old('nama_penghuni') }}"
+                    required>
 
-            <label class="form-label">
-                Nama Penghuni
-            </label>
+            </div>
 
+            <div class="mb-4">
 
-            <input type="text"
-                   name="nama_penghuni"
-                   id="nama_penghuni"
-                   class="form-control"
-                   placeholder="Masukkan nama penghuni"
-                   required>
+                <label class="form-label">
 
-        </div>
+                    Kamar
 
+                </label>
 
+                <input
+                    type="text"
+                    id="kamar"
+                    class="form-control"
+                    readonly>
 
+            </div>
 
-        <div class="mb-3">
+            <div class="d-flex justify-content-end gap-2">
 
-            <label class="form-label">
-                Kamar
-            </label>
+                <a href="{{ route('koordinator.penghuni.index') }}"
+                    class="btn btn-outline-secondary">
 
+                    Batal
 
-            <input type="text"
-                   name="kamar"
-                   id="kamar"
-                   class="form-control"
-                   readonly
-                   placeholder="Kamar otomatis">
+                </a>
 
-        </div>
+                <button
+                    class="btn btn-dutio-primary">
 
+                    Simpan
 
+                </button>
 
+            </div>
 
-        <button type="submit"
-                class="btn btn-success">
+        </form>
 
-            Simpan
-
-        </button>
-
-
-        <a href="{{ route('koordinator.penghuni.index') }}"
-           class="btn btn-secondary">
-
-            Kembali
-
-        </a>
-
-
-
-    </form>
-
+    </div>
 
 </div>
 
-
-
 <script>
 
-document.getElementById('user_id')
-.addEventListener('change', function(){
+document.getElementById('user_id').addEventListener('change',function(){
 
+    let kamar=this.options[this.selectedIndex].dataset.kamar;
 
-    let selected = this.options[this.selectedIndex];
-
-
-    let kamar = selected.getAttribute('data-kamar');
-
-
-    document.getElementById('kamar').value = kamar ?? '';
-
+    document.getElementById('kamar').value=kamar ?? '';
 
 });
 
 </script>
-
 
 @endsection

@@ -14,30 +14,25 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
 
+            if (Auth::user()->role == 'koordinator') {
 
-            $user = Auth::user();
-
-
-            if ($user->role == 'koordinator') {
-
-                return redirect('/koordinator/dashboard');
-
+                return redirect()
+                    ->route('koordinator.dashboard');
             }
 
-
-            return redirect('/dashboard');
+            return redirect()
+                ->route('dashboard');
         }
 
-
-        return back()
-            ->with('error','Email atau Password salah');
+        return back()->with(
+            'error',
+            'Email atau Password salah.'
+        );
     }
-
 
     public function logout(Request $request)
     {
@@ -47,6 +42,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()
+            ->route('login');
     }
 }

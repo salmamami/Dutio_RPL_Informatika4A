@@ -6,10 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Laporan;
 use App\Models\Penilaian;
-use App\Models\CrewPoint;
-use App\Models\AreaPiket;
-use App\Models\Jadwal;
-use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
@@ -17,124 +13,77 @@ class LaporanController extends Controller
     {
         $laporans = Laporan::with([
             'user',
-            'jadwal.areaPiket'
+            'jadwal.areaPiket',
+            'jadwal.tugasPiket'
         ])
         ->latest()
         ->get();
 
-        return view('koordinator.laporan.index', compact('laporans'));
+        return view(
+            'koordinator.laporan.index',
+            compact('laporans')
+        );
     }
 
     public function show($id)
     {
         $laporan = Laporan::with([
             'user',
-            'jadwal.areaPiket'
+            'jadwal.areaPiket',
+            'jadwal.tugasPiket',
+            'penilaian'
         ])->findOrFail($id);
 
-        return view('koordinator.laporan.show', compact('laporan'));
+        return view(
+            'koordinator.laporan.show',
+            compact('laporan')
+        );
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status'    => 'required|in:Disetujui,Ditolak',
-            'poin'      => 'required|integer|min:0|max:100',
-            'evaluasi'  => 'required|string'
+            'status' => 'required|in:Disetujui,Ditolak',
+            'poin' => 'required|integer|min:0|max:100',
+            'evaluasi' => 'required|string'
         ]);
 
         $laporan = Laporan::with('jadwal')->findOrFail($id);
 
         if ($laporan->status != 'Menunggu') {
-            return back()->with('error', 'Laporan sudah pernah dinilai.');
+            return back()->with(
+                'error',
+                'Laporan sudah pernah diverifikasi.'
+            );
         }
 
-        // ==========================
-        // Update Status Laporan
-        // ==========================
-
+        // Update status laporan
         $laporan->update([
             'status' => $request->status
         ]);
 
-        // ==========================
-        // Simpan Penilaian
-        // ==========================
-
-        $penilaian = Penilaian::updateOrCreate(
+        // Simpan hasil penilaian
+        Penilaian::updateOrCreate(
             [
                 'laporan_id' => $laporan->id
             ],
             [
-                'poin'      => $request->poin,
-                'evaluasi'  => $request->evaluasi
+                'poin' => $request->poin,
+                'evaluasi' => $request->evaluasi
             ]
         );
 
-        // ==========================
-        // Simpan Crew Point
-        // ==========================
-
-        CrewPoint::updateOrCreate(
-            [
-                'penilaian_id' => $penilaian->id
-            ],
-            [
-                'user_id' => $laporan->user_id,
-                'poin'    => $request->poin
-            ]
-        );
-
-        // ==========================
-        // Jika Ditolak
-        // ==========================
-
-        if ($request->status == 'Ditolak') {
-
-            $laporan->jadwal->update([
-                'status' => 'Belum Dikerjakan'
-            ]);
-
-            return redirect('/koordinator/laporan')
-                ->with('success', 'Laporan berhasil ditolak.');
-        }
-
-        // ==========================
-        // Jika Disetujui
-        // ==========================
-
+        // Update status jadwal
         $laporan->jadwal->update([
-            'status' => 'Selesai'
+            'status' => $request->status == 'Disetujui'
+                ? 'Selesai'
+                : 'Belum Dikerjakan'
         ]);
 
-        $nextArea = AreaPiket::where(
-            'id',
-            '>',
-            $laporan->jadwal->area_piket_id
-        )->orderBy('id')->first();
-
-        if (!$nextArea) {
-            $nextArea = AreaPiket::orderBy('id')->first();
-        }
-
-        $tanggalBaru = Carbon::parse($laporan->jadwal->tanggal)
-            ->addDay();
-
-        $jadwalAda = Jadwal::where('user_id', $laporan->user_id)
-            ->whereDate('tanggal', $tanggalBaru)
-            ->exists();
-
-        if (!$jadwalAda) {
-
-            Jadwal::create([
-                'user_id'       => $laporan->user_id,
-                'area_piket_id' => $nextArea->id,
-                'tanggal'       => $tanggalBaru,
-                'status'        => 'Belum Dikerjakan'
-            ]);
-        }
-
         return redirect('/koordinator/laporan')
-            ->with('success', 'Laporan berhasil disetujui.');
+            ->with(
+                'success',
+                'Laporan berhasil diverifikasi.'
+            );
     }
 }

@@ -12,8 +12,13 @@ class Jadwal extends Model
     protected $fillable = [
         'user_id',
         'area_piket_id',
+        'tugas_piket_id',
         'tanggal',
         'status'
+    ];
+
+    protected $casts = [
+        'tanggal' => 'date'
     ];
 
     public function user()
@@ -26,6 +31,11 @@ class Jadwal extends Model
         return $this->belongsTo(AreaPiket::class);
     }
 
+    public function tugasPiket()
+    {
+        return $this->belongsTo(TugasPiket::class);
+    }
+
     public function laporan()
     {
         return $this->hasOne(Laporan::class);
@@ -33,7 +43,6 @@ class Jadwal extends Model
 
     public function checklistProgress()
     {
-       return $this->hasMany(ChecklistJadwal::class);
+        return $this->hasMany(ChecklistJadwal::class);
     }
-
 }

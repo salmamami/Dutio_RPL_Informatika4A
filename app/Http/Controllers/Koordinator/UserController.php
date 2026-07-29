@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('role')
+            ->orderBy('kamar')
+            ->orderBy('name')
+            ->get();
 
         return view(
             'koordinator.user.index',
@@ -20,49 +22,42 @@ class UserController extends Controller
         );
     }
 
-
     public function create()
     {
         return view('koordinator.user.create');
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
-
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'kamar' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
-            'role' => 'required'
-
+            'role' => 'required|in:koordinator,penghuni',
+            'kamar' => 'required_if:role,penghuni'
         ]);
 
-
         User::create([
-
             'name' => $request->name,
-            'kamar' => $request->kamar,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'kamar' => $request->role == 'penghuni'
+                ? $request->kamar
+                : null,
             'status' => 'aktif'
-
         ]);
 
-
         return redirect('/koordinator/user')
-            ->with('success','Akun berhasil dibuat');
-
+            ->with(
+                'success',
+                'Akun berhasil dibuat.'
+            );
     }
-
-
 
     public function edit($id)
     {
         $user = User::findOrFail($id);
-
 
         return view(
             'koordinator.user.edit',
@@ -70,74 +65,51 @@ class UserController extends Controller
         );
     }
 
-
-
-
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-
         $user = User::findOrFail($id);
 
-
         $request->validate([
-
-            'name'=>'required',
-            'email'=>'required|email|unique:users,email,'.$id,
-            'kamar' => 'required_if:role,penghuni',
-            'role'=>'required',
-            'status'=>'required'
-
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'role' => 'required|in:koordinator,penghuni',
+            'status' => 'required',
+            'kamar' => 'required_if:role,penghuni'
         ]);
 
-
-
         $data = [
-
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'kamar' => $request->role == 'koordinator'
-                        ? null
-                        : $request->kamar,
-            'role'=>$request->role,
-            'status'=>$request->status
-
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'status' => $request->status,
+            'kamar' => $request->role == 'penghuni'
+                ? $request->kamar
+                : null
         ];
 
-
-
-        if($request->password){
-
-            $data['password'] = Hash::make(
-                $request->password
-            );
-
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
         }
-
-
 
         $user->update($data);
 
-
-
         return redirect('/koordinator/user')
-            ->with('success','Akun berhasil diperbarui');
-
+            ->with(
+                'success',
+                'Akun berhasil diperbarui.'
+            );
     }
-
-
-
 
     public function destroy($id)
     {
-
         $user = User::findOrFail($id);
 
         $user->delete();
 
-
         return redirect('/koordinator/user')
-            ->with('success','Akun berhasil dihapus');
-
+            ->with(
+                'success',
+                'Akun berhasil dihapus.'
+            );
     }
-
 }

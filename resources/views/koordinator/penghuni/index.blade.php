@@ -2,170 +2,154 @@
 
 @section('content')
 
-<div class="container">
+<div class="dutio-page-header d-flex justify-content-between align-items-center">
+
+    <div>
+        <h1>Data Penghuni</h1>
+        <p class="text-muted mb-0">
+            Kelola data seluruh penghuni asrama.
+        </p>
+    </div>
+
+    <a href="{{ route('koordinator.penghuni.create') }}"
+        class="btn btn-dutio-primary">
+
+        + Tambah Penghuni
+
+    </a>
+
+</div>
 
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+@if(session('success'))
 
-        <h3>
-            Data Penghuni
-        </h3>
+<div class="alert alert-success">
+
+    {{ session('success') }}
+
+</div>
+
+@endif
 
 
-        <a href="{{ route('koordinator.penghuni.create') }}"
-           class="btn btn-primary">
+<div class="dutio-card">
 
-            + Tambah Penghuni
+    <div class="dutio-card-header">
 
-        </a>
+        <h3>Daftar Penghuni</h3>
 
     </div>
 
+    <div class="dutio-card-body">
 
+        <div class="table-responsive">
 
-    {{-- Alert sukses --}}
-    @if(session('success'))
+            <table class="table table-hover align-middle">
 
-        <div class="alert alert-success">
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
-
-
-
-    <div class="card shadow-sm">
-
-        <div class="card-body">
-
-
-            <table class="table table-bordered table-striped">
-
-
-                <thead class="table-dark">
+                <thead>
 
                     <tr>
 
-                        <th width="5%">
-                            No
-                        </th>
+                        <th width="70">No</th>
 
-                        <th>
-                            Nama Penghuni
-                        </th>
+                        <th>Nama Penghuni</th>
 
-                        <th>
-                            Kamar
-                        </th>
+                        <th>Kamar</th>
 
-                        <th width="20%">
-                            Aksi
-                        </th>
+                        <th>Akun Login</th>
+
+                        <th width="180">Aksi</th>
 
                     </tr>
 
                 </thead>
 
-
-
                 <tbody>
-
 
                 @forelse($penghunis as $item)
 
-
                     <tr>
 
-
                         <td>
+
                             {{ $loop->iteration }}
+
                         </td>
-
-
-
-                        <td>
-                            {{ $item->nama_penghuni }}
-                        </td>
-
-
-
-                        <td>
-                            {{ $item->kamar ?? '-' }}
-                        </td>
-
-
 
                         <td>
 
+                            <strong>
+
+                                {{ $item->nama_penghuni }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            Kamar {{ $item->kamar }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $item->user->name }}
+
+                        </td>
+
+                        <td>
 
                             <a href="{{ route('koordinator.penghuni.edit',$item->id) }}"
-                               class="btn btn-warning btn-sm">
+                                class="btn btn-warning btn-sm text-white">
 
                                 Edit
 
                             </a>
 
-
-
-
                             <form action="{{ route('koordinator.penghuni.destroy',$item->id) }}"
-                                  method="POST"
-                                  style="display:inline-block">
-
+                                method="POST"
+                                class="d-inline">
 
                                 @csrf
                                 @method('DELETE')
 
-
-                                <button type="submit"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Yakin ingin menghapus penghuni ini?')">
 
                                     Hapus
 
                                 </button>
 
-
                             </form>
-
 
                         </td>
 
-
                     </tr>
-
 
                 @empty
 
-
                     <tr>
 
-                        <td colspan="4"
-                            class="text-center">
+                        <td colspan="5"
+                            class="text-center py-5 text-muted">
 
-                            Belum ada data penghuni
+                            Belum ada data penghuni.
 
                         </td>
 
                     </tr>
 
-
                 @endforelse
-
-
 
                 </tbody>
 
-
             </table>
-
 
         </div>
 
     </div>
-
 
 </div>
 

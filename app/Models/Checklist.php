@@ -10,20 +10,15 @@ class Checklist extends Model
     use HasFactory;
 
     protected $fillable = [
-        'area_piket_id',
-        'aktivitas',
-        'selesai'
+        'tugas_piket_id',
+        'aktivitas'
     ];
 
-    protected $casts = [
-        'selesai' => 'boolean'
-    ];
-
-    public function areaPiket()
+    public function tugasPiket()
     {
-        return $this->belongsTo(AreaPiket::class);
+        return $this->belongsTo(TugasPiket::class);
     }
-    
+
     public function progresses()
     {
         return $this->hasMany(ChecklistJadwal::class);

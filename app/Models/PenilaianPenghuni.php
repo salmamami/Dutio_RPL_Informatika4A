@@ -9,17 +9,17 @@ class PenilaianPenghuni extends Model
 {
     use HasFactory;
 
+    protected $table = 'penilaian_penghunis';
 
     protected $fillable = [
         'penghuni_id',
         'poin',
-        'kategori'
+        'kategori',
+        'catatan',
     ];
-
 
     public function penghuni()
     {
         return $this->belongsTo(Penghuni::class);
     }
-
 }

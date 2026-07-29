@@ -9,30 +9,19 @@ class Penghuni extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'user_id',
         'nama_penghuni',
         'kamar',
     ];
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-
-    // penilaian penghuni
     public function penilaianPenghunis()
     {
         return $this->hasMany(PenilaianPenghuni::class);
     }
-
-
-    public function crewpoints()
-    {
-        return $this->hasMany(CrewPoint::class);
-    }
-
 }

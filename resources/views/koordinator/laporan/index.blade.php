@@ -7,117 +7,168 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-            <h3 class="mb-1">Laporan Piket</h3>
+
+            <h3 class="mb-1">
+
+                Laporan Piket
+
+            </h3>
+
             <small class="text-muted">
-                Daftar laporan yang dikirim penghuni
+
+                Daftar laporan yang dikirim penghuni.
+
             </small>
+
         </div>
 
     </div>
+
+    @if(session('success'))
+
+        <div class="alert alert-success">
+
+            {{ session('success') }}
+
+        </div>
+
+    @endif
 
     <div class="card shadow-sm border-0">
 
         <div class="card-body p-0">
 
-            <table class="table table-hover align-middle mb-0">
+            <div class="table-responsive">
 
-                <thead class="table-light">
+                <table class="table table-hover align-middle mb-0">
 
-                    <tr>
+                    <thead class="table-light">
 
-                        <th width="60">#</th>
-                        <th>Kamar</th>
-                        <th>Area</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
-                        <th width="120">Aksi</th>
+                        <tr>
 
-                    </tr>
+                            <th width="60">No</th>
 
-                </thead>
+                            <th>Penghuni</th>
 
-                <tbody>
+                            <th>Kamar</th>
 
-                @forelse($laporans as $laporan)
+                            <th>Area</th>
 
-                    <tr>
+                            <th>Tanggal</th>
 
-                        <td>{{ $loop->iteration }}</td>
+                            <th>Status</th>
 
-                        <td>{{ $laporan->user->kamar }}</td>
+                            <th width="120">
 
-                        <td>{{ $laporan->jadwal->areaPiket->nama_area }}</td>
+                                Aksi
 
-                        <td>{{ $laporan->created_at->format('d M Y') }}</td>
+                            </th>
 
-                        <td>
+                        </tr>
 
-                            @switch($laporan->status)
+                    </thead>
 
-                                @case('Menunggu Verifikasi')
+                    <tbody>
+
+                    @forelse($laporans as $laporan)
+
+                        <tr>
+
+                            <td>
+
+                                {{ $loop->iteration }}
+
+                            </td>
+
+                            <td>
+
+                                {{ $laporan->user->name }}
+
+                            </td>
+
+                            <td>
+
+                                Kamar {{ $laporan->user->kamar }}
+
+                            </td>
+
+                            <td>
+
+                                {{ $laporan->jadwal->areaPiket->nama_area ?? '-' }}
+
+                            </td>
+
+                            <td>
+
+                                {{ $laporan->created_at->format('d M Y') }}
+
+                            </td>
+
+                            <td>
+
+                                @if($laporan->status == 'Menunggu')
 
                                     <span class="badge bg-warning text-dark">
-                                        Menunggu Verifikasi
+
+                                        Menunggu
+
                                     </span>
 
-                                    @break
-
-                                @case('Disetujui')
+                                @elseif($laporan->status == 'Disetujui')
 
                                     <span class="badge bg-success">
+
                                         Disetujui
+
                                     </span>
 
-                                    @break
-
-                                @case('Ditolak')
+                                @else
 
                                     <span class="badge bg-danger">
+
                                         Ditolak
+
                                     </span>
 
-                                    @break
+                                @endif
 
-                                @default
+                            </td>
 
-                                    <span class="badge bg-secondary">
-                                        {{ $laporan->status }}
-                                    </span>
+                            <td>
 
-                            @endswitch
+                                <a
+                                    href="{{ url('/koordinator/laporan/'.$laporan->id) }}"
+                                    class="btn btn-primary btn-sm">
 
-                        </td>
+                                    Detail
 
-                        <td>
+                                </a>
 
-                            <a href="{{ url('/koordinator/laporan/'.$laporan->id) }}"
-                               class="btn btn-primary btn-sm">
+                            </td>
 
-                                Detail
+                        </tr>
 
-                            </a>
+                    @empty
 
-                        </td>
+                        <tr>
 
-                    </tr>
+                            <td
+                                colspan="7"
+                                class="text-center py-5 text-muted">
 
-                @empty
+                                Belum ada laporan.
 
-                    <tr>
+                            </td>
 
-                        <td colspan="6" class="text-center py-5 text-muted">
+                        </tr>
 
-                            Belum ada laporan.
+                    @endforelse
 
-                        </td>
+                    </tbody>
 
-                    </tr>
+                </table>
 
-                @endforelse
-
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 

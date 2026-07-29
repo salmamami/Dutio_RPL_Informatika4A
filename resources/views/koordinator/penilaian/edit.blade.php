@@ -2,167 +2,107 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="dutio-page-header">
 
-    <div class="card shadow">
+    <h1>Edit Penilaian</h1>
 
-        <div class="card-header">
-            <h4>
-                Edit Penilaian {{ $penilaian->penghuni->nama_penghuni }}
-            </h4>
-        </div>
+</div>
 
+<div class="card shadow-sm">
 
-        <div class="card-body">
+    <div class="card-body">
 
+        <form method="POST"
+              action="{{ route('koordinator.penilaian.update',$penilaian->id) }}">
 
-            @if($errors->any())
-
-            <div class="alert alert-danger">
-
-                <ul class="mb-0">
-
-                    @foreach($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
-                    @endforeach
-
-                </ul>
-
-            </div>
-
-            @endif
-
-
+            @csrf
+            @method('PUT')
 
             <div class="mb-3">
 
-                <label>
-                    Nama Penghuni
+                <label class="form-label">
+                    Poin
                 </label>
 
-                <input type="text"
-                       class="form-control"
-                       value="{{ $penilaian->penghuni->nama_penghuni }}"
-                       readonly>
+                <input
+                    type="number"
+                    name="poin"
+                    class="form-control"
+                    value="{{ old('poin',$penilaian->poin) }}"
+                    min="0"
+                    max="100"
+                    required>
 
             </div>
-
-
 
             <div class="mb-3">
 
-                <label>
-                    Kamar
+                <label class="form-label">
+                    Kategori
                 </label>
 
-                <input type="text"
-                       class="form-control"
-                       value="{{ $penilaian->penghuni->kamar }}"
-                       readonly>
+                <select
+                    name="kategori"
+                    class="form-select">
+
+                    <option value="Sangat Baik"
+                        {{ $penilaian->kategori=='Sangat Baik'?'selected':'' }}>
+                        Sangat Baik
+                    </option>
+
+                    <option value="Baik"
+                        {{ $penilaian->kategori=='Baik'?'selected':'' }}>
+                        Baik
+                    </option>
+
+                    <option value="Cukup"
+                        {{ $penilaian->kategori=='Cukup'?'selected':'' }}>
+                        Cukup
+                    </option>
+
+                    <option value="Kurang"
+                        {{ $penilaian->kategori=='Kurang'?'selected':'' }}>
+                        Kurang
+                    </option>
+
+                </select>
 
             </div>
 
+            <div class="mb-3">
 
+                <label class="form-label">
+                    Catatan
+                </label>
 
-            <form action="{{ route('koordinator.penilaian.update',$penilaian->id) }}"
-                  method="POST">
+                <textarea
+                    name="catatan"
+                    rows="4"
+                    class="form-control">{{ old('catatan',$penilaian->catatan) }}</textarea>
 
-                @csrf
-                @method('PUT')
+            </div>
 
+            <div class="d-flex justify-content-end gap-2">
 
-                <div class="mb-3">
-
-                    <label>
-                        Nilai
-                    </label>
-
-                    <input type="number"
-                           name="poin"
-                           class="form-control"
-                           min="0"
-                           max="100"
-                           value="{{ $penilaian->poin }}"
-                           required>
-
-                </div>
-
-
-
-                <div class="mb-3">
-
-                    <label>
-                        Penghargaan
-                    </label>
-
-
-                    <select name="kategori"
-                            class="form-control"
-                            required>
-
-
-                        <option value="🏆 Best Crew"
-                        {{ $penilaian->kategori == '🏆 Best Crew' ? 'selected':'' }}>
-                            🏆 Best Crew
-                        </option>
-
-
-                        <option value="🌟 Penghuni Teladan"
-                        {{ $penilaian->kategori == '🌟 Penghuni Teladan' ? 'selected':'' }}>
-                            🌟 Penghuni Teladan
-                        </option>
-
-
-                        <option value="🧹 Rajin Piket"
-                        {{ $penilaian->kategori == '🧹 Rajin Piket' ? 'selected':'' }}>
-                            🧹 Rajin Piket
-                        </option>
-
-
-                        <option value="⭐ Good Performance"
-                        {{ $penilaian->kategori == '⭐ Good Performance' ? 'selected':'' }}>
-                            ⭐ Good Performance
-                        </option>
-
-
-                        <option value="💪 Semangat Piket"
-                        {{ $penilaian->kategori == '💪 Semangat Piket' ? 'selected':'' }}>
-                            💪 Semangat Piket
-                        </option>
-
-
-                    </select>
-
-
-                </div>
-
-
-
-                <button class="btn btn-success">
-                    Update Penilaian
-                </button>
-
-
-                <a href="{{ route('koordinator.penilaian.show',$penilaian->id) }}"
+                <a href="{{ route('koordinator.penilaian.index') }}"
                    class="btn btn-secondary">
 
-                    Kembali
+                    Batal
 
                 </a>
 
+                <button class="btn btn-warning text-white">
 
-            </form>
+                    Update
 
+                </button>
 
-        </div>
+            </div>
+
+        </form>
 
     </div>
 
 </div>
-
 
 @endsection

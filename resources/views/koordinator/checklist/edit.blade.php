@@ -3,7 +3,13 @@
 @section('content')
 
 <div class="dutio-page-header">
+
     <h1>Edit Checklist</h1>
+
+    <p class="text-muted">
+        Perbarui aktivitas checklist.
+    </p>
+
 </div>
 
 <div class="dutio-card">
@@ -20,20 +26,22 @@
             <div class="mb-3">
 
                 <label class="form-label">
-                    Area
+                    Tugas Piket
                 </label>
 
                 <select
-                    name="area_piket_id"
+                    name="tugas_piket_id"
                     class="form-select">
 
-                    @foreach($areas as $area)
+                    @foreach($tugas as $item)
 
                         <option
-                            value="{{ $area->id }}"
-                            {{ $checklist->area_piket_id == $area->id ? 'selected' : '' }}>
+                            value="{{ $item->id }}"
+                            {{ $checklist->tugas_piket_id == $item->id ? 'selected' : '' }}>
 
-                            {{ $area->nama_area }}
+                            {{ $item->areaPiket->nama_area }}
+                            -
+                            {{ $item->nama_tugas }}
 
                         </option>
 
@@ -46,21 +54,22 @@
             <div class="mb-4">
 
                 <label class="form-label">
-                    Tugas
+                    Aktivitas Checklist
                 </label>
 
                 <input
                     type="text"
                     name="aktivitas"
                     class="form-control"
-                    value="{{ old('aktivitas', $checklist->aktivitas) }}"
+                    value="{{ old('aktivitas',$checklist->aktivitas) }}"
                     required>
 
             </div>
 
             <div class="d-flex justify-content-end gap-2">
 
-                <a href="/koordinator/checklist"
+                <a
+                    href="/koordinator/checklist"
                     class="btn btn-outline-secondary">
 
                     Batal

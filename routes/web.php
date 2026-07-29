@@ -109,8 +109,9 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('koordinator')->group(function () {
-
+Route::middleware(['auth'])
+    ->prefix('koordinator')
+    ->group(function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -118,10 +119,10 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/dashboard',
+    Route::get(
+        '/dashboard',
         [KoordinatorDashboardController::class, 'index']
     )->name('koordinator.dashboard');
-
 
 
     /*
@@ -130,10 +131,10 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('jadwal',
+    Route::resource(
+        'jadwal',
         KoordinatorJadwalController::class
     )->except(['show']);
-
 
 
     /*
@@ -142,10 +143,10 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('checklist',
+    Route::resource(
+        'checklist',
         KoordinatorChecklistController::class
     )->except(['show']);
-
 
 
     /*
@@ -154,20 +155,20 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/laporan',
-        [KoordinatorLaporanController::class,'index']
+    Route::get(
+        '/laporan',
+        [KoordinatorLaporanController::class, 'index']
     )->name('koordinator.laporan.index');
 
-
-    Route::get('/laporan/{id}',
-        [KoordinatorLaporanController::class,'show']
+    Route::get(
+        '/laporan/{id}',
+        [KoordinatorLaporanController::class, 'show']
     )->name('koordinator.laporan.show');
 
-
-    Route::put('/laporan/{id}',
-        [KoordinatorLaporanController::class,'update']
+    Route::put(
+        '/laporan/{id}',
+        [KoordinatorLaporanController::class, 'update']
     )->name('koordinator.laporan.update');
-
 
 
     /*
@@ -176,10 +177,10 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('user',
+    Route::resource(
+        'user',
         KoordinatorUserController::class
     )->except(['show']);
-
 
 
     /*
@@ -188,34 +189,36 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/penghuni',
-        [KoordinatorPenghuniController::class,'index']
+    Route::get(
+        '/penghuni',
+        [KoordinatorPenghuniController::class, 'index']
     )->name('koordinator.penghuni.index');
 
-
-    Route::get('/penghuni/create',
-        [KoordinatorPenghuniController::class,'create']
+    Route::get(
+        '/penghuni/create',
+        [KoordinatorPenghuniController::class, 'create']
     )->name('koordinator.penghuni.create');
 
-
-    Route::post('/penghuni',
-        [KoordinatorPenghuniController::class,'store']
+    Route::post(
+        '/penghuni',
+        [KoordinatorPenghuniController::class, 'store']
     )->name('koordinator.penghuni.store');
 
-
-    Route::get('/penghuni/{id}/edit',
-        [KoordinatorPenghuniController::class,'edit']
+    Route::get(
+        '/penghuni/{id}/edit',
+        [KoordinatorPenghuniController::class, 'edit']
     )->name('koordinator.penghuni.edit');
 
-
-    Route::put('/penghuni/{id}',
-        [KoordinatorPenghuniController::class,'update']
+    Route::put(
+        '/penghuni/{id}',
+        [KoordinatorPenghuniController::class, 'update']
     )->name('koordinator.penghuni.update');
 
-
-    Route::delete('/penghuni/{id}',
-        [KoordinatorPenghuniController::class,'destroy']
+    Route::delete(
+        '/penghuni/{id}',
+        [KoordinatorPenghuniController::class, 'destroy']
     )->name('koordinator.penghuni.destroy');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -223,41 +226,40 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/penilaian',
-        [KoordinatorPenilaianController::class,'index']
+    Route::get(
+        '/penilaian',
+        [KoordinatorPenilaianController::class, 'index']
     )->name('koordinator.penilaian.index');
 
-
-    Route::get('/penilaian/create/{id}',
-        [KoordinatorPenilaianController::class,'create']
+    Route::get(
+        '/penilaian/create/{id}',
+        [KoordinatorPenilaianController::class, 'create']
     )->name('koordinator.penilaian.create');
 
-
-    Route::post('/penilaian',
-        [KoordinatorPenilaianController::class,'store']
+    Route::post(
+        '/penilaian',
+        [KoordinatorPenilaianController::class, 'store']
     )->name('koordinator.penilaian.store');
 
-    // LIHAT DETAIL PENILAIAN
-    Route::get('/penilaian/{id}',
-        [KoordinatorPenilaianController::class,'show']
+    Route::get(
+        '/penilaian/{id}',
+        [KoordinatorPenilaianController::class, 'show']
     )->name('koordinator.penilaian.show');
 
-
-    // EDIT PENILAIAN (TAMBAHKAN INI)
-    Route::get('/penilaian/{id}/edit',
-        [KoordinatorPenilaianController::class,'edit']
+    Route::get(
+        '/penilaian/{id}/edit',
+        [KoordinatorPenilaianController::class, 'edit']
     )->name('koordinator.penilaian.edit');
 
-
-    // UPDATE PENILAIAN (TAMBAHKAN INI)
-    Route::put('/penilaian/{id}',
-        [KoordinatorPenilaianController::class,'update']
+    Route::put(
+        '/penilaian/{id}',
+        [KoordinatorPenilaianController::class, 'update']
     )->name('koordinator.penilaian.update');
 
-    Route::delete('/penilaian/{id}',
-        [KoordinatorPenilaianController::class,'destroy']
+    Route::delete(
+        '/penilaian/{id}',
+        [KoordinatorPenilaianController::class, 'destroy']
     )->name('koordinator.penilaian.destroy');
-
 
 
     /*
@@ -266,10 +268,10 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/crewpoints',
-        [KoordinatorCrewPointController::class,'index']
+    Route::get(
+        '/crewpoints',
+        [KoordinatorCrewPointController::class, 'index']
     )->name('koordinator.crewpoints.index');
-
 
 
     /*
@@ -278,19 +280,36 @@ Route::prefix('koordinator')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/profile',
-        [KoordinatorProfileController::class,'index']
+    Route::get(
+        '/profile',
+        [KoordinatorProfileController::class, 'index']
     )->name('koordinator.profile.index');
 
-
-    Route::get('/profile/edit',
-        [KoordinatorProfileController::class,'edit']
+    Route::get(
+        '/profile/edit',
+        [KoordinatorProfileController::class, 'edit']
     )->name('koordinator.profile.edit');
 
-
-    Route::put('/profile/update',
-        [KoordinatorProfileController::class,'update']
+    Route::put(
+        '/profile/update',
+        [KoordinatorProfileController::class, 'update']
     )->name('koordinator.profile.update');
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Monitoring
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/monitoring',
+        [MonitoringController::class, 'index']
+    )->name('koordinator.monitoring.index');
+
+    Route::get(
+        '/monitoring/{group}',
+        [MonitoringController::class, 'show']
+    )->name('koordinator.monitoring.show');
 
 });

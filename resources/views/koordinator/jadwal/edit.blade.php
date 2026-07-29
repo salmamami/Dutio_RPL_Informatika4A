@@ -1,72 +1,146 @@
 @extends('layouts.admin')
 
 @section('content')
+
 <div class="dutio-page-header">
     <h1>Edit Jadwal Piket</h1>
 
     <p class="text-muted">
-        Perbarui pembagian piket penghuni.
+        Perbarui tanggal pelaksanaan jadwal piket.
     </p>
 </div>
 
 <div class="dutio-card">
+
+    <div class="dutio-card-header">
+        <h3>Informasi Jadwal</h3>
+    </div>
+
     <div class="dutio-card-body">
-        <form method="POST" action="/koordinator/jadwal/{{ $jadwal->id }}">
+
+        <form action="/koordinator/jadwal/{{ $jadwal->id }}" method="POST">
+
             @csrf
             @method('PUT')
 
+            @if($errors->any())
+
+                <div class="alert alert-danger">
+
+                    <ul class="mb-0">
+
+                        @foreach($errors->all() as $error)
+
+                            <li>{{ $error }}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+            @endif
+
+            {{-- Penghuni --}}
             <div class="mb-3">
+
                 <label class="form-label">
                     Penghuni
                 </label>
 
-                <select name="user_id" class="form-select">
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}"
-                            {{ $jadwal->user_id == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }} - {{ $user->kamar }}
-                        </option>
-                    @endforeach
-                </select>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{ $jadwal->user->name }}"
+                    readonly>
+
             </div>
 
+            {{-- Kamar --}}
             <div class="mb-3">
+
+                <label class="form-label">
+                    Kamar
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    value="Kamar {{ $jadwal->user->kamar }}"
+                    readonly>
+
+            </div>
+
+            {{-- Area --}}
+            <div class="mb-3">
+
                 <label class="form-label">
                     Area Piket
                 </label>
 
-                <select name="area_piket_id" class="form-select">
-                    @foreach($areas as $area)
-                        <option value="{{ $area->id }}"
-                            {{ $jadwal->area_piket_id == $area->id ? 'selected' : '' }}>
-                            {{ $area->nama_area }}
-                        </option>
-                    @endforeach
-                </select>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{ optional($jadwal->areaPiket)->nama_area ?? '-' }}"
+                    readonly>
+
             </div>
 
+            {{-- Status --}}
             <div class="mb-3">
+
                 <label class="form-label">
-                    Tanggal
+                    Status
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{ $jadwal->status }}"
+                    readonly>
+
+            </div>
+
+            {{-- Tanggal --}}
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Tanggal Piket
                 </label>
 
                 <input
                     type="date"
                     name="tanggal"
                     class="form-control"
-                    value="{{ $jadwal->tanggal }}">
+                    value="{{ old('tanggal', $jadwal->tanggal) }}"
+                    required>
+
             </div>
 
             <div class="d-flex justify-content-end gap-2">
-                <a href="/koordinator/jadwal" class="btn btn-outline-secondary">
-                    Batal
+
+                <a
+                    href="/koordinator/jadwal"
+                    class="btn btn-outline-secondary">
+
+                    Kembali
+
                 </a>
 
-                <button type="submit" class="btn btn-warning text-white">
-                    Update Jadwal
+                <button
+                    type="submit"
+                    class="btn btn-warning text-white">
+
+                    Simpan Perubahan
+
                 </button>
+
             </div>
+
         </form>
+
     </div>
+
 </div>
+
 @endsection

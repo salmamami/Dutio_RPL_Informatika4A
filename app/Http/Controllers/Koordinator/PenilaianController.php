@@ -5,102 +5,65 @@ namespace App\Http\Controllers\Koordinator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Penilaian;
-use App\Models\Laporan;
 use App\Models\Penghuni;
-use App\Models\PenilaianPenghuni;
 
 class PenilaianController extends Controller
 {
     /**
-     * Tampilkan halaman penilaian
+     * Daftar penilaian
      */
     public function index()
     {
-        $penghunis = Penghuni::with([
-            'user',
-            'penilaianPenghunis'
+        $penilaians = Penilaian::with([
+            'laporan.user',
+            'laporan.jadwal.areaPiket',
+            'laporan.jadwal.tugasPiket',
+            'penghuni'
         ])
-        ->orderBy('kamar')
-        ->orderBy('nama_penghuni')
-        ->get()
-        ->groupBy('kamar');
-
-        return view('koordinator.penilaian.index', compact('penghunis'));
-    }
-
-
-    /**
-     * Form tambah penilaian
-     * Ditambahkan agar route create tidak error
-     */
-    public function create($id)
-    {
-        $penghuni = Penghuni::with([
-            'user.laporans'
-        ])->findOrFail($id);
-
-
-        $laporan = $penghuni->user->laporans()
-            ->latest()
-            ->first();
-
+        ->latest()
+        ->get();
 
         return view(
-            'koordinator.penilaian.create',
-            compact(
-                'penghuni',
-                'laporan'
-            )
+            'koordinator.penilaian.index',
+            compact('penilaians')
         );
     }
 
     /**
-     * Simpan atau update penilaian
+     * Detail penilaian
      */
-    public function store(Request $request)
+    public function show($id)
     {
-        $request->validate([
-            'penghuni_id' => 'required|exists:penghunis,id',
-            'poin' => 'required|integer|min:0|max:100',
-            'kategori' => 'required',
-        ]);
+        $penilaian = Penilaian::with([
+            'laporan.user',
+            'laporan.jadwal.areaPiket',
+            'laporan.jadwal.tugasPiket',
+            'penghuni'
+        ])->findOrFail($id);
 
-        PenilaianPenghuni::updateOrCreate(
-            [
-                'penghuni_id' => $request->penghuni_id,
-            ],
-            [
-                'poin' => $request->poin,
-                'kategori' => $request->kategori,
-            ]
+        return view(
+            'koordinator.penilaian.show',
+            compact('penilaian')
         );
-
-        return redirect()
-            ->route('koordinator.penilaian.index')
-            ->with('success', 'Penilaian berhasil disimpan.');
     }
 
-
-
     /**
-     * Form edit penilaian
+     * Form edit
      */
     public function edit($id)
     {
         $penilaian = Penilaian::with([
-            'laporan.user.penghuni',
-            'laporan.jadwal.areaPiket'
-        ])
-        ->findOrFail($id);
-
+            'laporan.user',
+            'laporan.jadwal.areaPiket',
+            'laporan.jadwal.tugasPiket',
+            'penghuni'
+        ])->findOrFail($id);
 
         return view(
             'koordinator.penilaian.edit',
             compact('penilaian')
         );
     }
-
-
 
     /**
      * Update penilaian
@@ -109,36 +72,24 @@ class PenilaianController extends Controller
     {
         $request->validate([
             'poin' => 'required|integer|min:0|max:100',
-            'evaluasi' => 'required'
+            'kategori' => 'required|string',
+            'evaluasi' => 'nullable|string'
         ]);
-
 
         $penilaian = Penilaian::findOrFail($id);
 
-
         $penilaian->update([
             'poin' => $request->poin,
+            'kategori' => $request->kategori,
             'evaluasi' => $request->evaluasi
         ]);
 
-
         return redirect()
             ->route('koordinator.penilaian.index')
-            ->with('success', 'Penilaian berhasil diperbarui.');
-    }
-
-    public function show($id)
-    {
-        $penghuni = Penghuni::findOrFail($id);
-
-        $penilaian = PenilaianPenghuni::where('penghuni_id', $id)
-            ->latest()
-            ->first();
-
-        return view(
-            'koordinator.penilaian.show',
-            compact('penghuni', 'penilaian')
-        );
+            ->with(
+                'success',
+                'Penilaian berhasil diperbarui.'
+            );
     }
 
     /**
@@ -150,9 +101,11 @@ class PenilaianController extends Controller
 
         $penilaian->delete();
 
-
         return redirect()
             ->route('koordinator.penilaian.index')
-            ->with('success', 'Penilaian berhasil dihapus.');
+            ->with(
+                'success',
+                'Penilaian berhasil dihapus.'
+            );
     }
 }
