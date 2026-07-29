@@ -168,6 +168,13 @@ a {
     flex-shrink:0;
 }
 
+.dutio-sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    min-height:0;
+}
+
 .dutio-sidebar.is-collapsed {
   margin-left: calc(-1 * (var(--dutio-sidebar-width) + var(--dutio-sidebar-margin)));
 }

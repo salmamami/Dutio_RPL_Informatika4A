@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Laporan;
+use App\Models\Penghuni;
+use App\Models\CrewPoint;
 
 class Penilaian extends Model
 {
     protected $fillable = [
         'laporan_id',
+        'penghuni_id',
         'poin',
-        'evaluasi'
+        'kategori'
     ];
 
     public function laporan()
@@ -18,8 +21,13 @@ class Penilaian extends Model
         return $this->belongsTo(Laporan::class);
     }
 
+    public function penghuni()
+    {
+        return $this->belongsTo(Penghuni::class);
+    }
+
     public function crewPoint()
-{
-    return $this->hasOne(CrewPoint::class);
-}
+    {
+        return $this->hasOne(CrewPoint::class);
+    }
 }

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Jadwal;
 use App\Models\Laporan;
+use App\Models\Penghuni;
 
 class User extends Authenticatable
 {
@@ -58,7 +59,12 @@ class User extends Authenticatable
     }
 
     public function crewpoints()
-{
-    return $this->hasMany(CrewPoint::class);
-}
+    {
+        return $this->hasMany(CrewPoint::class);
+    }
+
+    public function penghuni()
+    {
+        return $this->hasOne(Penghuni::class);
+    }
 }

@@ -145,19 +145,27 @@
                     @method('PUT')
 
                     <div class="mb-3">
+                        <label class="form-label">Poin</label>
 
+                        <input
+                            type="number"
+                            name="poin"
+                            min="0"
+                            max="100"
+                            class="form-control"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">
-
-                            Catatan Koordinator
-
+                            Evaluasi
                         </label>
 
                         <textarea
-                            name="catatan_koordinator"
+                            name="evaluasi"
                             rows="4"
                             class="dutio-textarea"
-                            placeholder="Berikan masukan jika diperlukan..."></textarea>
-
+                            required></textarea>
                     </div>
 
                     <div class="d-flex gap-2">

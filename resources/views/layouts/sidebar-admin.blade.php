@@ -30,10 +30,16 @@
                     <span>Verifikasi Laporan</span>
                 </a>
 
-                <a href="/koordinator/user"
-                    class="dutio-nav-link {{ request()->is('koordinator/user*') ? 'is-active' : '' }}">
+                <a href="{{ route('koordinator.penilaian.index') }}"
+                    class="dutio-nav-link {{ request()->is('koordinator/penilaian*') ? 'is-active' : '' }}">
+                    <span class="dutio-nav-icon">⭐</span>
+                    <span>Penilaian</span>
+                </a>
+
+                <a href="{{ route('koordinator.penghuni.index') }}"
+                    class="dutio-nav-link {{ request()->is('koordinator/penghuni*') ? 'is-active' : '' }}">
                     <span class="dutio-nav-icon">👥</span>
-                    <span>Pengguna</span>
+                    <span>Penghuni</span>
                 </a>
 
                 <a href="/koordinator/crewpoints"
